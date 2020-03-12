@@ -22,10 +22,10 @@ doi = "10.1371/journal.pone.0182455"
 res <- plos_fulltext(doi) # standard
 tmp <- xmlParse(res,asText=T,useInternalNodes = T)
 
-#publication details
-pub_details = lapply(out,function(x) x$data %>% select(id,publication_date,counter_total_all))
-pub_details = do.call(rbind.data.frame,pub_details)
-pub_details = pub_details %>% mutate(year = year(publication_date),
+#publication meta-data
+meta_dat = lapply(out,function(x) x$data %>% select(id,publication_date,counter_total_all))
+meta_dat = do.call(rbind.data.frame,meta_dat)
+meta_dat = meta_dat %>% mutate(year = year(publication_date),
                                      month = month(publication_date))                                   
                   
 #extract text only

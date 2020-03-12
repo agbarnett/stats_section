@@ -17,18 +17,22 @@ out = lapply(q, function(x) searchplos(x,
 numFound = sapply(out,function(x) x$meta$numFound)
 search_n = data.frame(search_term = q, n = numFound)
 
-#example doi for xml code - NW paper
-doi = "10.1371/journal.pone.0182455"
-res <- plos_fulltext(doi) # standard
-tmp <- xmlParse(res,asText=T,useInternalNodes = T)
-
 #publication meta-data
 meta_dat = lapply(out,function(x) x$data %>% select(id,publication_date,counter_total_all))
 meta_dat = do.call(rbind.data.frame,meta_dat)
+meta_dat = distinct(meta_dat)
 meta_dat = meta_dat %>% mutate(year = year(publication_date),
                                      month = month(publication_date))                                   
-                  
-#extract text only
+
+#example doi for xml code - first record
+doi = pub_details %>% pull(id)
+res <- plos_fulltext(doi[1])
+tmp <- xmlParse(res,asText=T,useInternalNodes = T)
+
+#extract all section headings/subheadings
+section_headings = xpathApply(tmp,"//sec//title",xmlValue) %>% unlist()
+                                    
+#extract text only (section labels not consistent across records)
 methods_text = xpathApply(tmp,"//sec[@sec-type='materials|methods']//p",xmlValue) %>% unlist()
 methods_text = paste(methods_text,collapse=' ')
                      

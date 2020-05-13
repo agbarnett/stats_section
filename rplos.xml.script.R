@@ -6,7 +6,7 @@ library(dplyr)
 library(lubridate)
 
 #search terms
-search_terms = c('statistical method','statistical methodology')
+search_terms = c('data analysis','statistical analysis','statistical method','statistical methodology')
 q = paste0('materials_and_methods:"',search_terms,'"')
 
 results = lapply(q, function(x) searchplos(x,

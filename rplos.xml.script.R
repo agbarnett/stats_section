@@ -6,8 +6,12 @@ library(dplyr)
 library(lubridate)
 
 #search terms
-search_terms = c('data analysis','statistical analysis','statistical method','statistical methodology')
-q = paste0('materials_and_methods:"',search_terms,'"')
+#search_terms = c('statistical method','statistical methodology','analysis')
+prefix = c('data','statistical')
+suffix = c('analysis','analyses','method','methods','methodology','modelling','modeling')
+search_terms = apply(expand.grid(prefix,suffix),1,paste,collapse=' ')
+
+q = paste0('materials_and_methods:"',search_terms,'"~1')
 
 results = lapply(q, function(x) searchplos(x,
                                        fl=c('id','title','publication_date','counter_total_all','subject','subject_level_1'),
@@ -30,7 +34,7 @@ meta_dat = meta_dat %>% rename('doi'=id,
                   
 
 #pull dois and select random sample of 100
-doi_list = pub_details %>% pull(doi)
+doi_list = meta_dat %>% pull(doi)
 sample_dois = sample(length(doi_list),100)
 full_text <- plos_fulltext(doi_list[sample_dois])
 full_text_xml <- lapply(full_text,function(x) xmlParse(x,asText=T,useInternalNodes = T))
@@ -43,8 +47,8 @@ subsection_headings = dplyr::rename(subsection_headings,label=V1)
 View(subsection_headings)
 
 #filter subsection headings to isolate data analysis section - needs work to return results for every paper
-analysis_keywords = c('data analysis','statistical analysis','statistical method')
-dplyr::filter(subsection_headings,grepl(paste(analysis_keywords,collapse='|'),label,ignore.case = T))
+#analysis_keywords = c('data analysis','statistical analysis','statistical method')
+#dplyr::filter(subsection_headings,grepl(paste(analysis_keywords,collapse='|'),label,ignore.case = T))
 
 #main function to pull of headings and text within material and methods section
 #can also use susbsubheadings (//sec)
@@ -70,5 +74,4 @@ dat = bind_rows(out,.id='doi')
 #join with meta data
 dat = dat %>% left_join(.,meta_dat,by='doi')
 
-save(dat,subsection_headings,
-     meta_dat,search_n,file='sample_plos_data.RData')
+save(dat,subsection_headings,search_n,file='sample_plos_data.RData')

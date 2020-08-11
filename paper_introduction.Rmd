@@ -18,7 +18,6 @@ library(dplyr)
 library(tidyr)
 library(pander)
 library(ggplot2)
-library(DiagrammeR) 
 panderOptions('table.emphasize.rownames', FALSE)
 panderOptions('keep.trailing.zeros', TRUE)
 panderOptions('table.split.table', Inf)
@@ -71,10 +70,20 @@ Questions:
 - Is the manuscript presented in an intelligible fashioin and written in standard English?
 
 
-## Search strategy
-Figure \ref{fig:search-strategy} outlines the main steps of our search strategy. Searches were completed using the 'rplos' package [@rplos]. All full-text research articles published in _PLOS ONE_ since 2006 were eligible for inclusion (last accessed: 5 June 2020). 
+* Reference updates to stats reporting guidelines; e.g see:
 
-Records were first identified using combinations of analysis-related search terms that could appear anywhere in the full-text. Metadata for each record consisted of the digital objected identifier (DOI), article title, journal volume, subject area(s) and total article views since online publication. For each DOI returned, Full text XML was extracted and organsied by listed section and subsection headings. In order to consistently identify descriptions of statistical analyses undertaken, subsection headings were filtered using common titles (e.g. 'Data analysis'; 'Statisical methods'). Records that returned more than one heading at the filtering stage were combined (?). Filtering resulted were cleaned using the 'textclean' package [@textclean] (see Supplementary File 1 for full details)
+- https://everyone.plos.org/2019/09/26/new-plos-one-statistical-reporting-guidelines/.
+- https://web.archive.org/web/20190607174803/https://journals.plos.org/plosone/s/submission-guidelines
+- https://web.archive.org/web/20150507175314/https://journals.plos.org/plosone/s/submission-guidelines
+
+## Search strategy
+Our search strategy comprised targeted searches of the PLOS API and filtering of full-text articles based on section headings (Figure \ref{fig:search-strategy}). All full-text Research Articles published in _PLOS ONE_ since 2006 were eligible for inclusion.
+
+Initial searches of the PLOS API were completed using the ‘rplos’ package [@rplos]. Submitted search queries focussed on the presence of analysis-related terms anywhere within a full-text article. Individual terms combined the words “data” or “statistical”, with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Results terms were intended to be broad and, by allowing terms to appear anywhere within the article, we accounted for the placement of relevant text in different sections, for example, in the Material and Methods section versus Supplementary Information. Search results were indexed by Digital Object Identifier (DOI), which enabled the removal of duplicate records. Metadata collected for each DOI included journal volume, PLOS subject classification(s) and number of article views since publication.
+
+Full-text XML data were then extracted for all search results for further processing. Data were extracted by DOI and organised by individual section and subsection headings. In order to consistently identify statistical methods sections, partial matching on commonly used sections headings was done to filter results (see Figure \ref{fig:search-strategy}). The final dataset was cleaned prior to analysis using the ‘textclean’ package [@textclean]. Cleaning steps included conversion of all text to lower case, replacement of common symbol (e.g % to ‘percent’; < to ‘less than’) and removal of punctuation and excess whitespace. Commonly used statistical methods were standardised across all records, which included changing terms from plural to singular (e.g. tukey’s to tukey) as well as hyphenated terms (e.g. “kruskal-wallis” to “kruskal wallis”).  The full list of standardised terms is provided as a Supplementary File.
+
+## Clustering algorithm
 
 
 ```{r echo=F,fig.cap='\\label{fig:search-strategy}Search strategy',fig.align='center',fig.height=5}
@@ -83,6 +92,7 @@ knitr::include_graphics("figures/search_strategy.png")
 ```
 
 # Results
+
 ```{r source, message=F,echo=F}
 load('data/search_results_n.RData')
 ```

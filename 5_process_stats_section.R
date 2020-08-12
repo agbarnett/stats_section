@@ -3,9 +3,9 @@ library(stringr)
 library(textclean)
 library(tm)
 library(spelling)
-library(xlsx)
+library(readxl)
 
-load('./data/stats_section_info.rda')
+load('stats_section_info.rda')
 
 stats_section = bind_rows(stats_section)
 
@@ -51,51 +51,55 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 #remove () including text within brackets 
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*\\([^\\)]+\\)",""))
 
-#remove punctutation
-#stats_section = stats_section %>% mutate(text_data_clean = strip(text_data_clean,char.keep = c("~~", "."),
-#                                                                 apostrophe.remove=T,digit.remove = F))
+#remove punctuation
 stats_section$text_data_clean = strip(stats_section$text_data_clean,char.keep = c("~~","."),apostrophe.remove=T,digit.remove=F)
-
 
 #replace other non-ascii characters
 stats_section = stats_section %>% mutate(text_data_clean = replace_non_ascii(text_data_clean))
 
 #make common statistical terms and methods consistent
-common_stat_tests = read.xlsx('./data/methods_dictionary.xlsx',sheetName = 'common_stat_tests')
-other_terms = read.xlsx('./data/methods_dictionary.xlsx',sheetName = 'other')
+common_stat_tests = read_xlsx('methods_dictionary.xlsx',sheet = 'common_stat_tests')
+other_terms = read_xlsx('methods_dictionary.xlsx',sheet = 'other')
 
 #for each common method, create combined and unique plural terms
-common_stat_tests = common_stat_tests %>% mutate(combined_term = str_remove_all(term,'-'))
-unique_terms = unique(unlist(str_split(common_stat_tests$term,'-')))
+common_stat_tests = common_stat_tests %>% mutate(combined_term = str_remove_all(term,' '))
+unique_terms = unique(unlist(str_split(common_stat_tests$term,' ')))
 plural_terms  = paste0(unique_terms,'s')
 
 #str_c
-combined_terms_all = str_c(common_stat_tests$combined_term,collapse="|")
-plural_terms_all = str_c(plural_terms,collapse="|")
-other_terms_all = str_c(other_terms$term,collapse='|')
+stats_terms_all = str_c("\\b",c(common_stat_tests$term,common_stat_tests$combined_term),"\\b",collapse="|")
+plural_terms_all = str_c("\\b",plural_terms,"\\b",collapse="|")
+other_terms_all = str_c("\\b",other_terms$term,"\\b",collapse='|')
 
-change_combined = function(input){
-  common_stat_tests %>% filter(combined_term==input) %>% pull(term) %>% gsub('-',' ',.)
+change_stats_terms = function(input){
+  common_stat_tests %>% filter(combined_term==input) %>% pull(term) %>% gsub(' ','-',.)
 }
 
 change_other = function(input){
-  other_terms %>% filter(term==input) %>% pull(update) %>% gsub('-',' ',.)
+  other_terms %>% filter(term==input) %>% pull(update) %>% gsub(' ','-',.)
 }
 
-#split combined terms
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
-                                                                           combined_terms_all,
-                                                                           change_combined))
-
-#drop s from plural terms
+#change plural to singlar
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
                                                                            plural_terms_all,
-                                                                          function(x) gsub('.$','',x)))
+                                                                           function(x) gsub('.$','',x)))
+
+#hyphenate common stats terms
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
+                                                                           stats_terms_all,
+                                                                           change_stats_terms))
+
 
 #other (include common us/uk spelling)
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
                                                                            other_terms_all,
                                                                            change_other))
+
+#remove stop words
+remove_stopwords = str_c("\\b",stopwords('en'),"\\b",collapse='|')
+stats_section = stats_section %>% mutate(text_data_clean = str_remove_all(text_data_clean,remove_stopwords))
+
+
 #remove excess whitespace
 stats_section = stats_section %>% mutate(text_data_clean = replace_white(text_data_clean))
 
@@ -126,28 +130,3 @@ lapply(1:5,function(b) write.table(out_list[[b]] %>%
 
 meta_dat = meta_dat %>% filter(doi %in% doi_list)
 write.table(meta_dat,file='data/stats_section_metadata.txt',sep='\t',row.names = F)
-
-# #not run: spell check (lang=en_GB)
-# spelling_errors = lapply(1:nrow(stats_section),function(x) 
-#   spell_check_text(stats_section[x,]$text_data_clean,lang="en_GB")) %>%
-#   bind_rows(.id = 'index') %>%
-#   group_by(word) %>% summarise(n=sum(as.numeric(found))) %>%
-#   arrange(-n)
-# save(spelling_errors,file='./data/common_spelling_errors_gb.rda')
-# write.table(spelling_errors,file='./data/common_spelling_errors_gb.txt',sep='\t',row.names=F)
-
-
-# #not run
-# stats_section_1 = stats_section_list[[1]]
-# stats_section_2 = stats_section_list[[2]]
-# stats_section_3 = stats_section_list[[3]]
-# stats_section_4 = stats_section_list[[4]]
-# stats_section_5 = stats_section_list[[5]]
-# 
-# write.table(stats_section_1 %>% select(-text_data),file='data/stats_section_cleaned_1.txt',sep='\t',row.names = F)
-# write.table(stats_section_2 %>% select(-text_data),file='data/stats_section_cleaned_2.txt',sep='\t',row.names = F)
-# write.table(stats_section_3 %>% select(-text_data),file='data/stats_section_cleaned_3.txt',sep='\t',row.names = F)
-# write.table(stats_section_4 %>% select(-text_data),file='data/stats_section_cleaned_4.txt',sep='\t',row.names = F)
-# write.table(stats_section_5 %>% select(-text_data),file='data/stats_section_cleaned_5.txt',sep='\t',row.names = F)
-
-

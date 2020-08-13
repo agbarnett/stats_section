@@ -36,3 +36,9 @@ doi_subject_matrix = stats_section_subject %>% group_by(doi) %>% count(subject_l
 
 #number of dois per subject area
 doi_subject_matrix %>% summarise_at(vars("Biology and life sciences":"Social sciences"),sum)
+
+#distinct patterns
+subject_patterns = distinct(doi_subject_matrix %>% select(-doi))
+
+hc = hclust(dist(subject_patterns))
+plot(hc)

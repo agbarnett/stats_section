@@ -1,4 +1,4 @@
-# Papers to cite
+# Potential papers to cite
 
 * "Who is afraid of non-normal data? Choosing between parametric and non-parametric tests" DOI: 10.1530/EJE-19-0922. Mentions typical stats section.
 * "Why we need to report more than 'Data were Analyzed by t-tests or ANOVA'" DOI:10.7554/eLife.36163

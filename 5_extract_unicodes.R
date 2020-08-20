@@ -22,4 +22,4 @@ unicode_all = grep('\\s*<U\\+\\w+>\\s*|"\\s*\\<\\S\\S\\S\\S\\S\\S\\>\\s*"',all_w
 unicode_unique = str_extract_all(string=unicode_all,pattern=regex("<U\\+\\w+>")) %>% unlist() %>% unique()
 
 #write
-save(unicode_unique,file='unicode_characters.rda')
+write.csv(unicode_unique,file='unicode_characters.csv',row.names=F)

@@ -1,10 +1,6 @@
 library(tidyverse)
-library(tidytext)
 library(stringr)
-library(textclean)
-library(tm)
-library(spelling)
-library(readxl)
+library(stringi)
 
 load('stats_section_info.rda')
 
@@ -18,8 +14,23 @@ all_words = stats_section %>% unnest(text_data_clean) %>%
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
 
 #find all unicode characters
-unicode_all = grep('\\s*<U\\+\\w+>\\s*|"\\s*\\<\\S\\S\\S\\S\\S\\S\\>\\s*"',all_words,value=T)
-unicode_unique = str_extract_all(string=unicode_all,pattern=regex("<U\\+\\w+>")) %>% unlist() %>% unique()
+unicode_unique = str_extract_all(string=all_words,pattern=regex("<U\\+\\w+>")) %>% 
+  unlist() %>%
+  as_tibble() %>% count(value)
+
+#mutate, rename, arrange
+unicode_lookup = unicode_unique %>% mutate(value = gsub('000','',value)) %>%
+  rename('unicode'=value) %>%
+  arrange(-n)
+
+#convert to uft8
+unicode_lookup = unicode_lookup %>% mutate(utf8 = gsub("<U\\+(\\w+)>", "\\\\u\\1", unicode))
+
+#add symbols
+unicode_lookup = unicode_lookup %>% mutate(symbol = stri_unescape_unicode(utf8))
+
+#select
+unicode_lookup = unicode_lookup %>% select(unicode,utf8,symbol,n)
 
 #write
-write.csv(unicode_unique,file='unicode_characters.csv',row.names=F)
+save(unicode_lookup,file='unicode_characters.rda')

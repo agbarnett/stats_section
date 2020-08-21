@@ -9,7 +9,7 @@ stats_section = bind_rows(stats_section)
 #change to native encoding
 stats_section = stats_section %>% mutate(text_data_clean = enc2native(text_data))
 
-#1. remove formatting/special characters
+#unnest to individual words
 all_words = stats_section %>% unnest(text_data_clean) %>% 
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
 

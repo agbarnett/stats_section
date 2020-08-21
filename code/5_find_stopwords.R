@@ -15,3 +15,6 @@ stats_section = stats_section %>% mutate(text_data_clean = str_remove_all(text_d
 #unnest to individual words
 all_words = stats_section %>% unnest(text_data_clean) %>% 
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
+
+#word frequencies
+word_freq = as_tibble(all_words) %>% count(value) %>% arrange(-n)

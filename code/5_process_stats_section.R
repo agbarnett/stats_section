@@ -119,7 +119,7 @@ out = right_join(meta_dat,stats_section,by='doi') %>%
   select(-text_data)
 
 
-#not run
+#not run - save on git repo?
 #split into 5 batches to reduce file size
 # ngrps = 5
 # out = out %>% mutate(batch= (row_number()-1) %/% (n()/ngrps)) 

@@ -14,3 +14,9 @@ Export the data to a text file with:
 * Column 1: DOI
 * Column 2: Stats methods section in one line with no paragraph returns
 * Columns 3+: Meta-data, e.g., field of research
+
+Text cleaning to do's remaining
+* Change common symbols/inequalities to text; e.g. <= to 'less-than-or-equal-to'
+* Change greek symbols to text based on unicodes; see https://github.com/Wisdom/Awesome-Unicode
+* Choose stopwords from list available in 'textclean' package
+* Choose random sample of 100 records to validate cleaned text

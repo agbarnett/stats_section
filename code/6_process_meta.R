@@ -2,7 +2,7 @@
 #explore meta data for final set of plos records
 library(tidyverse)
 #load meta data for all records found
-load('plos_meta_data.rda')
+load('./data/plos_meta_data.rda')
 
 #load final stats_section
 load('stats_section_info.rda')

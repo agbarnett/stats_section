@@ -2,7 +2,7 @@ library(tidyverse)
 library(stringr)
 library(stringi)
 
-load('stats_section_info.rda')
+load('./data/stats_section_info.rda')
 
 stats_section = bind_rows(stats_section)
 
@@ -14,12 +14,12 @@ all_words = stats_section %>% unnest(text_data_clean) %>%
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
 
 #find all unicode characters
-unicode_unique = str_extract_all(string=all_words,pattern=regex("<U\\+\\w+>")) %>% 
+unicode_lookup = str_extract_all(string=all_words,pattern=regex("<U\\+\\w+>")) %>% 
   unlist() %>%
   as_tibble() %>% count(value)
 
 #mutate, rename, arrange
-unicode_lookup = unicode_unique %>% mutate(value = gsub('000','',value)) %>%
+unicode_lookup = unicode_lookup %>% mutate(value = gsub('000','',value)) %>%
   rename('unicode'=value) %>%
   arrange(-n)
 
@@ -33,4 +33,4 @@ unicode_lookup = unicode_lookup %>% mutate(symbol = stri_unescape_unicode(utf8))
 unicode_lookup = unicode_lookup %>% select(unicode,utf8,symbol,n)
 
 #write
-save(unicode_lookup,file='unicode_characters.rda')
+save(unicode_lookup,file='./data/unicode_characters.rda')

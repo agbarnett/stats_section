@@ -5,7 +5,7 @@ library(tm)
 library(spelling)
 library(readxl)
 
-load('stats_section_info.rda')
+load('./data/stats_section_info.rda')
 
 stats_section = bind_rows(stats_section)
 
@@ -55,8 +55,8 @@ stats_section = stats_section %>% mutate(text_data_clean = replace_symbol(text_d
 stats_section$text_data_clean = strip(stats_section$text_data_clean,char.keep = c("~~",".","-"),apostrophe.remove=T,digit.remove=F)
 
 #4. make common statistical terms and methods consistent
-common_stat_terms = read_xlsx('methods_dictionary.xlsx',sheet = 'stats_terms')
-other_terms = read_xlsx('methods_dictionary.xlsx',sheet = 'other')
+common_stat_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'stats_terms')
+other_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'other')
 
 #for each common method, create combined and unique plural terms
 common_stat_terms = common_stat_terms %>% mutate(combined_term = str_remove_all(term,' '))
@@ -118,16 +118,18 @@ out = right_join(meta_dat,stats_section,by='doi') %>%
   rename('counter_total_all' = citations) %>%
   select(-text_data)
 
+
+#not run
 #split into 5 batches to reduce file size
-ngrps = 5
-out = out %>% mutate(batch= (row_number()-1) %/% (n()/ngrps)) 
-out_list = split(out,out$batch)
-
-lapply(1:5,function(b) write.table(out_list[[b]] %>% 
-                                     select(-batch),file=paste0('data/stats_section_cleaned_',b,'.txt'),
-                                   sep='\t',row.names=F))
-
-
-
-meta_dat = meta_dat %>% filter(doi %in% doi_list)
-write.table(meta_dat,file='data/stats_section_metadata.txt',sep='\t',row.names = F)
+# ngrps = 5
+# out = out %>% mutate(batch= (row_number()-1) %/% (n()/ngrps)) 
+# out_list = split(out,out$batch)
+# 
+# lapply(1:5,function(b) write.table(out_list[[b]] %>% 
+#                                      select(-batch),file=paste0('data/stats_section_cleaned_',b,'.txt'),
+#                                    sep='\t',row.names=F))
+# 
+# 
+# 
+# meta_dat = meta_dat %>% filter(doi %in% doi_list)
+# write.table(meta_dat,file='data/stats_section_metadata.txt',sep='\t',row.names = F)

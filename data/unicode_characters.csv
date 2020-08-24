@@ -13,10 +13,10 @@
 <U+2192>,\u2192,→,RIGHTWARDS ARROW,rightwards-arrow,385
 <U+03C8>,\u03C8,ψ,GREEK SMALL LETTER PSI,psi,295
 <U+02D9>,\u02D9,˙,DOT ABOVE,dot-above,199
-<U+03D1>,\u03D1,ϑ,GREEK THETA SYMBOL,greek-theta-symbol,185
-<U+03D5>,\u03D5,ϕ,GREEK PHI SYMBOL,greek-phi-symbol,179
+<U+03D1>,\u03D1,ϑ,GREEK THETA SYMBOL,theta-symbol,185
+<U+03D5>,\u03D5,ϕ,GREEK PHI SYMBOL,phi-symbol,179
 <U+2260>,\u2260,≠,NOT EQUAL TO,not-equal-to,159
-<U+03F5>,\u03F5,ϵ,GREEK LUNATE EPSILON SYMBOL,greek-lunate-epsilon-symbol,148
+<U+03F5>,\u03F5,ϵ,GREEK LUNATE EPSILON SYMBOL,lunate-epsilon-symbol,148
 <U+2206>,\u2206,∆,INCREMENT,increment,133
 <U+03BD>,\u03BD,ν,GREEK SMALL LETTER NU,nu,121
 <U+2208>,\u2208,∈,ELEMENT OF,element-of,120
@@ -61,7 +61,7 @@
 <U+0138>,\u0138,ĸ,LATIN SMALL LETTER KRA,kra,14
 <U+014B>,\u014B,ŋ,LATIN SMALL LETTER ENG,eng,13
 <U+2170>,\u2170,ⅰ,SMALL ROMAN NUMERAL ONE,small-roman-numeral-one,12
-<U+2A7D>,\u2A7D,⩽,LESS-THAN OR SLANTED EQUAL TO,less-than-or-slanted-equal-to,12
+<U+2A7D>,\u2A7D,⩽,LESS-THAN OR SLANTED EQUAL TO,less-than-or-equal-to,12
 <U+02C3>,\u02C3,˃,MODIFIER LETTER RIGHT ARROWHEAD,modifier-letter-right-arrowhead,10
 <U+02C7>,\u02C7,ˇ,CARON,caron,10
 <U+043F>,\u043F,п,CYRILLIC SMALL LETTER PE,pe,10
@@ -87,18 +87,18 @@
 <U+2322>,\u2322,⌢,FROWN,frown,7
 <U+25B5>,\u25B5,▵,WHITE UP-POINTING SMALL TRIANGLE,white-up-pointing-small-triangle,7
 <U+0213>,\u0213,ȓ,LATIN SMALL LETTER R WITH INVERTED BREVE,r-with-inverted-breve,6
-<U+0384>,\u0384,΄,GREEK TONOS,greek-tonos,6
+<U+0384>,\u0384,΄,GREEK TONOS,tonos,6
 <U+043A>,\u043A,к,CYRILLIC SMALL LETTER KA,ka,6
 <U+20D1>,\u20D1,⃑,COMBINING RIGHT HARPOON ABOVE,combining-right-harpoon-above,6
 <U+2171>,\u2171,ⅱ,SMALL ROMAN NUMERAL TWO,small-roman-numeral-two,6
 <U+222A>,\u222A,∪,UNION,union,6
 <U+2252>,\u2252,≒,APPROXIMATELY EQUAL TO OR THE IMAGE OF,approximately-equal-to-or-the-image-of,6
 <U+25BD>,\u25BD,▽,WHITE DOWN-POINTING TRIANGLE,white-down-pointing-triangle,6
-<U+2A7E>,\u2A7E,⩾,GREATER-THAN OR SLANTED EQUAL TO,greater-than-or-slanted-equal-to,6
+<U+2A7E>,\u2A7E,⩾,GREATER-THAN OR SLANTED EQUAL TO,greater-than-or-equal-to,6
 <U+03AE>,\u03AE,ή,GREEK SMALL LETTER ETA WITH TONOS,eta-with-tonos,5
 <U+03C2>,\u03C2,ς,GREEK SMALL LETTER FINAL SIGMA,final-sigma,5
 <U+03CA>,\u03CA,ϊ,GREEK SMALL LETTER IOTA WITH DIALYTIKA,iota-with-dialytika,5
-<U+03D2>,\u03D2,ϒ,GREEK UPSILON WITH HOOK SYMBOL,greek-upsilon-with-hook-symbol,5
+<U+03D2>,\u03D2,ϒ,GREEK UPSILON WITH HOOK SYMBOL,upsilon-with-hook-symbol,5
 <U+203E>,\u203E,‾,OVERLINE,overline,5
 <U+205F>,\u205F, ,MEDIUM MATHEMATICAL SPACE,medium-mathematical-space,5
 <U+2207>,\u2207,∇,NABLA,nabla,5
@@ -125,7 +125,7 @@
 <U+02BB>,\u02BB,ʻ,MODIFIER LETTER TURNED COMMA,modifier-letter-turned-comma,3
 <U+0471>,\u0471,ѱ,CYRILLIC SMALL LETTER PSI,psi,3
 <U+066D>,\u066D,٭,ARABIC FIVE POINTED STAR,arabic-five-pointed-star,3
-<U+1FFD>,\u1FFD,´,GREEK OXIA,greek-oxia,3
+<U+1FFD>,\u1FFD,´,GREEK OXIA,oxia,3
 <U+2025>,\u2025,‥,TWO DOT LEADER,two-dot-leader,3
 <U+2153>,\u2153,⅓,VULGAR FRACTION ONE THIRD,vulgar-fraction-one-third,3
 <U+21C0>,\u21C0,⇀,RIGHTWARDS HARPOON WITH BARB UPWARDS,rightwards-harpoon-with-barb-upwards,3
@@ -150,7 +150,7 @@
 <U+0278>,\u0278,ɸ,LATIN SMALL LETTER PHI,phi,2
 <U+02BD>,\u02BD,ʽ,MODIFIER LETTER REVERSED COMMA,modifier-letter-reversed-comma,2
 <U+03AC>,\u03AC,ά,GREEK SMALL LETTER ALPHA WITH TONOS,alpha-with-tonos,2
-<U+03F3>,\u03F3,ϳ,GREEK LETTER YOT,greek-letter-yot,2
+<U+03F3>,\u03F3,ϳ,GREEK LETTER YOT,letter-yot,2
 <U+0430>,\u0430,а,CYRILLIC SMALL LETTER A,a,2
 <U+0433>,\u0433,г,CYRILLIC SMALL LETTER GHE,ghe,2
 <U+0441>,\u0441,с,CYRILLIC SMALL LETTER ES,es,2
@@ -158,7 +158,7 @@
 <U+050F>,\u050F,ԏ,CYRILLIC SMALL LETTER KOMI TJE,komi-tje,2
 <U+1F20>,\u1F20,ἠ,GREEK SMALL LETTER ETA WITH PSILI,eta-with-psili,2
 <U+1FB1>,\u1FB1,ᾱ,GREEK SMALL LETTER ALPHA WITH MACRON,alpha-with-macron,2
-<U+1FBF>,\u1FBF,᾿,GREEK PSILI,greek-psili,2
+<U+1FBF>,\u1FBF,᾿,GREEK PSILI,psili,2
 <U+200E>,\u200E,‎,LEFT-TO-RIGHT MARK,left-to-right-mark,2
 <U+2173>,\u2173,ⅳ,SMALL ROMAN NUMERAL FOUR,small-roman-numeral-four,2
 <U+2176>,\u2176,ⅶ,SMALL ROMAN NUMERAL SEVEN,small-roman-numeral-seven,2
@@ -188,10 +188,10 @@
 <U+02BE>,\u02BE,ʾ,MODIFIER LETTER RIGHT HALF RING,modifier-letter-right-half-ring,1
 <U+02D0>,\u02D0,ː,MODIFIER LETTER TRIANGULAR COLON,modifier-letter-triangular-colon,1
 <U+02DF>,\u02DF,˟,MODIFIER LETTER CROSS ACCENT,modifier-letter-cross-accent,1
-<U+0387>,\u0387,·,GREEK ANO TELEIA,greek-ano-teleia,1
+<U+0387>,\u0387,·,GREEK ANO TELEIA,ano-teleia,1
 <U+03AF>,\u03AF,ί,GREEK SMALL LETTER IOTA WITH TONOS,iota-with-tonos,1
 <U+03BF>,\u03BF,ο,GREEK SMALL LETTER OMICRON,omicron,1
-<U+03F1>,\u03F1,ϱ,GREEK RHO SYMBOL,greek-rho-symbol,1
+<U+03F1>,\u03F1,ϱ,GREEK RHO SYMBOL,rho-symbol,1
 <U+0440>,\u0440,р,CYRILLIC SMALL LETTER ER,er,1
 <U+04AF>,\u04AF,ү,CYRILLIC SMALL LETTER STRAIGHT U,straight-u,1
 <U+04E9>,\u04E9,ө,CYRILLIC SMALL LETTER BARRED O,barred-o,1
@@ -199,7 +199,7 @@
 <U+05F3>,\u05F3,׳,HEBREW PUNCTUATION GERESH,hebrew-punctuation-geresh,1
 <U+1DB4>,\u1DB4,ᶴ,MODIFIER LETTER SMALL ESH,modifier-letter-small-esh,1
 <U+1E5D>,\u1E5D,ṝ,LATIN SMALL LETTER R WITH DOT BELOW AND MACRON,r-with-dot-below-and-macron,1
-<U+1FBD>,\u1FBD,᾽,GREEK KORONIS,greek-koronis,1
+<U+1FBD>,\u1FBD,᾽,GREEK KORONIS,koronis,1
 <U+1FE1>,\u1FE1,ῡ,GREEK SMALL LETTER UPSILON WITH MACRON,upsilon-with-macron,1
 <U+201B>,\u201B,‛,SINGLE HIGH-REVERSED-9 QUOTATION MARK,single-high-reversed-9-quotation-mark,1
 <U+2041>,\u2041,⁁,CARET INSERTION POINT,caret-insertion-point,1

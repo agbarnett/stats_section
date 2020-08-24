@@ -26,7 +26,10 @@ unicode_lookup = unicode_lookup %>% mutate(value = gsub('000','',value)) %>%
 
 #u_char_name for text label
 unicode_lookup = unicode_lookup %>% mutate(label = u_char_name(gsub("<(.*)>",'\\1',unicode)))
-
+#mutate label
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub(' ','-',label) %>% tolower())
+#update 'small-letters' e.g greek-small-letter-chi to chi TODO confirm 
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub('.*small-letter-|greek-|slanted-','',label_clean))
 
 #convert to uft8
 unicode_lookup = unicode_lookup %>% mutate(utf8 = gsub("<U\\+(\\w+)>", "\\\\u\\1", unicode))
@@ -36,7 +39,7 @@ unicode_lookup = unicode_lookup %>% mutate(symbol = stri_unescape_unicode(utf8))
 
 
 #select
-unicode_lookup = unicode_lookup %>% select(unicode,utf8,symbol,n)
+unicode_lookup = unicode_lookup %>% select(unicode,utf8,symbol,label,label_clean,n)
 
 #write
 save(unicode_lookup,file='./data/unicode_characters.rda')

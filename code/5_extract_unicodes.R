@@ -1,6 +1,7 @@
 library(tidyverse)
-library(stringr)
 library(stringi)
+library(Unicode)
+library(readr)
 
 load('./data/stats_section_info.rda')
 
@@ -23,14 +24,20 @@ unicode_lookup = unicode_lookup %>% mutate(value = gsub('000','',value)) %>%
   rename('unicode'=value) %>%
   arrange(-n)
 
+#u_char_name for text label
+unicode_lookup = unicode_lookup %>% mutate(label = u_char_name(gsub("<(.*)>",'\\1',unicode)))
+
+
 #convert to uft8
 unicode_lookup = unicode_lookup %>% mutate(utf8 = gsub("<U\\+(\\w+)>", "\\\\u\\1", unicode))
 
 #add symbols
 unicode_lookup = unicode_lookup %>% mutate(symbol = stri_unescape_unicode(utf8))
 
+
 #select
 unicode_lookup = unicode_lookup %>% select(unicode,utf8,symbol,n)
 
 #write
 save(unicode_lookup,file='./data/unicode_characters.rda')
+write_excel_csv(unicode_lookup,path='./data/unicode_characters.csv')

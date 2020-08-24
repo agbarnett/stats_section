@@ -6,16 +6,16 @@ library(spelling)
 library(readxl)
 
 load('./data/stats_section_info.rda')
+load('./data/unicode_characters.rda')
+
 
 stats_section = bind_rows(stats_section)
 
 #1. remove formatting/special characters
 
-#unicode characters (e.g. hair space <U+200A>)
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data,pattern="\\s*<U\\+\\w+>\\s*|\\<\\S\\S\\S\\S\\S\\S\\>",replacement=" "))
-
-#centered equations/other
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\s*(\n)(.*)(\n)\\s*",replacement = " "))
+#change to native encoding
+stats_section = stats_section %>% mutate(text_data = enc2native(text_data))
+stats_section = stats_section %>% mutate(text_data_clean = text_data)
 
 #numbered references eg [23]
 #stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*\\[\\d+\\]\\s*",""))
@@ -25,20 +25,50 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 #if want to keep text inside brackets, use "[()]"
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"[()]",""))
 
+#centered equations/other
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\s*(\n)(.*)(\n)\\s*",replacement = " "))
+
+
 #2. replace/standardise common symbols
+#unicode
+#format unicode characters (e.g. hair space <U+200A>)
+#remove general punctuation unicodes U+20xxx (no dashes identified)
+unicode_spaces = unicode_lookup %>% filter(grepl("U\\+20(\\w+)",unicode)) %>% pull(unicode) 
+unicode_spaces = gsub("U\\+(\\w+)", "\\U\\\\+\\1",unicode_spaces) %>% str_c(.,collapse='|')
+
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern=unicode_spaces,replacement=" "))
+
+#change unicode with label_clean
+unicode_set = gsub("U\\+(\\w+)", "\\U\\\\+\\1",unicode_lookup[['unicode']])
+unicode_set = str_c(unicode_set,collapse='|')
+
+#add white space around unicode labels
+unicode_to_text = function(input){
+  out = unicode_lookup %>% filter(unicode==input) %>% pull(label_clean)
+  paste0(' ',out,' ')
+}
+
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
+                                                                           unicode_set,
+                                                                           unicode_to_text))
+
 #standardise dashes 
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\s*(–+)\\s*",replacement = "-"))
 
 #p value (doesn't resolve p less-than, p equal to)
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bp value\\b","p-value"))
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bp less than\\b|\\bp less-than\\b","p <"))
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bp equal to\\b|\\bp equal-to\\b","p ="))
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bp greater than\\b|\\bp greater-than\\b","p >"))
 
-#standardise spacing for >,<,= 
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[<]\\s*","<"))
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[>]\\s*",">"))
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[=]\\s*","="))
+#standardise text and spacing for >,<,= 
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[<]\\s*"," less-than "))
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[>]\\s*"," greater-than "))
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[=]\\s*"," equal-to "))
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[<=]\\s*"," less-than-or-equal-to "))
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[>=]\\s*"," greater-than-or-equal-to "))
+
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bless than\\b","less-than"))
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bequal to\\b","equal-to"))
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bgreater than\\b","greater-than"))
+
 
 #plus or minus 
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*(±)\\s*|\\s*(\\+/-+)\\s*"," plus-or-minus "))

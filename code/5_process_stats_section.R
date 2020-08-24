@@ -78,8 +78,8 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 stats_section = stats_section %>% mutate(text_data_clean = replace_symbol(text_data_clean))
 
 #3. remove any remaining non-ascii characters, curly quotes
-#stats_section = stats_section %>% mutate(text_data_clean = replace_non_ascii(text_data_clean)) #NOT RUN: will remove common greek symbols,<,>,etcs
-#stats_section = stats_section %>% mutate(text_data_clean = replace_curly_quote(text_data_clean))
+stats_section = stats_section %>% mutate(text_data_clean = replace_non_ascii(text_data_clean)) 
+stats_section = stats_section %>% mutate(text_data_clean = replace_curly_quote(text_data_clean))
 
 #remove punctuation except for '.','-'
 stats_section$text_data_clean = strip(stats_section$text_data_clean,char.keep = c("~~",".","-"),apostrophe.remove=T,digit.remove=F)

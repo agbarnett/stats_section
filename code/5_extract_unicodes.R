@@ -28,6 +28,7 @@ unicode_lookup = unicode_lookup %>% mutate(value = gsub('000','',value)) %>%
 unicode_lookup = unicode_lookup %>% mutate(label = u_char_name(gsub("<(.*)>",'\\1',unicode)))
 #mutate label
 unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub(' ','-',label) %>% tolower())
+
 #update 'small-letters' e.g greek-small-letter-chi to chi TODO confirm 
 unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub('.*small-letter-|greek-|slanted-','',label_clean))
 

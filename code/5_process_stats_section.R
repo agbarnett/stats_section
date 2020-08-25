@@ -1,5 +1,4 @@
 library(tidyverse)
-library(stringr)
 library(textclean)
 library(tm)
 library(spelling)
@@ -55,9 +54,6 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 #standardise dashes 
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\s*(–+)\\s*",replacement = "-"))
 
-#p value (doesn't resolve p less-than, p equal to)
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bp value\\b","p-value"))
-
 #standardise text and spacing for >,<,= 
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[<]\\s*"," less-than "))
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*[>]\\s*"," greater-than "))
@@ -93,12 +89,16 @@ common_stat_terms = common_stat_terms %>% mutate(combined_term = str_remove_all(
 plural_terms  = unique(paste0(c(common_stat_terms$term,common_stat_terms$combined_term,common_stat_terms$update),'s'))
 
 #str_c
-stats_terms_all = str_c("\\b",c(common_stat_terms$term,common_stat_terms$combined_term),"\\b",collapse="|")
+stats_terms_all = str_c("\\b",common_stat_terms[['term']],"\\b",collapse="|")
+stats_terms_combined = str_c("\\b",common_stat_terms[['combined_term']],"\\b",collapse="|")
 plural_terms_all = str_c("\\b",plural_terms,"\\b",collapse="|")
-other_terms_all = str_c("\\b",other_terms$term,"\\b",collapse='|')
+other_terms_all = str_c("\\b",other_terms[['term']],"\\b",collapse='|')
 
 change_stats_terms = function(input){
-  common_stat_terms %>% filter(combined_term==input|term==input) %>% pull(update)
+  common_stat_terms %>% filter(term==input) %>% pull(update)
+}
+change_stats_combined = function(input){
+    common_stat_terms %>% filter(combined_term==input) %>% pull(update)
 }
 
 change_other = function(input){
@@ -115,24 +115,26 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
                                                                            plural_terms_all,
                                                                            function(x) gsub('s$','',x)))
 
-#standardise common stats terms: not working
+#standardise common stats terms
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
                                                                            stats_terms_all,
                                                                            change_stats_terms))
+
+#combined stats terms
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
+                                                                           stats_terms_combined,
+                                                                           change_stats_combined))
 
 #choose random 1% sample for check progress of text cleaning
 test_data= sample_frac(stats_section, 0.01)
 View(test_data)
 
-#end run
-
-#remove stop words
-remove_stopwords = str_c("\\b",stopwords('en'),"\\b",collapse='|')
-stats_section = stats_section %>% mutate(text_data_clean = str_remove_all(text_data_clean,remove_stopwords))
-
-
 #remove excess whitespace
 stats_section = stats_section %>% mutate(text_data_clean = replace_white(text_data_clean))
+
+#remove stop words? TODO
+#remove_stopwords = str_c("\\b",stopwords('en'),"\\b",collapse='|')
+#stats_section = stats_section %>% mutate(text_data_clean = str_remove_all(text_data_clean,remove_stopwords))
 
 
 stats_section = stats_section %>% mutate(doi = str_replace_all(doi,'doi_',''))
@@ -142,7 +144,7 @@ save(stats_section,file='data/stats_section_cleaned.rda')
 #write.table(stats_section %>% select(-text_data),file='data/stats_section_cleaned.txt',sep='\t',row.names = F)
 
 #merge with meta-data
-meta_dat = readRDS('./data/plos_searchresults_metadata.RDS')
+#meta_dat = readRDS('./data/plos_searchresults_metadata.rda')
 
 out = right_join(meta_dat,stats_section,by='doi') %>%
   rename('counter_total_all' = citations) %>%

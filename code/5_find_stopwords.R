@@ -1,8 +1,7 @@
 #5_find_stopwords.R
 library(tidyverse)
-library(stringr)
 library(stringi)
-
+library(tm)
 load('./data/stats_section_info.rda')
 
 stats_section = bind_rows(stats_section)
@@ -18,3 +17,7 @@ all_words = stats_section %>% unnest(text_data_clean) %>%
 
 #word frequencies
 word_freq = as_tibble(all_words) %>% count(value) %>% arrange(-n)
+
+#remove stop words
+word_freq = word_freq %>% filter(!value %in% stopwords('en'))
+View(word_freq)

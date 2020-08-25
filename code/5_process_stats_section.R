@@ -125,12 +125,11 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
                                                                            stats_terms_combined,
                                                                            change_stats_combined))
 
-#choose random 1% sample for check progress of text cleaning
-test_data= sample_frac(stats_section, 0.01)
-View(test_data)
 
 #remove excess whitespace
 stats_section = stats_section %>% mutate(text_data_clean = replace_white(text_data_clean))
+
+#final spell check TODO
 
 #remove stop words? TODO
 #remove_stopwords = str_c("\\b",stopwords('en'),"\\b",collapse='|')
@@ -140,16 +139,32 @@ stats_section = stats_section %>% mutate(text_data_clean = replace_white(text_da
 stats_section = stats_section %>% mutate(doi = str_replace_all(doi,'doi_',''))
 stats_section = stats_section %>% mutate(doi = str_replace_all(doi,'.journal','/journal'))
 
-save(stats_section,file='data/stats_section_cleaned.rda')
+#choose 100 dois to check cleaning
+sample_dois = stats_section %>% distinct(doi) %>% sample_n(.,100)
+
+sample_data = stats_section %>% filter(doi %in% sample_dois[['doi']])
+
+#split stats_section into batches to reduce file size
+
+
+#save(stats_section,file='data/stats_section_cleaned.rda')
+
+ngrps = 5
+out = stats_section %>% mutate(batch= (row_number()-1) %/% (n()/ngrps)) 
+out_list = split(out,out$batch)
+
+lapply(1:ngrps,function(b){
+  output = out_list[[b]] %>% select(-batch)
+  save(output,file=paste0('data/stats_section_cleaned_',b,'.rda'))
+})
 #write.table(stats_section %>% select(-text_data),file='data/stats_section_cleaned.txt',sep='\t',row.names = F)
 
 #merge with meta-data
 #meta_dat = readRDS('./data/plos_searchresults_metadata.rda')
 
-out = right_join(meta_dat,stats_section,by='doi') %>%
-  rename('counter_total_all' = citations) %>%
-  select(-text_data)
-
+# out = right_join(meta_dat,stats_section,by='doi') %>%
+#   rename('counter_total_all' = citations) %>%
+#   select(-text_data)
 
 #not run - save on git repo?
 #split into 5 batches to reduce file size

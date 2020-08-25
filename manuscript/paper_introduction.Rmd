@@ -77,39 +77,55 @@ Questions:
 - https://web.archive.org/web/20150507175314/https://journals.plos.org/plosone/s/submission-guidelines
 
 ## Search strategy
-Our search strategy comprised targeted searches of the PLOS API and filtering of full-text articles based on section headings (Figure \ref{fig:search-strategy}). All full-text Research Articles published in _PLOS ONE_ since 2006 were eligible for inclusion.
+Our search strategy comprised targeted searches of the PLOS API and filtering of full-text articles based on section headings. All full-text Research Articles published in _PLOS ONE_ since 2006 were eligible for inclusion.
 
-Initial searches of the PLOS API were completed using the ‘rplos’ package [@rplos]. Submitted search queries focussed on the presence of analysis-related terms anywhere within a full-text article. Individual terms combined the words “data” or “statistical”, with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Results terms were intended to be broad and, by allowing terms to appear anywhere within the article, we accounted for the placement of relevant text in different sections, for example, in the Material and Methods section versus Supplementary Information. Search results were indexed by Digital Object Identifier (DOI), which enabled the removal of duplicate records. Metadata collected for each DOI included journal volume, PLOS subject classification(s) and number of article views since publication.
+Initial searches of the PLOS API were completed using the ‘rplos’ package [@rplos]. Submitted search queries focussed on the presence of analysis-related terms anywhere within a full-text article. Individual terms combined the words “data” or “statistical”, with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Results terms were intended to be broad and, by allowing terms to appear anywhere within the article, we accounted for the placement of relevant text in different sections, for example, in the Material and Methods section versus Supplementary Information. Search results were indexed by Digital Object Identifier (DOI), which allowed for removal of duplicate records. Metadata collected for each DOI included journal volume, PLOS subject classification(s) and number of article views since publication.
 
-Full-text XML data were then extracted for all search results for further processing. Data were extracted by DOI and organised by individual section and subsection headings. In order to consistently identify statistical methods sections, partial matching on commonly used sections headings was done to filter results (see Figure \ref{fig:search-strategy}). The final dataset was cleaned prior to analysis using the ‘textclean’ package [@textclean]. Cleaning steps included conversion of all text to lower case, replacement of common symbol (e.g % to ‘percent’; < to ‘less than’) and removal of punctuation and excess whitespace. Commonly used statistical methods were standardised across all records, which included changing terms from plural to singular (e.g. tukey’s to tukey) as well as hyphenated terms (e.g. “kruskal-wallis” to “kruskal wallis”).  The full list of standardised terms is provided as a Supplementary File.
+Full-text XML data were then extracted for all search results for further processing. Data were extracted by DOI and organised by individual section and subsection headings. In order to consistently identify statistical methods sections, partial matching on commonly used sections headings was done to filter results. [TODO add more details of headings/partial matching here. strings were: 'statistical analysis','statistical analyses','statistical method','statistics','data analysis', 'data analyses'].
+
+Text cleaning focussed on standardising notation and references to statistical terminology, whilst minimising major changes to article style and formatting. Details of text cleaning steps, including R syntax, are provided in Supplementary File 1.
+
+Mathematical notation including Greek letters was converted from Unicode characters to plain text (Supplementary File 2). For example, instances of the code ‘<U+03B8>’, representing the Greek letter $\theta$, were replaced with ‘theta’. Common symbols not captured by Unicode blocks were also converted into plain text, using functions available in the 'textclean' package (e.g. % to ‘percent’, < to ‘less-than’) [@textclean]. General punctuation, in-text references (e.g. [23]) centred equations and remaining non-ascii characters were removed. Text contained inside brackets was retained in the dataset to maximise content for analysis, with brackets removed. 
+
+We compiled an extensive list of common methods and related terminology as a way of standardising descriptions of statistical analyses undertaken. An initial list was compiled by calculating individual word frequencies in the data and identifying relevant terms that appeared at least 100 times. Additional terms were added based on index searches of statistical textbooks [TODO need to mention this here? If so, add references] and spell checks (e.g. ‘fischer’ instead of ‘fisher’). Using the final list, we performed multiple searches to identify possible variants of each term and replaced these with a standardised spelling. For example, instances ‘chi square’ and ‘chi squared’ were replaced with ‘chi-square’. Other variants of terminology considered plurals (e.g. chi squares), combinations of characters and numbers (e.g. chi 2) and combined text (e.g. chisquare).
+
+As a final step, common stop words including pronouns, contractions and selected prepositions were removed from the data. Stop words were identified from lists available from the ‘tm’ R package (Supplementary File 2). We chose to keep some prepositions included in the available list to minimise potential changes to the context of statistical method(s) being described (e.g. ‘between’, ‘against’).
+
+
+
+
+<!-- ```{r echo=F,fig.cap='\\label{fig:search-strategy}Search strategy',fig.align='center',fig.height=5} -->
+<!-- knitr::include_graphics("search_strategy.png") -->
+
+<!-- ``` -->
+
 
 ## Clustering algorithm
 
 
-```{r echo=F,fig.cap='\\label{fig:search-strategy}Search strategy',fig.align='center',fig.height=5}
-knitr::include_graphics("figures/search_strategy.png")
+<!-- # Results -->
 
-```
+<!-- ```{r source, message=F,echo=F} -->
+<!-- load('data/search_results_n.RData') -->
+<!-- ``` -->
 
-# Results
 
-```{r source, message=F,echo=F}
-load('data/search_results_n.RData')
-```
 
-* total records found: 178654; 131847 unique DOIs
-* total stats sections after filtering: 111731 (85%)
-* Plot over time. Currently double counting if more than one search query for same doi.
+<!-- * total records found: 178654; 131847 unique DOIs -->
+<!-- * total stats sections after filtering: 111731 (85%) -->
+<!-- * Plot over time. Currently double counting if more than one search query for same doi. -->
 
-```{r echo=F,fig.cap="\\label{fig:search-results-n}Figure caption here"}
-plot_dat_n = n_by_searchterm_volume %>% group_by(volume) %>% 
-  summarise(n_matches = sum(n_unique)) %>% right_join(.,n_by_volume %>% select(-n_records),by='volume') %>% 
-  gather(variable,value,-volume)
+<!-- ```{r echo=F,fig.cap="\\label{fig:search-results-n}Figure caption here"} -->
+<!-- plot_dat_n = n_by_searchterm_volume %>% group_by(volume) %>%  -->
+<!--   summarise(n_matches = sum(n_unique)) %>% right_join(.,n_by_volume %>% select(-n_records),by='volume') %>%  -->
+<!--   gather(variable,value,-volume) -->
 
-plot_dat_n %>% ggplot(.,aes(x=volume,y=value,group=variable))+
-  geom_bar(stat='identity',position='dodge',aes(fill=variable))
+<!-- plot_dat_n %>% ggplot(.,aes(x=volume,y=value,group=variable))+ -->
+<!--   geom_bar(stat='identity',position='dodge',aes(fill=variable)) -->
 
-```
+<!-- ``` -->
+
+
 
 # Discussion
 

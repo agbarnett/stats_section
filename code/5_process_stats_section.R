@@ -7,6 +7,10 @@ library(readxl)
 load('./data/stats_section_info.rda')
 load('./data/unicode_characters.rda')
 
+stat_terms_hyphen = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'hyphen_terms')
+stat_terms_singular = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'single_terms')
+other_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'other')
+
 
 stats_section = bind_rows(stats_section)
 
@@ -65,10 +69,8 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bequal to\\b","equal-to"))
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\bgreater than\\b","greater-than"))
 
-
 #plus or minus 
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*(±)\\s*|\\s*(\\+/-+)\\s*"," plus-or-minus "))
-
 
 #common symbols covered by text clean ($,%,#,@,&,w/)
 stats_section = stats_section %>% mutate(text_data_clean = replace_symbol(text_data_clean))
@@ -81,49 +83,103 @@ stats_section = stats_section %>% mutate(text_data_clean = replace_curly_quote(t
 stats_section$text_data_clean = strip(stats_section$text_data_clean,char.keep = c("~~",".","-"),apostrophe.remove=T,digit.remove=F)
 
 #4. make common statistical terms and methods consistent
-common_stat_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'stats_terms')
-other_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'other')
 
-#for each common method, create combined and unique plural terms
-common_stat_terms = common_stat_terms %>% mutate(combined_term = str_remove_all(term,' '))
-plural_terms  = unique(paste0(c(common_stat_terms$term,common_stat_terms$combined_term,common_stat_terms$update),'s'))
+#unnest to individual words
+all_words = stats_section %>% unnest(text_data_clean) %>% 
+  mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist() 
+#word frequencies
+word_freq = tibble::enframe(all_words) %>% count(value) %>% arrange(-n)
+
+#for each hyphenated term, create combined and unique plural terms
+stat_terms_hyphen = stat_terms_hyphen %>% mutate(combined_term = str_remove_all(term,' '))
+plural_terms  = unique(paste0(c(stat_terms_hyphen[['term']],stat_terms_hyphen[['combined_term']],stat_terms_hyphen[['update']]),'s'))
+
+#filter word_freq to find variants of common methods
+combined_found = word_freq %>% filter(value %in% stat_terms_hyphen[['combined_term']])
+hyphen_found = word_freq %>% filter(value %in% stat_terms_hyphen[['update']])
+plural_found = word_freq %>% filter(value %in% plural_terms)
+
 
 #str_c
-stats_terms_all = str_c("\\b",common_stat_terms[['term']],"\\b",collapse="|")
-stats_terms_combined = str_c("\\b",common_stat_terms[['combined_term']],"\\b",collapse="|")
-plural_terms_all = str_c("\\b",plural_terms,"\\b",collapse="|")
-other_terms_all = str_c("\\b",other_terms[['term']],"\\b",collapse='|')
+plural_terms_all = str_c("\\b",plural_found[['value']],"\\b",collapse="|") #to turn plural to singular
+stats_terms_all = str_c("\\b",stat_terms_hyphen[['term']],"\\b",collapse="|") #to join method words by hyphen
+stats_combined_all = str_c("\\b",combined_found[['value']],"\\b",collapse="|") #to split method words by hyphen
+other_terms_all = str_c("\\b",other_terms[['term']],"\\b",collapse='|') #incorrect spellings identified
 
-change_stats_terms = function(input){
-  common_stat_terms %>% filter(term==input) %>% pull(update)
-}
-change_stats_combined = function(input){
-    common_stat_terms %>% filter(combined_term==input) %>% pull(update)
-}
-
-change_other = function(input){
-  other_terms %>% filter(term==input) %>% pull(update) 
-}
-
-#other (include common us/uk spelling)
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
-                                                                           other_terms_all,
-                                                                           change_other))
-
-#change plural to singular terms
+#change plural terms to singular first
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
                                                                            plural_terms_all,
                                                                            function(x) gsub('s$','',x)))
 
-#standardise common stats terms
+
+#other (include common us/uk spelling)
+change_other = function(input){
+  other_terms %>% filter(term==input) %>% pull(update) 
+}
+
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
+                                                                           other_terms_all,
+                                                                           change_other))
+
+#standardise common stats terms with hyphen
+change_stats_terms = function(input){
+  stat_terms_hyphen %>% filter(term==input) %>% pull(update)
+}
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
                                                                            stats_terms_all,
                                                                            change_stats_terms))
 
-#combined stats terms
+#combined stats terms; split by hypen
+change_stats_combined = function(input){
+  stat_terms_hyphen %>% filter(combined_term==input) %>% pull(update)
+}
+
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
                                                                            stats_terms_combined,
                                                                            change_stats_combined))
+
+
+#redo unnest
+all_words = stats_section %>% unnest(text_data_clean) %>% 
+  mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist() 
+
+#word frequencies
+word_freq = tibble::enframe(all_words) %>% count(value) %>% arrange(-n)
+
+#test hyphenate terms
+word_freq %>% filter(value %in% plural_found[['value']]) #didnt work TODO
+word_freq %>% filter(value %in% stat_terms_hyphen[['term']])
+word_freq %>% filter(value %in% combined_found[['value']])
+word_freq %>% filter(value %in% other_terms[['term']])
+word_freq %>% filter(value %in% stat_terms_hyphen[['update']])
+
+#one-word single versus plural terms - take dominant spelling
+stat_terms_singular = stat_terms_singular %>% mutate(plural = paste0(term,'s'))
+singular_found = word_freq %>% filter(value %in% stat_terms_singular[['term']]) %>% rename('singular'=value,'n_singular'=n)
+singular_found = singular_found %>% mutate(plural = paste0(singular,'s'))
+
+singular_found = word_freq %>% filter(value %in% stat_terms_singular[['plural']]) %>% 
+  rename('plural'=value,'n_plural'=n) %>% right_join(singular_found,by='plural') %>%
+  select(singular,plural,n_singular,n_plural)
+
+#find most common form
+singular_found = singular_found %>% rownames_to_column('id') %>%  # creates an ID number
+  gather(form,n, n_singular:n_plural) %>% 
+  group_by(id) %>% 
+  slice(which.max(n)) %>% ungroup()
+#mutate:least_common,most_common
+singular_found = singular_found %>% mutate(least_common = if_else(form=='n_singular',plural,singular),
+                                           most_common = if_else(form=='n_singular',singular,plural))
+#write to .csv file
+#replace least_common with most_common
+least_common_terms = str_c("\\b",singular_found[['least_common']],"\\b",collapse="|")
+
+change_least_common = function(input){
+  singular_found %>% filter(least_common==input) %>% pull(most_common)
+}
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
+                                                                           least_common_terms,
+                                                                           change_least_common))
 
 
 #remove excess whitespace
@@ -145,8 +201,6 @@ sample_dois = stats_section %>% distinct(doi) %>% sample_n(.,100)
 sample_data = stats_section %>% filter(doi %in% sample_dois[['doi']])
 
 #split stats_section into batches to reduce file size
-
-
 #save(stats_section,file='data/stats_section_cleaned.rda')
 
 ngrps = 5

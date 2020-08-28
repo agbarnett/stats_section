@@ -136,6 +136,10 @@ word_freq %>% filter(value %in% stat_terms_hyphen[['term']])
 word_freq %>% filter(value %in% plural_terms)
 word_freq %>% filter(value %in% stat_terms_hyphen[['update']])
 
+word_freq %>% filter(value %in% other_terms[['term']])
+word_freq %>% filter(value %in% other_terms[['update']])
+
+
 #remove excess whitespace
 stats_section = stats_section %>% mutate(text_data_clean = replace_white(text_data_clean))
 

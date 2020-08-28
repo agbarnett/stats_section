@@ -9,7 +9,7 @@ load('./data/unicode_characters.rda')
 
 stat_terms_hyphen = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'hyphen_terms')
 stat_terms_model = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'models')
-
+other_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'other')
 stats_section = bind_rows(stats_section)
 
 #1. remove formatting/special characters
@@ -114,6 +114,16 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
                                                                            stats_combined_all,
                                                                            change_stats_combined))
 
+#update common US to GB spelling
+other_terms_all = str_c(other_terms[['term']],collapse='|') #incorrect spellings identified
+change_other = function(input){
+  other_terms %>% filter(term==input) %>% pull(update)
+}
+
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
+                                                                            other_terms_all,
+                                                                            change_other))
+
 #check for remaining instances
 all_words = stats_section %>% unnest(text_data_clean) %>% 
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist() 
@@ -159,5 +169,4 @@ lapply(1:ngrps,function(b){
    group_by(word) %>% summarise(n=sum(as.numeric(found))) %>%
    arrange(-n)
  save(spelling_errors,file='./data/common_spelling_errors_gb.rda')
- write.table(spelling_errors,file='./data/common_spelling_errors_gb.txt',sep='\t',row.names=F)
 

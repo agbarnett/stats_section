@@ -9,7 +9,6 @@ load('./data/unicode_characters.rda')
 
 stat_terms_hyphen = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'hyphen_terms')
 stat_terms_model = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'models')
-other_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'other')
 
 stats_section = bind_rows(stats_section)
 
@@ -24,7 +23,7 @@ stats_section = stats_section %>% mutate(text_data_clean = text_data)
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\[\\S{1,3}\\]",replacement = ""))
 
 #remove () including text within brackets  "\\s*\\([^\\)]+\\)"
-#if want to keep text inside brackets, use "[()]"
+#option to keep text inside brackets is "[()]"
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"[()]",""))
 
 #centered equations/other
@@ -82,18 +81,16 @@ stats_section = stats_section %>% mutate(text_data_clean = replace_curly_quote(t
 stats_section$text_data_clean = strip(stats_section$text_data_clean,char.keep = c("~~",".","-"),apostrophe.remove=T,digit.remove=F)
 
 #4. make common statistical terms and methods consistent
-
 #for each hyphenated term, create combined and unique plural terms
-#plural includes entries from stat_terms_modell eg regressions to regression
+#plurals includes entries from stat_terms_model eg regressions to regression
 stat_terms_hyphen = stat_terms_hyphen %>% mutate(combined_term = str_remove_all(term,' '))
 plural_terms  = unique(c(paste0(c(stat_terms_hyphen[['term']],stat_terms_hyphen[['combined_term']],
                                 stat_terms_hyphen[['update']]),'s'),stat_terms_model[['term']]))
 
-#str_c
+#str_c: define search strings
 plural_terms_all = str_c("\\b",plural_terms,"\\b",collapse="|") #to turn plural to singular
 stats_terms_all = str_c("\\b",stat_terms_hyphen[['term']],"\\b",collapse="|") #to join method words by hyphen
 stats_combined_all = str_c("\\b",stat_terms_hyphen[['combined_term']],"\\b",collapse="|") #to split method words by hyphen
-other_terms_all = str_c("\\b",other_terms[['term']],"\\b",collapse='|') #incorrect spellings identified
 
 #change plural terms to singular
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
@@ -117,16 +114,6 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
                                                                            stats_combined_all,
                                                                            change_stats_combined))
 
-
-#other (include common us/uk spelling)
-change_other = function(input){
-  other_terms %>% filter(term==input) %>% pull(update) 
-}
-
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
-                                                                           other_terms_all,
-                                                                           change_other))
-##
 #check for remaining instances
 all_words = stats_section %>% unnest(text_data_clean) %>% 
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist() 
@@ -137,32 +124,22 @@ word_freq = tibble::enframe(all_words) %>% count(value) %>% arrange(-n)
 word_freq %>% filter(value %in% stat_terms_hyphen[['combined_term']])
 word_freq %>% filter(value %in% stat_terms_hyphen[['term']])
 word_freq %>% filter(value %in% plural_terms)
-word_freq %>% filter(value %in% other_terms[['term']])
-
 word_freq %>% filter(value %in% stat_terms_hyphen[['update']])
-
-#not run TODO
-#final_spellecheck = spell_check_text(word_freq[['value']],lang='en_GB')
 
 #remove excess whitespace
 stats_section = stats_section %>% mutate(text_data_clean = replace_white(text_data_clean))
 
-#remove stop words? TODO
-#remove_stopwords = str_c("\\b",stopwords('en'),"\\b",collapse='|')
-#stats_section = stats_section %>% mutate(text_data_clean = str_remove_all(text_data_clean,remove_stopwords))
-
-
 stats_section = stats_section %>% mutate(doi = str_replace_all(doi,'doi_',''))
 stats_section = stats_section %>% mutate(doi = str_replace_all(doi,'.journal','/journal'))
 
-#choose 100 dois to check cleaning
+#choose 100 dois to check quality for data cleaning
 sample_dois = stats_section %>% distinct(doi) %>% sample_n(.,100)
 sample_data = stats_section %>% filter(doi %in% sample_dois[['doi']])
 
 write_rds(sample_data,path='data/stats_section_sample100.rds',"xz", compression = 9L)
 write_rds(stats_section,path='data/stats_section_cleaned.rds',"xz", compression = 9L)
 
-# save as text files for richi (5 batches)
+# save as text files (5 batches)
 stats_section_txt = stats_section %>% select(-text_data)
 #split stats_section into batches to reduce file size
  ngrps = 5
@@ -175,14 +152,12 @@ lapply(1:ngrps,function(b){
 })
 
 
+#run spell check (lang=en_GB)
+ spelling_errors = lapply(1:nrow(stats_section),function(x) 
+   spell_check_text(stats_section[x,]$text_data_clean,lang="en_GB")) %>%
+   bind_rows(.id = 'index') %>%
+   group_by(word) %>% summarise(n=sum(as.numeric(found))) %>%
+   arrange(-n)
+ save(spelling_errors,file='./data/common_spelling_errors_gb.rda')
+ write.table(spelling_errors,file='./data/common_spelling_errors_gb.txt',sep='\t',row.names=F)
 
-
-
-# out = right_join(meta_dat,stats_section,by='doi') %>%
-#   rename('counter_total_all' = citations) %>%
-#   select(-text_data)
-# 
-# 
-# 
-# meta_dat = meta_dat %>% filter(doi %in% doi_list)
-# write.table(meta_dat,file='data/stats_section_metadata.txt',sep='\t',row.names = F)

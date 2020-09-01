@@ -8,6 +8,7 @@ load('./data/stats_section_info.rda')
 load('./data/unicode_characters.rda')
 
 stat_terms_hyphen = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'hyphen_terms')
+stat_terms_single = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'single_terms')
 stat_terms_model = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'models')
 other_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'other')
 stats_section = bind_rows(stats_section)
@@ -84,13 +85,17 @@ stats_section$text_data_clean = strip(stats_section$text_data_clean,char.keep = 
 #for each hyphenated term, create combined and unique plural terms
 #plurals includes entries from stat_terms_model eg regressions to regression
 stat_terms_hyphen = stat_terms_hyphen %>% mutate(combined_term = str_remove_all(term,' '))
-plural_terms  = unique(c(paste0(c(stat_terms_hyphen[['term']],stat_terms_hyphen[['combined_term']],
-                                stat_terms_hyphen[['update']]),'s'),stat_terms_model[['term']]))
+plural_terms  = unique(c(paste0(c(stat_terms_hyphen[['term']],
+                                  stat_terms_hyphen[['combined_term']],
+                                  stat_terms_hyphen[['update']]),'s'),
+                                  stat_terms_model[['term']],
+                                  stat_terms_single[['term']]))
 
 #str_c: define search strings
 plural_terms_all = str_c("\\b",plural_terms,"\\b",collapse="|") #to turn plural to singular
 stats_terms_all = str_c("\\b",stat_terms_hyphen[['term']],"\\b",collapse="|") #to join method words by hyphen
 stats_combined_all = str_c("\\b",stat_terms_hyphen[['combined_term']],"\\b",collapse="|") #to split method words by hyphen
+stats_terms_single = str_c("\\b",stat_terms_single[['term']],"\\b",collapse="|")
 
 #change plural terms to singular
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,

@@ -17,6 +17,6 @@ Export the data to a text file with:
 
 Text cleaning to do's remaining
 * Change common symbols/inequalities to text; e.g. <= to 'less-than-or-equal-to'
-* Change greek symbols to text based on unicodes; see https://github.com/Wisdom/Awesome-Unicode
+* Change Greek symbols to text based on unicodes; see https://github.com/Wisdom/Awesome-Unicode
 * Choose stopwords from list available in 'textclean' package
 * Choose random sample of 100 records to validate cleaned text

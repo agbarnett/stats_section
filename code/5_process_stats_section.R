@@ -129,6 +129,14 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
                                                                             other_terms_all,
                                                                             change_other))
 
+#remove stopwords (adpated from list availble in tm package)
+#keep select stop words in text
+add_stop = c("use","used","using")
+keep_words = c('against','between','before','after','over','under','above','below')
+stop_words_all = str_c("\\b",c(setdiff(stopwords("en"),keep_words),add_stop),"\\b",collapse='|')
+
+stats_section = stats_section %>% mutate(text_data_clean = str_remove_all(text_data_clean,stop_words_all)) 
+
 #check for remaining instances
 all_words = stats_section %>% unnest(text_data_clean) %>% 
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist() 
@@ -143,6 +151,7 @@ word_freq %>% filter(value %in% stat_terms_hyphen[['update']])
 
 word_freq %>% filter(value %in% other_terms[['term']])
 word_freq %>% filter(value %in% other_terms[['update']])
+word_freq %>% filter(value %in% c(setdiff(stopwords("en"),keep_words),add_stop))
 
 
 #remove excess whitespace
@@ -157,6 +166,7 @@ sample_data = stats_section %>% filter(doi %in% sample_dois[['doi']])
 
 write_rds(sample_data,path='data/stats_section_sample100.rds',"xz", compression = 9L)
 write_rds(stats_section,path='data/stats_section_cleaned.rds',"xz", compression = 9L)
+
 
 # save as text files (5 batches)
 stats_section_txt = stats_section %>% select(-text_data)

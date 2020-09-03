@@ -97,6 +97,18 @@ stats_terms_all = str_c("\\b",stat_terms_hyphen[['term']],"\\b",collapse="|") #t
 stats_combined_all = str_c("\\b",stat_terms_hyphen[['combined_term']],"\\b",collapse="|") #to split method words by hyphen
 stats_terms_single = str_c("\\b",stat_terms_single[['term']],"\\b",collapse="|")
 
+
+#update common US to GB spelling
+other_terms_all = str_c(other_terms[['term']],collapse='|') #incorrect spellings identified
+change_other = function(input){
+  other_terms %>% filter(term==input) %>% pull(update)
+}
+
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
+                                                                           other_terms_all,
+                                                                           change_other))
+
+
 #change plural terms to singular
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
                                                                            plural_terms_all,
@@ -119,23 +131,21 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
                                                                            stats_combined_all,
                                                                            change_stats_combined))
 
-#update common US to GB spelling
-other_terms_all = str_c(other_terms[['term']],collapse='|') #incorrect spellings identified
-change_other = function(input){
-  other_terms %>% filter(term==input) %>% pull(update)
+
+
+#remove stopwords (adapted from list available in tm package)
+rm_words <- function(string, words) {
+  stopifnot(is.character(string), is.character(words))
+  spltted <- strsplit(string, " ", fixed = TRUE) # fixed = TRUE for speedup
+  vapply(spltted, function(x) paste(x[!tolower(x) %in% words], collapse = " "), character(1))
 }
 
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
-                                                                            other_terms_all,
-                                                                            change_other))
-
-#remove stopwords (adpated from list availble in tm package)
 #keep select stop words in text
 add_stop = c("use","used","using")
 keep_words = c('against','between','before','after','over','under','above','below')
-stop_words_all = str_c("\\b",c(setdiff(stopwords("en"),keep_words),add_stop),"\\b",collapse='|')
+stop_words_all = c(setdiff(stopwords("en"),keep_words),add_stop)
 
-stats_section = stats_section %>% mutate(text_data_clean = str_remove_all(text_data_clean,stop_words_all)) 
+stats_section = stats_section %>% mutate(text_data_clean = trimws(rm_words(text_data_clean,stop_words_all)))
 
 #check for remaining instances
 all_words = stats_section %>% unnest(text_data_clean) %>% 

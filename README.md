@@ -16,7 +16,7 @@ Export the data to a text file with:
 * Columns 3+: Meta-data, e.g., field of research
 
 Text cleaning to do's remaining
-* Change common symbols/inequalities to text; e.g. <= to 'less-than-or-equal-to'
-* Change Greek symbols to text based on unicodes; see https://github.com/Wisdom/Awesome-Unicode
-* Choose stopwords from list available in 'textclean' package
-* Choose random sample of 100 records to validate cleaned text
+* Change common symbols/inequalities to text; e.g. <= to 'less-than-or-equal-to' DONE
+* Change Greek symbols to text based on unicodes; see https://github.com/Wisdom/Awesome-Unicode DONE
+* Choose stopwords from list available in 'textclean' package DONE
+* Choose random sample of 100 records to validate cleaned text DONE

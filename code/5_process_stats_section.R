@@ -133,19 +133,19 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 
 
 
-#remove stopwords (adapted from list available in tm package)
-rm_words <- function(string, words) {
-  stopifnot(is.character(string), is.character(words))
-  spltted <- strsplit(string, " ", fixed = TRUE) # fixed = TRUE for speedup
-  vapply(spltted, function(x) paste(x[!tolower(x) %in% words], collapse = " "), character(1))
-}
-
-#keep select stop words in text
-add_stop = c("use","used","using")
-keep_words = c('against','between','before','after','over','under','above','below')
-stop_words_all = c(setdiff(stopwords("en"),keep_words),add_stop)
-
-stats_section = stats_section %>% mutate(text_data_clean = trimws(rm_words(text_data_clean,stop_words_all)))
+# #not run: remove stopwords (adapted from list available in tm package)
+# rm_words <- function(string, words) {
+#   stopifnot(is.character(string), is.character(words))
+#   spltted <- strsplit(string, " ", fixed = TRUE) # fixed = TRUE for speedup
+#   vapply(spltted, function(x) paste(x[!tolower(x) %in% words], collapse = " "), character(1))
+# }
+# 
+# #keep select stop words in text
+# add_stop = c("use","used","using")
+# keep_words = c('against','between','before','after','over','under','above','below')
+# stop_words_all = c(setdiff(stopwords("en"),keep_words),add_stop)
+# 
+# stats_section = stats_section %>% mutate(text_data_clean = trimws(rm_words(text_data_clean,stop_words_all)))
 
 #check for remaining instances
 all_words = stats_section %>% unnest(text_data_clean) %>% 
@@ -161,7 +161,8 @@ word_freq %>% filter(value %in% stat_terms_hyphen[['update']])
 
 word_freq %>% filter(value %in% other_terms[['term']])
 word_freq %>% filter(value %in% other_terms[['update']])
-word_freq %>% filter(value %in% c(setdiff(stopwords("en"),keep_words),add_stop))
+
+#word_freq %>% filter(value %in% c(setdiff(stopwords("en"),keep_words),add_stop))
 
 
 #remove excess whitespace
@@ -180,6 +181,9 @@ write_rds(stats_section,path='data/stats_section_cleaned.rds',"xz", compression 
 
 # save as text files (5 batches)
 stats_section_txt = stats_section %>% select(-text_data)
+#load('./data/plos_meta_data.rda')
+#stats_section_txt = stats_section %>% select(-text_data) %>% left_join(.,meta_dat_allrecords,by='doi')
+#stats_section_txt = stats_section_txt %>% select(doi,volume:subject_level_1,text_heading,text_data_clean)
 #split stats_section into batches to reduce file size
  ngrps = 5
  out = stats_section_txt %>% mutate(batch= (row_number()-1) %/% (n()/ngrps)) 

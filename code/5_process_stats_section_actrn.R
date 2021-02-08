@@ -7,9 +7,10 @@ library(textclean)
 library(tm)
 library(spelling)
 library(readxl)
-
+library(stringi)
+library(Unicode)
 load('./data/StatsSections.RData')
-load('./data/unicode_characters.rda')
+#load('./data/unicode_characters.rda')
 
 stat_terms_hyphen = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'hyphen_terms')
 stat_terms_single = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'single_terms')
@@ -20,11 +21,31 @@ stats_section = bind_rows(studies) #changed to studies
 #change column headings
 stats_section = stats_section %>% rename('text_data' = stats_section)
 
+
 #1. remove formatting/special characters
 
-#change to native encoding
+#change to native encoding, escape unicoes
 stats_section = stats_section %>% mutate(text_data = enc2native(text_data))
-stats_section = stats_section %>% mutate(text_data_clean = text_data)
+stats_section = stats_section %>% mutate(text_data_clean = stri_escape_unicode(text_data))
+all_words = stats_section %>% unnest(text_data_clean) %>% 
+  mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
+
+
+#find all unicode characters
+unicode_lookup = str_extract_all(all_words,pattern=regex("\\\\u\\w{4}|<U(.*)>")) %>% 
+  unlist() %>%
+  as_tibble() %>% count(value) %>%
+  rename('unicode'=value) %>%
+  arrange(-n)
+unicode_lookup = unicode_lookup %>% mutate(label = u_char_name(gsub('\\\\u','',unicode)))
+#mutate label
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub(' ','-',label) %>% tolower())
+
+#update 'small-letters' e.g greek-small-letter-chi to chi TODO confirm 
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub('.*small-letter-|greek-|slanted-','',label_clean))
+unicode_lookup = unicode_lookup %>% mutate(symbol = stri_unescape_unicode(unicode))
+
+
 
 #numbered references eg [23]
 #stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*\\[\\d+\\]\\s*",""))
@@ -34,15 +55,17 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 #option to keep text inside brackets is "[()]"
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"[()]",""))
 
+#remove carriage returns
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\n",replacement = " "))
+
 #centered equations/other
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\s*(\n)(.*)(\n)\\s*",replacement = " "))
-
 
 #2. replace/standardise common symbols
 #unicode
 #format unicode characters (e.g. hair space <U+200A>)
 #remove general punctuation unicodes U+20xxx (no dashes identified)
-unicode_spaces = unicode_lookup %>% filter(grepl("U\\+20(\\w+)",unicode)) %>% pull(unicode) 
+unicode_spaces = unicode_lookup %>% filter(grepl("u20(\\w+)",unicode)) %>% pull(unicode) 
 unicode_spaces = gsub("U\\+(\\w+)", "\\U\\\\+\\1",unicode_spaces) %>% str_c(.,collapse='|')
 
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern=unicode_spaces,replacement=" "))

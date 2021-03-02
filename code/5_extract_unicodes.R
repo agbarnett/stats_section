@@ -15,7 +15,7 @@ all_words = stats_section %>% unnest(text_data_clean) %>%
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
 
 #find all unicode characters
-unicode_lookup = str_extract_all(string=all_words,pattern=regex("<U\\+\\w+>")) %>% 
+unicode_lookup = str_extract_all(string=all_words,pattern=("\\\\u")) %>% 
   unlist() %>%
   as_tibble() %>% count(value)
 

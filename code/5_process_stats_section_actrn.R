@@ -10,7 +10,7 @@ library(readxl)
 library(stringi)
 library(Unicode)
 load('./data/StatsSections.RData')
-#load('./data/unicode_characters.rda')
+load('./data/unicode_characters.rda')
 
 stat_terms_hyphen = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'hyphen_terms')
 stat_terms_single = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'single_terms')
@@ -19,20 +19,22 @@ other_terms = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'other')
 stats_section = bind_rows(studies) #changed to studies
 
 #change column headings
-stats_section = stats_section %>% rename('text_data' = stats_section)
+stats_section = studies %>% rename('text_data' = stats_section)
+#change to native encoding
+stats_section = stats_section %>% mutate(text_data = enc2native(text_data))
+stats_section = stats_section %>% mutate(text_data_clean = text_data)
 
 
 #1. remove formatting/special characters
 
-#change to native encoding, escape unicoes
-stats_section = stats_section %>% mutate(text_data = enc2native(text_data))
+#change to native encoding, escape unicodes
 stats_section = stats_section %>% mutate(text_data_clean = stri_escape_unicode(text_data))
 all_words = stats_section %>% unnest(text_data_clean) %>% 
   mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
 
 
 #find all unicode characters
-unicode_lookup = str_extract_all(all_words,pattern=regex("\\\\u\\w{4}|<U(.*)>")) %>% 
+unicode_lookup = str_extract_all(all_words,pattern=regex("\\\\u\\w{4}")) %>% 
   unlist() %>%
   as_tibble() %>% count(value) %>%
   rename('unicode'=value) %>%

@@ -10,7 +10,7 @@ library(readxl)
 library(stringi)
 library(Unicode)
 load('./data/StatsSections.RData')
-load('./data/unicode_characters.rda')
+#load('./data/unicode_characters.rda')
 
 stat_terms_hyphen = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'hyphen_terms')
 stat_terms_single = read_xlsx('./data/methods_dictionary.xlsx',sheet = 'single_terms')
@@ -27,28 +27,6 @@ stats_section = stats_section %>% mutate(text_data_clean = text_data)
 
 #1. remove formatting/special characters
 
-#change to native encoding, escape unicodes
-stats_section = stats_section %>% mutate(text_data_clean = stri_escape_unicode(text_data))
-all_words = stats_section %>% unnest(text_data_clean) %>% 
-  mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
-
-
-#find all unicode characters
-unicode_lookup = str_extract_all(all_words,pattern=regex("\\\\u\\w{4}")) %>% 
-  unlist() %>%
-  as_tibble() %>% count(value) %>%
-  rename('unicode'=value) %>%
-  arrange(-n)
-unicode_lookup = unicode_lookup %>% mutate(label = u_char_name(gsub('\\\\u','',unicode)))
-#mutate label
-unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub(' ','-',label) %>% tolower())
-
-#update 'small-letters' e.g greek-small-letter-chi to chi TODO confirm 
-unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub('.*small-letter-|greek-|slanted-','',label_clean))
-unicode_lookup = unicode_lookup %>% mutate(symbol = stri_unescape_unicode(unicode))
-
-
-
 #numbered references eg [23]
 #stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*\\[\\d+\\]\\s*",""))
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\[\\S{1,3}\\]",replacement = ""))
@@ -57,35 +35,16 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 #option to keep text inside brackets is "[()]"
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"[()]",""))
 
-#remove carriage returns
+#remove carriage returns, tabs and \r
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\n",replacement = " "))
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\t",replacement = " "))
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\r",replacement = " "))
 
-#centered equations/other
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\s*(\n)(.*)(\n)\\s*",replacement = " "))
+#centered equations/other: not run
+#stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\s*(\n)(.*)(\n)\\s*",replacement = " "))
+
 
 #2. replace/standardise common symbols
-#unicode
-#format unicode characters (e.g. hair space <U+200A>)
-#remove general punctuation unicodes U+20xxx (no dashes identified)
-unicode_spaces = unicode_lookup %>% filter(grepl("u20(\\w+)",unicode)) %>% pull(unicode) 
-unicode_spaces = gsub("U\\+(\\w+)", "\\U\\\\+\\1",unicode_spaces) %>% str_c(.,collapse='|')
-
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern=unicode_spaces,replacement=" "))
-
-#repalce unicode with plain text description (label_clean)
-unicode_set = gsub("U\\+(\\w+)", "\\U\\\\+\\1",unicode_lookup[['unicode']])
-unicode_set = str_c(unicode_set,collapse='|')
-
-#add white space around unicode labels
-unicode_to_text = function(input){
-  out = unicode_lookup %>% filter(unicode==input) %>% pull(label_clean)
-  paste0(' ',out,' ')
-}
-
-stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
-                                                                           unicode_set,
-                                                                           unicode_to_text))
-
 #standardise dashes 
 stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern="\\s*(–+)\\s*",replacement = "-"))
 
@@ -106,12 +65,85 @@ stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_
 #common symbols covered by text clean ($,%,#,@,&,w/)
 stats_section = stats_section %>% mutate(text_data_clean = replace_symbol(text_data_clean))
 
+#randomisation ratios, convert to text (e.g. 1:1  -> 1-to-1)
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,"\\s*(\\d+):(\\d+)\\s*"," \\1-to-\\2 "))
+
+#unicodes
+stats_section = stats_section %>% mutate(text_data_clean = stri_escape_unicode(text_data_clean))
+
+all_words = stats_section %>% unnest(text_data_clean) %>% 
+  mutate(y=strsplit(text_data_clean,' ')) %>% pull(y) %>% unlist()
+
+#find all unicode characters
+unicode_lookup = str_extract_all(all_words,pattern=regex("\\\\u\\w{4}")) %>% 
+  unlist() %>%
+  as_tibble() %>% count(value) %>%
+  rename('unicode'=value) %>%
+  arrange(-n)
+#mutate: add label, symbol
+unicode_lookup = unicode_lookup %>% mutate(label = u_char_name(gsub('\\\\u','',unicode)))
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub(' ','-',label) %>% tolower())
+unicode_lookup = unicode_lookup %>% mutate(symbol = stri_unescape_unicode(unicode))
+
+#update label_clean (custom)
+## latin small/capital letters - take letter only
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub('latin-small-letter-(.*?)-.*$','\\1',label_clean))
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub('latin-capital-letter-(.*?)-.*$','\\1',label_clean))
+
+#vulgar fraction
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub('vulgar-fraction-(.*?)','\\1',label_clean))
+
+## - sign. remove
+unicode_lookup = unicode_lookup %>% mutate(label_clean = gsub('(.*?)-sign','\\1',label_clean))
+
+#greek letters (mu, beta)
+unicode_lookup = unicode_lookup %>% mutate(label_clean = ifelse(unicode=='\\u00b5','mu',label_clean))
+unicode_lookup = unicode_lookup %>% mutate(label_clean = ifelse(unicode=='\\u00df','beta',label_clean))
+#basic operations
+unicode_lookup = unicode_lookup %>% mutate(label_clean = ifelse(unicode=='\\u00f7','divided-by',label_clean))
+unicode_lookup = unicode_lookup %>% mutate(label_clean = ifelse(unicode=='\\u00d7','multiplied-by',label_clean))
+unicode_lookup = unicode_lookup %>% mutate(label_clean = ifelse(unicode=='\\u00b2','squared',label_clean))
+unicode_lookup = unicode_lookup %>% mutate(label_clean = ifelse(unicode=='\\u02dc','approximately',label_clean))
+#miscellaneous
+unicode_lookup = unicode_lookup %>% mutate(label_clean = ifelse(unicode=='\\u00b7','.',label_clean))
+unicode_lookup = unicode_lookup %>% mutate(label_clean = ifelse(unicode=='\\u00af','bar',label_clean)) #e.g xbar
+##end formatting of unicode labels
+
+#format unicode characters (e.g. hair space <U+200A>)
+#remove general punctuation unicodes u2x (no dashes identified)
+unicode_spaces = unicode_lookup %>% filter(grepl("u2(\\w+)",unicode)) %>% pull(unicode) 
+unicode_spaces_c = paste0('\\',unicode_spaces) %>% str_c(.,collapse='|')
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern=unicode_spaces_c,replacement=" "))
+
+#remove \u00a,\u00b4
+unicode_remove = unicode_lookup %>% filter(grepl("u00a(\\w+)|u00b4",unicode)) %>% pull(unicode) 
+unicode_remove_c = paste0('\\',unicode_remove) %>% str_c(.,collapse='|')
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,pattern=unicode_remove_c,replacement=" "))
+
+#update text labels for remaining codes
+unicode_set = unicode_lookup %>% filter(!unicode %in% c(unicode_spaces,unicode_remove)) %>% pull(unicode)
+unicode_set_c = paste0('\\',unicode_set) %>% str_c(.,collapse='|')
+
+#add white space around unicode labels
+unicode_to_text = function(input){
+  out = unicode_lookup %>% filter(unicode==input) %>% pull(label_clean)
+  paste0(' ',out,' ')
+}
+
+stats_section = stats_section %>% mutate(text_data_clean = str_replace_all(text_data_clean,
+                                                                           unicode_set_c,
+                                                                           unicode_to_text))
+
+
 #3. remove any remaining non-ascii characters, curly quotes
 stats_section = stats_section %>% mutate(text_data_clean = replace_non_ascii(text_data_clean)) 
 stats_section = stats_section %>% mutate(text_data_clean = replace_curly_quote(text_data_clean))
 
 #remove punctuation except for '.','-'
 stats_section$text_data_clean = strip(stats_section$text_data_clean,char.keep = c("~~",".","-"),apostrophe.remove=T,digit.remove=F)
+
+
+
 
 #4. make common statistical terms and methods consistent
 #for each hyphenated term, create combined and unique plural terms
@@ -205,23 +237,27 @@ stats_section = stats_section %>% mutate(text_data_clean = replace_white(text_da
 sample_studies = stats_section %>% distinct(number) %>% sample_n(.,100)
 sample_data = stats_section %>% filter(number %in% sample_studies[['number']])
 
-write_rds(sample_data,file='data/stats_section_actrn_sample100.rds',compress = 'xz',compression=9L)
-write_rds(stats_section,file='data/stats_section_actrn_cleaned.rds',compress = "xz", compression = 9L)
+write_rds(sample_data,file='data/stats_section_anzctr_sample100.rds',compress = 'xz',compression=9L)
+write_rds(stats_section,file='data/stats_section_anzctr_cleaned.rds',compress = "xz", compression = 9L)
 
 
-# save as text files (5 batches)
+# save as text files 
 stats_section_txt = stats_section %>% select(-text_data)
+write.table(stats_section_txt,file='data/stats_section_cleaned_anzctr.txt',sep='\t',row.names = F)
+
+
+
 #load('./data/plos_meta_data.rda')
 #stats_section_txt = stats_section %>% select(-text_data) %>% left_join(.,meta_dat_allrecords,by='doi')
 #stats_section_txt = stats_section_txt %>% select(doi,volume:subject_level_1,text_heading,text_data_clean)
 #split stats_section into batches to reduce file size
-ngrps = 5
+
 out = stats_section_txt %>% mutate(batch= (row_number()-1) %/% (n()/ngrps)) 
 out_list = split(out,out$batch)
 
 lapply(1:ngrps,function(b){
   output = out_list[[b]] %>% select(-batch)
-  write.table(output,file=paste0('data/stats_section_cleaned_',b,'.txt'),sep='\t',row.names = F)
+  write.table(output,file=paste0('data/stats_section_cleaned_',b,'_anzctr.txt'),sep='\t',row.names = F)
 })
 
 
@@ -231,5 +267,6 @@ spelling_errors = lapply(1:nrow(stats_section),function(x)
   bind_rows(.id = 'index') %>%
   group_by(word) %>% summarise(n=sum(as.numeric(found))) %>%
   arrange(-n)
-save(spelling_errors,file='./data/common_spelling_errors_gb.rda')
+save(spelling_errors,file='./data/common_spelling_errors_gb_anzctr.rda')
 
+#random check

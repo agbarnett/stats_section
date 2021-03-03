@@ -118,7 +118,20 @@ As a final step, common stop words including pronouns, contractions and selected
 
 <!-- ``` -->
 
+# Results
 
+## PLOS ONE
+
+* Final sample size
+* Breakdown of included articles by year of publication (did/did not include stats section). Final sample broken down by subject classification(s) [most are biology and life sciences]
+* Figure showing change in gof measure as function of number of clusters (use to justify choice of number of clusters)
+
+* Desribe topic clusters + examples
+
+
+## ANZCTR
+
+* Final sample size
 
 # Discussion
 

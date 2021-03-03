@@ -48,49 +48,49 @@ Use of these methods sections indicates that little thought has gone into the st
 
 # Methods
 
-## Data source
+## Data sources
 
-We chose _PLOS ONE_ because it is a large multi-disciplinary open access journal, and because the journal laudibly make the full text of papers easily available for analysis via an API. This enabled us to isolate the statistical analysis section of the paper, and also collect descriptive data on the paper (e.g., field of research).
+### Public Library of Science (PLOS ONE)
 
-<!--- https://journals.plos.org/plosone/s/editorial-and-peer-review-process --->
-<!--- https://journals.plos.org/plosone/s/criteria-for-publication --->
-The criteria for publication include, "Experiments, statistics, and other analyses are performed to a high technical standard and are described in sufficient detail".
-_PLOS ONE_ does not use a separate statistical peer reviewer. Articles are handled by an academic editor who selects peer reviewers. 
-_PLOS ONE_ expect authors to use reporting guidelines from the EQUATOR network, which were designed in part because of the long history of poor statistical application and reporting in health and medical journals [@Altman2016].
+PLOS ONE is a large open access journal that publishes original research across the fundamental sciences. Article submissions are handled by an academic editor who selects peer reviewers based on their self-nominated area(s) of expertise. Submissions do not undergo formal statistical review. Instead, reviewers are required to assess submissions against several publication criteria, including whether “Experiments, statistics, and other analyses are performed to a high technical standard and are described in sufficient detail”. Authors are encouraged to follow published reporting guidelines to ensure that chosen statistical methods are appropriate for the study design, and adequate details are provided to enable independent replication of results. For example, the EQUATOR network has developed reporting guidelines for study designs commonly used in health research, in part because of the long history of poor statistical application and reporting in health and medical journals [@Altman2016].
 
-We used the 'rplos' package to read the data from the API into R [@rplos].
+All articles published in PLOS ONE are freely accessible via the PLOS Application Programming Interface (API). This functionality enabled us to conduct semi-automated searches of full-text articles and analyse data on individual records, including text content and general attributes such as publication date and field(s) of research. Our search strategy comprised of targeted API searches followed by article filtering based on available section headings. 
 
-Questions:
+_Step 1_: Targeted API searches. API searches were completed using the R package ‘rplos’ [@rplos]. Search queries targeted the presence of analysis-related terms anywhere within a full-text article. Individual search terms combined the words “data” or “statistical”, with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Search terms were intended to be broad whilst keeping search results to a manageable number for full-text review (see Step 2). By allowing terms to appear anywhere within the article, we accounted for the possibility of relevant text being placed in different sections, for example, in the Material and Methods section versus Supplementary Information. Search results were indexed by a unique Digital Object Identifier (DOI). Attribute data collected per DOI included journal volume, subject classification(s) and total article views since publication.
 
-* What questions are asked of PLOS ONE Reviewers?
+_Step 2_: Partial matching on section headings. Full text XML data for all search results were downloaded and combined into a single dataset, organised by DOI and subsection heading(s). Since PLOS ONE does not prescribe standardised headings to preface statistical methods sections, we performed partial matching on available headings against frequently used terms in initial search results: ‘Statistical analysis’, ‘Statistical analyses’, ‘Statistical method’, ‘Statistics’, ‘Data analysis’ and ‘Data analyses’. To determine the reliability of our chosen filters, we manually reviewed full text data extracted for a random sample of XXX articles that were not matched (File S1).[TODO…finish this thought…]
 
-- Is the manuscript technically sound, and do the data support the conclusions?
-- Has the statistical analysis been performed appropriately and rigorously?
-- Does the manuscript adhere to the PLOS Data Policy?
-- Is the manuscript presented in an intelligible fashioin and written in standard English?
+### Australia and New Zealand Clinical Trials Registry (ANZCTR)
+
+ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting. Researchers responsible for overseeing a clinical trial are expected to register full details before commencing participant enrolment. Details required for registration follow a standardised template (reference or supp file), which covers important details about participant eligibility, intervention(s) being evaluated, study design and outcomes. As part of study design, researchers are required to provide a summary of statistical methods and planned analyses. Upon successful registration, the trial is assigned a unique registration number for use in future reporting in scientific publications. All trials registered on AZNCTR are publicly available and can be searched for via an online portal.
+[TODO: details of how stat.section text was extracted for analysis]
 
 
-* Reference updates to stats reporting guidelines; e.g see:
+## Full-text processing
+Text cleaning aimed to standardise notation and statistical terminology, whilst minimising changes to article style and formatting. Full details of text cleaning steps undertaken and corresponding R code are provided in Supplementary File X.
 
-- https://everyone.plos.org/2019/09/26/new-plos-one-statistical-reporting-guidelines/.
-- https://web.archive.org/web/20190607174803/https://journals.plos.org/plosone/s/submission-guidelines
-- https://web.archive.org/web/20150507175314/https://journals.plos.org/plosone/s/submission-guidelines
+Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode characters corresponding to $\theta$ (<U+03B8>) was replaced with ‘theta’. Similarly, common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were converted into plain text, using functions available in the ‘textclean’ package [@textclean]. General formatting including carriage returns, punctuation marks, in-text references (e.g. [42]) centred equations and other non-ascii characters were removed. Text contained inside brackets was retained in the dataset to maximise content for analysis, with brackets removed.
 
-## Search strategy
-Our search strategy comprised targeted searches of the PLOS API and filtering of full-text articles based on section headings. All full-text Research Articles published in _PLOS ONE_ since 2006 were eligible for inclusion.
+We compiled an extensive list of statistical terms to standardise descriptions of statistical methods reported across included record in both datasets. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of statistics reference textbooks [ref]. The final list is provided as Supplementary Material. Possible variants including plurals (e.g. ‘chi-squares’) unhyphenated (e.g chi square) and combined (e.g. chisquare) terms were transformed to singular, hyphenated form (e.g chi-square). Common statistical tests were also hyphenated (e.g. hosmer lemeshow to hosem-lemeshow).
 
-Initial searches of the PLOS API were completed using the ‘rplos’ package [@rplos]. Submitted search queries focussed on the presence of analysis-related terms anywhere within a full-text article. Individual terms combined the words “data” or “statistical”, with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Results terms were intended to be broad and, by allowing terms to appear anywhere within the article, we accounted for the placement of relevant text in different sections, for example, in the Material and Methods section versus Supplementary Information. Search results were indexed by Digital Object Identifier (DOI), which allowed for removal of duplicate records. Metadata collected for each DOI included journal volume, PLOS subject classification(s) and number of article views since publication.
+As a final step, common stop words including pronouns, contractions and selected prepositions were removed. We chose to keep certain stop words that, if excluded, may have changed the context of statistical method(s) being described (e.g. ‘between’, ‘against’).
 
-Full-text XML data were then extracted for all search results for further processing. Data were extracted by DOI and organised by individual section and subsection headings. In order to consistently identify statistical methods sections, partial matching on commonly used sections headings was done to filter results. [TODO add more details of headings/partial matching here. strings were: 'statistical analysis','statistical analyses','statistical method','statistics','data analysis', 'data analyses'].
 
-Text cleaning focussed on standardising notation and references to statistical terminology, whilst minimising major changes to article style and formatting. Details of text cleaning steps, including R syntax, are provided in Supplementary File 1.
+<!-- Questions: -->
 
-Mathematical notation including Greek letters was converted from Unicode characters to plain text (Supplementary File 2). For example, instances of the code ‘<U+03B8>’, representing the Greek letter $\theta$, were replaced with ‘theta’. Common symbols not captured by Unicode blocks were also converted into plain text, using functions available in the 'textclean' package (e.g. % to ‘percent’, < to ‘less-than’) [@textclean]. General punctuation, in-text references (e.g. [23]) centred equations and remaining non-ascii characters were removed. Text contained inside brackets was retained in the dataset to maximise content for analysis, with brackets removed. 
+<!-- * What questions are asked of PLOS ONE Reviewers? -->
 
-We compiled an extensive list of common methods and statistical terminology to standardise descriptions of statistical analyses undertaken. An initial list was compiled by calculating individual word frequencies in the data and identifying relevant terms. Additional terms were added based on index searches of statistical textbooks [TODO need to mention this here? If so, add references] and spelling checks (e.g. ‘fischer’ instead of ‘fisher’). Multiple searches were then performed to identify possible variants of list terms, which were replaced with a standardised spelling. For example, instances ‘chi square’ and ‘chi squared’ were replaced with ‘chi-square’. Other variants of terminology considered plurals (e.g. chi squares), combinations of characters and numbers (e.g. chi 2) and combined text (e.g. chisquare).
+<!-- - Is the manuscript technically sound, and do the data support the conclusions? -->
+<!-- - Has the statistical analysis been performed appropriately and rigorously? -->
+<!-- - Does the manuscript adhere to the PLOS Data Policy? -->
+<!-- - Is the manuscript presented in an intelligible fashioin and written in standard English? -->
 
-As a final step, common stop words including pronouns, contractions and selected prepositions were removed from the data. We chose to retain selected stop words that, if excluded, may have changed the context of statistical method(s) being described (e.g. ‘between’, ‘against’).
 
+<!-- * Reference updates to stats reporting guidelines; e.g see: -->
+
+<!-- - https://everyone.plos.org/2019/09/26/new-plos-one-statistical-reporting-guidelines/. -->
+<!-- - https://web.archive.org/web/20190607174803/https://journals.plos.org/plosone/s/submission-guidelines -->
+<!-- - https://web.archive.org/web/20150507175314/https://journals.plos.org/plosone/s/submission-guidelines -->
 
 
 ## Clustering algorithm
@@ -130,7 +130,7 @@ Despite the extensive array of tests available, many authors are reporting the s
 
 We did not check whether papers used the correct methods, and for some simple studies a 'boilerplate' statistical methods section would be fine.
 
-We examined papers where there was a statistics section, and we missed papers that used statistical analysis but did not include a statistical analysis section. 
+We examined papers where there was a statistics section, and we missed papers that used statistical analysis but did not include a statistical analysis section. Reiterate outcomes of random sample checking here.
 
 We only examined one journal and hence our results may not be generalisable to all journals, especially those that use a statistical reviewer for all papers.
 

@@ -67,18 +67,18 @@ _Step 2_: Partial matching on section headings. Full text XML data for all searc
 The ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting. Researchers responsible for overseeing a clinical trial are expected to register full details before commencing participant enrolment. Details required for registration follow a standardised template (reference or supp file), which covers important details about participant eligibility, intervention(s) being evaluated, study design and outcomes. As part of study design, researchers are required to provide a summary of statistical methods and planned analyses. 
 <!---Upon successful registration, the trial is assigned a unique registration number for use in future reporting in scientific publications. --->
 All trials registered on ANZCTR are publicly available and can be searched for via an online portal.
-[TODO: details of how stat.section text was extracted for analysis]
 
+All studies on ANZCTR were downloaded on 1~February~2020 in XML format. Studies were excluded if the statistical methods section was empty or labelled as "Not applicable", "Nil" or "None". 
 
 ## Full-text processing
+
 Text cleaning aimed to standardise notation and statistical terminology, whilst minimising changes to article style and formatting. Full details of text cleaning steps undertaken and corresponding R code are provided in Supplementary File X.
 
-Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode characters corresponding to $\theta$ (<U+03B8>) was replaced with ‘theta’. Similarly, common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were converted into plain text, using functions available in the ‘textclean’ package [@textclean]. General formatting including carriage returns, punctuation marks, in-text references (e.g. [42]) centred equations and other non-ascii characters were removed. Text contained inside brackets was retained in the dataset to maximise content for analysis, with brackets removed.
+Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode characters corresponding to $\theta$ (<U+03B8>) was replaced with ‘theta’. Similarly, common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were converted into plain text, using functions available in the ‘textclean’ package [@textclean]. General formatting was removed, this included carriage returns, punctuation marks, in-text references (e.g. "[42]") centred equations, and other non-ascii characters. Text contained inside brackets was retained in the dataset to maximise content for analysis, with brackets removed.
 
-We compiled an extensive list of statistical terms to standardise descriptions of statistical methods reported across included record in both datasets. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of statistics reference textbooks [ref]. The final list is provided as Supplementary Material. Possible variants including plurals (e.g. ‘chi-squares’) unhyphenated (e.g chi square) and combined (e.g. chisquare) terms were transformed to singular, hyphenated form (e.g chi-square). Common statistical tests were also hyphenated (e.g. hosmer lemeshow to hosem-lemeshow).
+We compiled an extensive list of statistical terms to standardise descriptions of statistical methods reported across both datasets. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of statistics reference textbooks [ref]. The final list is provided as Supplementary Material. Possible variants including plurals (e.g. ‘chi-squares’) unhyphenated (e.g ‘chi square’) and combined (e.g. ‘chisquare’) terms were transformed to singular, hyphenated form (e.g ‘chi-square’). Common statistical tests were also hyphenated (e.g. ‘hosmer lemeshow’ to ‘hosmer-lemeshow’).
 
-As a final step, common stop words including pronouns, contractions and selected prepositions were removed. We chose to keep certain stop words that, if excluded, may have changed the context of statistical method(s) being described (e.g. ‘between’, ‘against’).
-
+As a final step, common stop words including pronouns, contractions and selected prepositions were removed. We retained selected stop words that, if excluded, may have changed the context of statistical method(s) being described, for example ‘between’ and ‘against’.
 
 <!-- Questions: -->
 
@@ -141,7 +141,7 @@ As a final step, common stop words including pronouns, contractions and selected
 
 The first line in many statistical analysis sections was the software used, implying that the software is the most important detail. As Doug Altman said, "Many people think that all you need to do statistics is a computer and appropriate software" [@Altman1994]. This is not the case, and whilst it is important for researchers to mention the software and version used for reproducibility purposes, it is a relatively minor detail compared with detailing what methods were used and why.
 
-Despite the extensive array of tests available, many authors are reporting the same few methods.
+Despite the extensive array of statistical tests available, many authors are reporting the same few methods.
 
 ## Limitations
 
@@ -149,7 +149,7 @@ We did not check whether papers used the correct methods, and for some simple st
 
 We examined papers where there was a statistics section, and we missed papers that used statistical analysis but did not include a statistical analysis section. Reiterate outcomes of random sample checking here.
 
-We only examined one journal and hence our results may not be generalisable to all journals, especially those that use a statistical reviewer for all papers.
+We only examined one journal and one trial registry and hence our results may not be generalisable to all journals or registries, especially those that use a statistical reviewer.
 
 # References
 

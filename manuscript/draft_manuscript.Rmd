@@ -68,11 +68,11 @@ _Step 2_: Partial matching on section headings. Full text XML data for all searc
 
 ### Australia and New Zealand Clinical Trials Registry (ANZCTR)
 
-The ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting. Researchers responsible for overseeing a clinical trial are expected to register full details before commencing participant enrolment. Details required for registration follow a standardised template (reference or supp file), which covers important details about participant eligibility, intervention(s) being evaluated, study design and outcomes. As part of study design, researchers are required to provide a summary of statistical methods and planned analyses. 
+The ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting. Researchers responsible for overseeing a clinical trial are expected to register full details before commencing participant enrolment. Details required for registration follow a standardised template (reference or supp file), which covers important details about participant eligibility, intervention(s) being evaluated, study design and outcomes. As part of study design, researchers are required to provide a "brief description" of the sample size calculations, statistical methods and planned analyses [@ANZCTR]. 
 <!---Upon successful registration, the trial is assigned a unique registration number for use in future reporting in scientific publications. --->
 All trials registered on ANZCTR are publicly available and can be searched for via an online portal.
 
-All studies on ANZCTR were downloaded on 1~February~2020 in XML format. Studies were excluded if the statistical methods section was empty or labelled as "Not applicable", "Nil" or "None". 
+All studies available on ANZCTR were downloaded on 1 February 2020 in XML format. Studies were excluded if the statistical methods section was empty or labelled as "Not applicable", "Nil" or "None". 
 
 ## Full-text processing
 
@@ -168,6 +168,7 @@ Across all records included in analysis, all included Biology and life sciences 
 
 ## ANZCTR
 
+There were 28,008 downloaded studies, and 9,632 (34\%) had a statistical methods section.
 
 * Final sample size
 

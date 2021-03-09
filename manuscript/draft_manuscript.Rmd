@@ -207,6 +207,8 @@ The first line in many statistical analysis sections was the software used, impl
 
 Despite the extensive array of statistical tests available, many authors are reporting the same few methods.
 
+One reason these inadequate sections get published is that most journals do not use statistical reviewers, despite empirical evidence showing they improve manuscript quality [@Hardwicke2020]. 
+
 ## Limitations
 
 We did not check whether papers used the correct methods, and for some simple studies a 'boilerplate' statistical methods section would be fine.

@@ -172,6 +172,15 @@ Results of topic modelling assuming five clusters showed clear separation betwee
 
 Two topics (26% of study sample) were dominated by terms related statistical software, notably Prism/GraphPad (Topic 3, n = 10,940) and SPSS (Topic 5, n = 18,029). Remaining topics focussed on hypothesis testing (Topic, n = 12,531) and analysis of variance/multiple comparisons (Topic 4, n = 16,740)
 
+Top matches (Topic 3)
+
+* 10.1371/journal.pone.0043519: All statistical analyses were performed using GraphPad Prism (GraphPad Software Inc., San Diego, CA).
+* 10.1371/journal.pone.0045453: GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses.
+* 10.1371/journal.pone.0170640: All statistical analysis of the data was performed using GraphPad Prism software (GraphPad Prism Software Inc., La Jolla, Ca).
+* 10.1371/journal.pone.0036750: All statistical analysis was performed using Graphpad Prism software.
+* 10.1371/journal.pone.0058148: All statistical analysis was performed using the Graphpad Prism software.
+
+
 Top matches (Topic 5)
 * 10.1371/journal.pone.0120046: Statistical analysis was performed using the SPSS version 18.0 (SPSS Inc., Chicago, IL, USA). Mann-Whitney test was used for the analysis of continuous variables. Chi-square test, Fisher’s exact test or one-way ANOVA test was employed for the analysis of categorical variables. P < 0.05 was considered statistically significant.
 

@@ -166,6 +166,16 @@ Across all records included in analysis, all included Biology and life sciences 
 (n = `r n.earth`) and/or Computer and information sciences (n = `r n.computer`) within their top 3 subject classifications
 (Figure 1C).
 
+[Figure here or as supplementary - 5 topic solution]
+
+Results of topic modelling assuming five clusters showed clear separation between statistical software, hypothesis testing and linear modelling (Figure). The largest cluster, representing 48% of all included studies (Topic 2, n = 53,491).
+
+Two topics (26% of study sample) were dominated by terms related statistical software, notably Prism/GraphPad (Topic 3, n = 10,940) and SPSS (Topic 5, n = 18,029). Remaining topics focussed on hypothesis testing (Topic, n = 12,531) and analysis of variance/multiple comparisons (Topic 4, n = 16,740)
+
+
+[Figure here or as supplementary - 10 topic solution]
+
+
 ## ANZCTR
 
 There were 28,008 downloaded studies, and 9,632 (34\%) had a statistical methods section.

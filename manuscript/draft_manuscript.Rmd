@@ -198,6 +198,14 @@ Top matches (Topic 5)
 ## ANZCTR
 
 There were 28,008 downloaded studies, and 9,632 (34\%) had a statistical methods section.
+Of the 12,700 eligible applications, 9523 (75%) had a statistic section 
+
+Variable & Odds ratio & 95% CI
+Study type = Observational & 0.78 & 0.69, 0.89
+Date (per year) & 0.90 & 0.88, 0.91
+Number of funders & 0.80 & 0.74, 0.86
+Target sample size (per doubling) & 0.90 & 0.88, 0.92
+
 
 * Final sample size
 

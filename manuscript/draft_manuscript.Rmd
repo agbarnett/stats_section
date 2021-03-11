@@ -202,11 +202,10 @@ Top matches (Topic 5)
 
 ## ANZCTR
 
-There were 28,008 downloaded studies, and 9,632 (34%) had a statistical methods section. 
-The numbers of excluded studies are shown in Figure~X. 
+There were 28,008 downloaded studies. The numbers of excluded studies are shown in Figure~X. 
 Of the 12,700 eligible applications, 9523 (75%) had a statistic section. 
 
-The odds ratios and 95% credible intervals are shown in Table~X. 
+We examined if four study characteristics predicted a missing statistics section. The odds ratios and 95% credible intervals are in Table~X. Observational studies were less likely to have a missing methods section compared with interventional studies. Missing sections become less likely over time. Studies with more funders and a larger target sample size were less likely to have a missing methods section.  
 
 Variable & Odds ratio & 95% CI
 Study type = Observational & 0.78 & 0.69, 0.89
@@ -214,8 +213,7 @@ Date (per year) & 0.90 & 0.88, 0.91
 Number of funders & 0.80 & 0.74, 0.86
 Target sample size (per doubling) & 0.90 & 0.88, 0.92
 
-
-Some of the sections were only one word, including "ANOVA", "t-test", "SPSS" and even "SSPS". The median length of the section was 129 words with an inter-quartile range of 71 to 219 words.
+Some of the statistics sections were only one word, including "ANOVA", "t-test", "SPSS" and even "SSPS". The median length of the section was 129 words with an inter-quartile range of 71 to 219 words.
 
 * Final sample size
 

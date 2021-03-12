@@ -223,6 +223,8 @@ Some of the non-missing statistics sections were only one word, including "ANOVA
 
 # Discussion
 
+Many researchers are using lazy practice by copying a standard "boilerplate" statistical methods section, likely cut-and-pasting from other researchers or projects. This is a strong sign of the ritualistic practice of statistics where researchers go through the motions rather than using conscientious practice [@Stark2018]. This is concerning because using the wrong statistical methods can reduce the potential of study, or worse, invalidate the entire study. Poor statistical practice is a key driver of the ongoing reproducibility crisis in science [@Ioannidis2014].
+
 The first line in many statistical analysis sections in _PLOS ONE_ was the software used and some entire sections in ANZCTR only stated the software, implying that the software is the most important detail. As Doug Altman said, "Many people think that all you need to do statistics is a computer and appropriate software" [@Altman1994]. This is not the case, and whilst it is important for researchers to mention the software and version used for reproducibility purposes, it is a minor detail compared with detailing what methods were used and why.
 
 Despite the extensive array of statistical tests available, many authors are reporting the same few methods.

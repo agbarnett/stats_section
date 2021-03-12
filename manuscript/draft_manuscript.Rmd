@@ -3,7 +3,8 @@ title: "How many researchers use 'boilerplate' statistical analysis sections?"
 author: "Nicole White, Thiru Balasubramaniam, Richi Nayak, Adrian Barnett"
 date: "21/05/2020"
 output:
-  pdf_document: default
+  pdf_document:
+    latex_engine: xelatex
   html_document:
     df_print: paged
 link-citations: yes
@@ -19,6 +20,7 @@ library(tidyr)
 library(pander)
 library(ggplot2)
 library(ggpubr)
+library(knitr)
 panderOptions('table.emphasize.rownames', FALSE)
 panderOptions('keep.trailing.zeros', TRUE)
 panderOptions('table.split.table', Inf)
@@ -130,6 +132,7 @@ max.perc.stats = total.records[[2]] %>% filter(percentage==max(percentage)) %>% 
 load('wordcount.plos.rda')
 n.words = wordcounts %>% summarise(med = median(words),q1=quantile(words,.25),q3=quantile(words,.75))
 p.extremes = wordcounts %>% summarise(morethan500 = round(100*mean(words>500)),lessthan50=round(100*mean(words<50)))
+n.extremes = wordcounts %>% summarise(morethan500 = sum(words>500),lessthan50=sum(words<50))
 
 ```
 
@@ -169,7 +172,9 @@ n.computer = to_plot %>% filter(subject_level_name=='Computer and information sc
 ```
 
 
-API searches returned `r n.api` unique records, of which `r n.include` (`r perc.include`%) included a statistical methods section based on our search criteria. Search results varied by journal volume (Figure 1A). The total number of API search results peaked at volumes 8 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`) and 9 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in PLOS ONE over the same timeframe. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`).
+API searches returned `r n.api` unique records, of which `r n.include` (`r perc.include`%) included a statistical methods section based on our search criteria. 
+
+Search results varied by journal volume (Figure 1A). The total number of API search results peaked at volumes 8 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`) and 9 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in PLOS ONE over the same timeframe. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`). [TODO: breakdown of number of records that had stats methods in supp material, other observations about those excluded at second stage filter]
 
 The median length of statistical methods sections was `r n.words[['med']]` words (IQR: `r n.words[['q1']]` to `r n.words[['q3']]` words) (Figure 1B). `r n.extremes[['morethan500']]` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r n.extremes[['lessthan50']]` articles (`r p.extremes[['lessthan50']]`%) had a statistical methods section of 50 words or less, equal to the length of this paragraph.
 
@@ -177,26 +182,21 @@ All papers included Biology and life sciences (n = `r n.biology`), Earth science
 (n = `r n.earth`) and/or Computer and information sciences (n = `r n.computer`) within their top 3 subject classifications
 (Figure 1C).
 
-```{r,fig.width=10,fig.cap="\\label{fig:plot-5-topics}}
+```{r,fig.width=10,fig.cap="\\label{fig:plot-5-topics}Five topic solution from clustering algorithm"}
 
-include_graphics{'figures/plosone.5topics.jpg'}
-
-```
-
-```{r,fig.width=10,fig.cap="\\label{fig:plot-10-topics}}
-
-include_graphics{'figures/plosone.10topics.jpg'}
+include_graphics("figures/plosone.5topics.jpg")
 
 ```
 
+```{r,fig.width=10,fig.cap="\\label{fig:plot-10-topics}Ten topic solution from clustering algorithm"}
 
-[Figure here or as supplementary - 5 topic solution]
+include_graphics("figures/plosone.10topics.jpg")
 
-Results of topic modelling assuming five clusters showed clear separation between statistical software, hypothesis testing and linear modelling (Figure). The largest cluster, representing 48% of all included studies (Topic 2, n = 53,491).
+```
 
-Two topics (26% of study sample) were dominated by terms related statistical software, notably Prism/GraphPad (Topic 3, n = 10,940) and SPSS (Topic 5, n = 18,029). Remaining topics focussed on hypothesis testing (Topic, n = 12,531) and analysis of variance/multiple comparisons (Topic 4, n = 16,740)
+Increasing the number of clusters decreases the cluster quality. This indicated that the data comprised of one large cluster and multiple small clusters. Word cloud representing the clustering solutions based on five and ten topics are presented in Figures \@ref(fig:plot-5-topics) and \@ref(fig:plot-10-topics). Common topics reflected statistical software, hypothesis testing by student's t-test and one-way analysis of variance.
 
-Top matches (Topic 3)
+Two topics concentrated on the use of Prism/GraphPad (Topic 3, n = 10,940; 9.8%) and SPSS (Topic 5, n = 18,029; 16%) software. A review of records with greatest alignment to Topic 3 showed clear overlaps in text used:
 
 * 10.1371/journal.pone.0043519: All statistical analyses were performed using GraphPad Prism (GraphPad Software Inc., San Diego, CA).
 * 10.1371/journal.pone.0045453: GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses.
@@ -204,8 +204,30 @@ Top matches (Topic 3)
 * 10.1371/journal.pone.0036750: All statistical analysis was performed using Graphpad Prism software.
 * 10.1371/journal.pone.0058148: All statistical analysis was performed using the Graphpad Prism software.
 
+Boilerplate text to describe statistical methods for between-group comparisons was identified in Topic 1 (n = 12,531; 11%) and Topic 4 (n = 16,740; 15%)
+Topic 1 had the smallest number of unique terms in both five (#terms = 54,780) and ten (#terms = 24,686) topic solutions. Statistical methods sections that were strong matches to Topic 1 focused on hypothesis testing using Student's t-test and definitions of statistical significance:
 
-Top matches (Topic 5)
+* 10.1371/journal.pone.0077872: Student’s t-test was used for statistical analysis. A p value of <0.05 was considered statistically significant.
+* 10.1371/journal.pone.0144950: Student’s t-test was used for statistical analysis. A p value < 0.05 was considered to be statistically significant.
+* 10.1371/journal.pone.0019412: The Student t-test was used for all statistical analyses, and a P value less than 0.05 was considered statistically significant.
+* 10.1371/journal.pone.0055941: Statistical analysis was performed using a two-tailed Student’s t-test, and p-values <0.05 were considered statistically significant.
+* 10.1371/journal.pone.0101993: Statistical analysis was performed using Student's t-test. P-values <0.05 were considered statistically significant.
+
+
+Top matches for Topic 4 followed a template of summarising data by means with standard errors, formal analysis by one-way analysis of variance and post hoc mulitple comparisons for testing statistical significance:
+
+* 10.1371/journal.pone.0098207: Data are presented as the mean ±SEM. The data were analyzed using the Student's t-test for comparison of two groups, or by one-way analysis of variance (ANOVA) followed by Tukey's post-hoc test for multiple comparisons. Comparisons with p-values less than 0.05 were considered significant.
+
+* 10.1371/journal.pone.0051180: Results are presented as mean ± SEM. Comparison between two groups were analyzed using Student’s t test. Comparisons among multiple groups were performed using one-way analysis of variance (ANOVA), followed by Tukey’s test.
+
+* 10.1371/journal.pone.0207844: Values are presented as mean ± SEM. Differences were analyzed between groups using one-way analysis of variance (ANOVA) followed by a post hoc Tukey’s multiple comparison to determine statistical significance.
+
+* 10.1371/journal.pone.0046301: All data were presented as mean ± SEM. Statistical significance was assessed with one-way analysis of variance (ANOVA) followed by a post hoc (Bonferroni) test for multiple group comparison. Differences with p-value less than 0.05 were considered statistically significant.
+
+* 10.1371/journal.pone.0145237: Results were presented as Mean ±SEM. Mann-Whitney’s U test was used to compare two groups. For multiple group comparisons, one-way ANOVA tests were performed followed up by Tukey’s post-hoc multiple comparisons test. P< 0.05 was considered statistically significant.
+
+Top matches (Topic 5):
+
 * 10.1371/journal.pone.0120046: Statistical analysis was performed using the SPSS version 18.0 (SPSS Inc., Chicago, IL, USA). Mann-Whitney test was used for the analysis of continuous variables. Chi-square test, Fisher’s exact test or one-way ANOVA test was employed for the analysis of categorical variables. P < 0.05 was considered statistically significant.
 
 * 10.1371/journal.pone.0204950: Statistical analyses were performed using SPSS version 20.0 for Windows (SPSS Inc., Chicago, IL). Categorical and continuous variables were evaluated with the non-parametric chi-square test, the Kruskal-Wallis test, and the Mann-Whitney U test. All statistical tests were two-sided, and a p value <0.05 was considered statistically significant.
@@ -216,7 +238,6 @@ Top matches (Topic 5)
 
 * 10.1371/journal.pone.0098797: Univariate analysis was performed using Mann–Whitney U-tests for continuous variables and Pearson's chi-square or Fisher's exact tests for categorical variables. Statistical significance was set at a P-value <0.05. SPSS statistical software version 19 (SPSS, Chicago, IL, USA) was used to perform the statistical analyses.
 
-[Figure here or as supplementary - 10 topic solution]
 
 
 ## ANZCTR

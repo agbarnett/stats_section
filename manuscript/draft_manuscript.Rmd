@@ -68,15 +68,15 @@ _Step 2_: Partial matching on section headings. Full text XML data for all searc
 
 ### Australia and New Zealand Clinical Trials Registry (ANZCTR)
 
-The ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting; observational studies can also be registered. All studies registered on ANZCTR are publicly available and can be searched for via an online portal. 
+The ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting; observational studies can also be registered. All studies registered on ANZCTR are publicly available and can be searched via an online portal (https://www.anzctr.org.au/). 
 <!--- Researchers responsible for overseeing a clinical trial are expected to register full details before commencing participant enrolment. --->
-Details required for registration follow a standardised template (reference or supp file), which covers participant eligibility, intervention(s) being evaluated, study design and outcomes. Researchers are asked to provide a "brief description" of the sample size calculations, statistical methods and planned analyses, although this section is not compulsory [@ANZCTR]. All information must be in English. Studies are reviewed by ANZCTR staff, but are not peer reviewed. 
+Details required for registration follow a standardised template (reference or supp file), which covers participant eligibility, the intervention(s) being evaluated, study design and outcomes. Researchers are asked to provide a "brief description" of the sample size calculations, statistical methods and planned analyses, although this section is not compulsory [@ANZCTR]. The information provided must be in English. Studies are reviewed by ANZCTR staff for completeness of key information, which does not include the completeness of the statistical methods sections. Studies are not peer reviewed. 
 <!---Upon successful registration, the trial is assigned a unique registration number for use in future reporting in scientific publications. --->
 
 All studies available on ANZCTR were downloaded on 1 February 2020 in XML format. 
-We used all the text available in the "Statistical methods" section. We also collated basic information about the study including the study type (interventional or observational), submission date, number of funders and target sample size. These variables were chosen as we believed they might influence the statistical methods section, because we expected larger studies and those with funding to be more complete, and we also were interested in changes over time.
+We used all the text available in the "Statistical methods" section. We also collated basic information about the study including the study type (interventional or observational), submission date, number of funders and target sample size. These variables were chosen as we believed they might influence the completeness of the statistical methods section, because we expected larger studies and those with funding to be more complete, and we also were interested in changes over time.
 Studies prior to 2013 were excluded as the statistical methods section appeared to be introduced in 2013.
-Some studies were originally registered on the trial database _clinicaltrials.gov_ and essentially copied over to ANZCTR. We excluded these studies because they almost all had no completed statistical methods section as this is not a field in _clinicaltrials.gov_.
+Some studies were first registered on the alternative trial database _clinicaltrials.gov_ and then also posted to ANZCTR. We excluded these studies because they almost all had no completed statistical methods section as this requested by _clinicaltrials.gov_.
 
 ## Full-text processing
 
@@ -206,10 +206,10 @@ Top matches (Topic 5)
 
 ## ANZCTR
 
-There were 28,008 downloaded studies. The numbers of excluded studies are shown in Figure~X. 
-Of the 12,700 eligible applications, 9523 (75%) had a statistic section. 
+We downloaded 28,008 studies. The numbers of excluded studies are shown in Figure~X. 
+Of the 12,700 included studies, 9,523 had a statistic section which is 75% (95% CI 74% to 76%). 
 
-We examined if four study characteristics predicted a missing statistics section. The odds ratios and 95% credible intervals are in Table~X. Observational studies were less likely to have a missing methods section compared with interventional studies. Missing sections become less likely over time. Studies with more funders and a larger target sample size were less likely to have a missing methods section.  
+We examined if four study characteristics were associated with a missing statistics section. The odds ratios and 95% credible intervals are in Table~X. Observational studies were less likely to have a missing methods section compared with interventional studies. Missing sections became less likely over time. Studies with more funders and a larger target sample size were less likely to have a missing methods section.  
 
 Variable & Odds ratio & 95% CI
 Study type = Observational & 0.78 & 0.69, 0.89
@@ -217,13 +217,13 @@ Date (per year) & 0.90 & 0.88, 0.91
 Number of funders & 0.80 & 0.74, 0.86
 Target sample size (per doubling) & 0.90 & 0.88, 0.92
 
-Some of the statistics sections were only one word, including "ANOVA", "t-test", "SPSS" and even "SSPS". The median length of the section was 129 words with an inter-quartile range of 71 to 219 words.
+Some of the non-missing statistics sections were only one word, including "ANOVA", "t-test", "SPSS" and even "SSPS". The median length of the section was 129 words with an inter-quartile range of 71 to 219 words.
 
 * Final sample size
 
 # Discussion
 
-The first line in many statistical analysis sections was the software used, implying that the software is the most important detail. As Doug Altman said, "Many people think that all you need to do statistics is a computer and appropriate software" [@Altman1994]. This is not the case, and whilst it is important for researchers to mention the software and version used for reproducibility purposes, it is a relatively minor detail compared with detailing what methods were used and why.
+The first line in many statistical analysis sections in _PLOS ONE_ was the software used and some entire sections in ANZCTR only stated the software, implying that the software is the most important detail. As Doug Altman said, "Many people think that all you need to do statistics is a computer and appropriate software" [@Altman1994]. This is not the case, and whilst it is important for researchers to mention the software and version used for reproducibility purposes, it is a minor detail compared with detailing what methods were used and why.
 
 Despite the extensive array of statistical tests available, many authors are reporting the same few methods.
 

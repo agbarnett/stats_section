@@ -129,6 +129,8 @@ max.perc.stats = total.records[[2]] %>% filter(percentage==max(percentage)) %>% 
 ```{r}
 load('wordcount.plos.rda')
 n.words = wordcounts %>% summarise(med = median(words),q1=quantile(words,.25),q3=quantile(words,.75))
+p.extremes = wordcounts %>% summarise(morethan500 = round(100*mean(words>500)),lessthan50=round(100*mean(words<50)))
+
 ```
 
 
@@ -169,11 +171,24 @@ n.computer = to_plot %>% filter(subject_level_name=='Computer and information sc
 
 API searches returned `r n.api` unique records, of which `r n.include` (`r perc.include`%) included a statistical methods section based on our search criteria. Search results varied by journal volume (Figure 1A). The total number of API search results peaked at volumes 8 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`) and 9 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in PLOS ONE over the same timeframe. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`).
 
-The median length of statistical methods sections after text cleaning was `r n.words[['med']]` per DOI (IQR: `r n.words[['q1']]` to `r n.words[['q3']]`) (Figure 1B).
+The median length of statistical methods sections was `r n.words[['med']]` words (IQR: `r n.words[['q1']]` to `r n.words[['q3']]` words) (Figure 1B). `r n.extremes[['morethan500']]` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r n.extremes[['lessthan50']]` articles (`r p.extremes[['lessthan50']]`%) had a statistical methods section of 50 words or less, equal to the length of this paragraph.
 
-Across all records included in analysis, all included Biology and life sciences (n = `r n.biology`), Earth sciences
+All papers included Biology and life sciences (n = `r n.biology`), Earth sciences
 (n = `r n.earth`) and/or Computer and information sciences (n = `r n.computer`) within their top 3 subject classifications
 (Figure 1C).
+
+```{r,fig.width=10,fig.cap="\\label{fig:plot-5-topics}}
+
+include_graphics{'figures/plosone.5topics.jpg'}
+
+```
+
+```{r,fig.width=10,fig.cap="\\label{fig:plot-10-topics}}
+
+include_graphics{'figures/plosone.10topics.jpg'}
+
+```
+
 
 [Figure here or as supplementary - 5 topic solution]
 

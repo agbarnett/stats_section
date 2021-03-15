@@ -189,7 +189,7 @@ include_graphics("figures/plosone.10topics.jpg")
 
 We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. 
 
-Figure \@ref(fig:plot-10-topics) displays topic clouds based on ten clusters. General themes across topics reflected the use of statistical software, between-group hypothesis testing, definitions of statistical significance and more advanced statistical methods.
+Figure \@ref(fig:plot-10-topics) displays topic clouds based on ten clusters. General themes reflected the use of statistical software, between-group hypothesis testing, definitions of statistical significance and regression modelling.
 
 Two topics reflected the use of statistical software: Prism GraphPad (Topic 3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). Manual review of top matching sections assigned to Topic 3 showed evidence of boilerplate text. Out of the top 10 matches, 9 did not specify which statistical methods were used.
 
@@ -210,7 +210,7 @@ Topic 5
 
 ___
 
-Evidence of boilerplate text was identified among topics that focused two-group hypothesis testing as the only statistical method used (Box 2). Topic 1 reflected applications of Student's t-test assuming a 5% level of statistical significance (n = 3,775). Similar methods sections were identified under Topic 9 (n = 6,104) but were differentiated by multiple thresholds for declaring statistical significance: \*p<0.05, \*\*p<0.01 and \*\*\*p<0.001.
+Evidence of boilerplate text was identified among topics that focused on two-group hypothesis testing as the only statistical method used (Box 2). Topic 1 reflected applications of Student's t-test assuming a 5% level of statistical significance (n = 3,775). Similar methods sections were identified under Topic 9 (n = 6,104) but were differentiated by multiple thresholds for declaring statistical significance: \*p<0.05, \*\*p<0.01 and \*\*\*p<0.001.
 
 ___
 **Box 2: Examples of boilerplate text (Between-group hypothesis testing, two groups)**
@@ -229,9 +229,9 @@ Topic 9
 
 ___
 
-Expanded descriptions of between-group analysis were found in three topics (4, 6 and 10), varying based on method(s) used and study design (Box 3). [TODO: link to topics 1 and 9 here]Statistical methods sections associated with Topic 4 (n = 10,163) combined descriptive statistics followed by Student's t-test and/or one-way analysis of variance with post-hoc multiple comparisons.  Descriptive statistics were commonly reported as means with standard deviations or standard errors. Topic 6 (n = 4,746) followed a similar template minus multiple comparisons. Topic 10 (Topic 10: n = 4,664) concentrated on between-group analysis applied to experimental replicates.
+Expanded descriptions of between-group analysis were found in three topics (4, 6 and 10), varying based on method(s) used and study design (Box 3 - include?). Sections assigned to these topics appeared to follow the general template of reporting descriptive statistics followed by methods of hypothesis testing depending on the number of groups being compared. Sections strongly associated with Topic 6 (n = 4,746) combined descriptive statistics with follow-up testing of group differences by Student's t-test, Mann Whitney U or one-way analysis of variance. Descriptive statistics were commonly reported as means with standard deviations or standard errors. Topic 10 (n = 4,664) reported similar methods applied to the analysis of replicates obtained under experimental designs. Variations to descriptions of one-way analysis of variance were identified under Topic 4 (n = 10,163), with an emphasis on post-hoc multiple comparisons.
 
-Remaining topics reflected applications of meta-analysis (Topic 7: n = 5,165), regression/survival analysis (Topic 2: n = 19,478) and larger sections that combined data processing and analysis (Topic 8: n = 38,183) [TODO: more work needed on this]
+Remaining topics reflected applications of meta-analysis (Topic 7: n = 5,165), regression modelling (Topic 2: n = 19,478) and larger sections that reported data processing and statistical methods within the same section (Topic 8: n = 38,183). Top matches for Topic 2 shared features of the 'describe-compare' template seen in other topics, expanded to include details of multivariable regression modelling. Examples of multivariable models were (stepwise) logistic regression and cox proportional hazards regression.
 
 ## ANZCTR
 

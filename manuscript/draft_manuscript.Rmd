@@ -2,11 +2,8 @@
 title: "How many researchers use 'boilerplate' statistical analysis sections?"
 author: "Nicole White, Thiru Balasubramaniam, Richi Nayak, Adrian Barnett"
 date: "21/05/2020"
-output:
-  pdf_document:
-    latex_engine: xelatex
-  html_document:
-    df_print: paged
+output: bookdown::pdf_document2
+toc: false
 link-citations: yes
 bibliography: references.bib
 subtitle: An observational study of papers published in _PLOS ONE_.
@@ -174,37 +171,67 @@ n.computer = to_plot %>% filter(subject_level_name=='Computer and information sc
 
 API searches returned `r n.api` unique records, of which `r n.include` (`r perc.include`%) included a statistical methods section based on our search criteria. 
 
-Search results varied by journal volume (Figure 1A). The total number of API search results peaked at volumes 8 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`) and 9 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in PLOS ONE over the same timeframe. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`). [TODO: breakdown of number of records that had stats methods in supp material, other observations about those excluded at second stage filter]
+Search results varied by journal volume (Figure \@ref(fig:plos-n)A). The total number of API search results peaked at volumes 8 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`) and 9 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in PLOS ONE over the same timeframe. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`). [TODO: breakdown of number of records that had stats methods in supp material, other observations about those excluded at second stage filter]
 
-The median length of statistical methods sections was `r n.words[['med']]` words (IQR: `r n.words[['q1']]` to `r n.words[['q3']]` words) (Figure 1B). `r n.extremes[['morethan500']]` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r n.extremes[['lessthan50']]` articles (`r p.extremes[['lessthan50']]`%) had a statistical methods section of 50 words or less, equal to the length of this paragraph.
+The median length of statistical methods sections was `r n.words[['med']]` words (IQR: `r n.words[['q1']]` to `r n.words[['q3']]` words) (Figure \@ref(fig:plos-n)B). `r n.extremes[['morethan500']]` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r n.extremes[['lessthan50']]` articles (`r p.extremes[['lessthan50']]`%) had a statistical methods section of 50 words or less, equal to the length of this paragraph.
 
 All papers included Biology and life sciences (n = `r n.biology`), Earth sciences
 (n = `r n.earth`) and/or Computer and information sciences (n = `r n.computer`) within their top 3 subject classifications
-(Figure 1C).
+(Figure \@ref(fig:plos-n)C).
 
-```{r,fig.width=10,fig.cap="\\label{fig:plot-5-topics}Five topic solution from clustering algorithm"}
 
-include_graphics("figures/plosone.5topics.jpg")
 
-```
-
-```{r,fig.width=10,fig.cap="\\label{fig:plot-10-topics}Ten topic solution from clustering algorithm"}
+```{r,fig.width=10,fig.align="center",fig.cap="\\label{fig:plot-10-topics}Topic clouds summarising common terms in PLOS ONE statistical methods sections assuming ten clusters"}
 
 include_graphics("figures/plosone.10topics.jpg")
 
 ```
 
-Classifying statistical methods sections into two clusters showed a general split between means-based testing and model-based analysis. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure - Silhouette + between- & within-cluster dispersions). This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. To examine the effect of increasing the number of clusters on cluster content, we examined themes present among smaller clusters under five-topic (\@ref(fig:plot-5-topics)) and ten-topic (\@ref(fig:plot-10-topics) solutions. Examples of content among top matches for each topic are presented in Table X.
+We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. 
 
-Topic 1 had the smallest number of unique terms under both five (n = 12,531; 54,780 unique terms) and ten (n = 3,775; 24,686 unique terms) topic solutions. Sections assigned to Topic 1 focused on the use of Student's t-test followed by statements of statistical significance. Under the ten topic solution, Topic 1 was split into two clusters based on the use of 5% (Topic 1: n = 3,775) versus multiple thresholds for declaring statistical significance (Topic 9: n = 6,104).
+Figure \@ref(fig:plot-10-topics) displays topic clouds based on ten clusters. General themes across topics reflected the use of statistical software, between-group hypothesis testing, definitions of statistical significance and more advanced statistical methods.
 
-Two topics concentrated on statistical software representing 26% and 17% of all statistical methods sections under five and ten topic solutions. Review of top matching articles assigned to Topic 3 (Prism GraphPad) revealed evidence of boilerplate text, with many omitting details about statistical methods used. For sections citing the use of SPSS, increasing the number of clusters appeared to isolate references to software only versus articles that provided further details on statistical methods used.
+Two topics reflected the use of statistical software: Prism GraphPad (Topic 3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). Manual review of top matching sections assigned to Topic 3 showed evidence of boilerplate text. Out of the top 10 matches, 9 did not specify which statistical methods were used.
 
-Topic 4 was characterised by the use descriptive statistics followed by between-group testing including post-hoc multiple comparisons. Descriptive statistics were commonly reported as means with standard deviations or standard errors. Related topics focused on analysis of experimental designs (Topic 10: n = 4,664) and two-group analyses only (Topic 6: n = 4,746).
+___
+**Box 1: Examples of boilerplate text (Statistical software)**
+
+Topic 3
+
+* *graphpad prism (graphpad software, san diego, ca) was used for all analyses.*
+* *all statistical analysis was performed using the graphpad prism software.*
+* *statistical analysis were done using graphpad prism software (graphpad software, inc., la jolla, ca).*
+
+Topic 5
+
+* *all statistical analyses were conducted in spss 19 (spss inc., chicago, il, usa).*
+* *all statistical analyses were performed using the spss version 15 for windows (spss inc., chicago, il, usa). a p-value less than 0.05 was considered a significant difference.*
+* *statistical analysis was performed using the spss 17.0 software package (spss, chicago, il, usa). all data were analyzed using t tests, values of p < 0.05 were considered significant.*
+
+___
+
+Evidence of boilerplate text was identified among topics that focused two-group hypothesis testing as the only statistical method used (Box 2). Topic 1 reflected applications of Student's t-test assuming a 5% level of statistical significance (n = 3,775). Similar methods sections were identified under Topic 9 (n = 6,104) but were differentiated by multiple thresholds for declaring statistical significance: \*p<0.05, \*\*p<0.01 and \*\*\*p<0.001.
+
+___
+**Box 2: Examples of boilerplate text (Between-group hypothesis testing, two groups)**
+
+Topic 1
+
+* *student’s t-test was used for statistical analysis. a p value of <0.05 was considered statistically significant.*
+* *statistical analysis was performed using student`s t-test. a p-value <0.05 was considered to be statistically significant.*
+* *statistical analysis was performed using a two-tailed student’s t-test, and p-values <0.05 were considered statistically significant.*
+
+Topic 9
+
+* *statistical significance was determined by students t-tests.* \**p<0.05,* \*\* *p = <0.01,* \*\*\* *p<0.001.*
+* *statistical analyses were performed using the nonparametric mann-whitney test. differences were considered significant for* \**p<0.05,* \*\* *p<0.01, \*\*\* *p<0.001.*
+* *comparisons between two groups were performed by student’s test. statistical significance was defined as \**p<0.05;* \*\* *p<0.01;* \*\*\* *p<0.001.*
+
+___
+
+Expanded descriptions of between-group analysis were found in three topics (4, 6 and 10), varying based on method(s) used and study design (Box 3). [TODO: link to topics 1 and 9 here]Statistical methods sections associated with Topic 4 (n = 10,163) combined descriptive statistics followed by Student's t-test and/or one-way analysis of variance with post-hoc multiple comparisons.  Descriptive statistics were commonly reported as means with standard deviations or standard errors. Topic 6 (n = 4,746) followed a similar template minus multiple comparisons. Topic 10 (Topic 10: n = 4,664) concentrated on between-group analysis applied to experimental replicates.
 
 Remaining topics reflected applications of meta-analysis (Topic 7: n = 5,165), regression/survival analysis (Topic 2: n = 19,478) and larger sections that combined data processing and analysis (Topic 8: n = 38,183) [TODO: more work needed on this]
-
-and  Larger clusters focused on more advanced statistical methods
 
 ## ANZCTR
 

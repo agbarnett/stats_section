@@ -229,9 +229,11 @@ Topic 9
 
 ___
 
+
 Expanded descriptions of between-group analysis were found in three topics (4, 6 and 10), varying based on method(s) used and study design (Box 3 - include?). Sections assigned to these topics appeared to follow the general template of reporting descriptive statistics followed by methods of hypothesis testing depending on the number of groups being compared. Sections strongly associated with Topic 6 (n = 4,746) combined descriptive statistics with follow-up testing of group differences by Student's t-test, Mann Whitney U or one-way analysis of variance. Descriptive statistics were commonly reported as means with standard deviations or standard errors. Topic 10 (n = 4,664) reported similar methods applied to the analysis of replicates obtained under experimental designs. Variations to descriptions of one-way analysis of variance were identified under Topic 4 (n = 10,163), with an emphasis on post-hoc multiple comparisons.
 
 Remaining topics reflected applications of meta-analysis (Topic 7: n = 5,165), regression modelling (Topic 2: n = 19,478) and larger sections that reported data processing and statistical methods within the same section (Topic 8: n = 38,183). Top matches for Topic 2 shared features of the 'describe-compare' template seen in other topics, expanded to include details of multivariable regression modelling. Examples of multivariable models were (stepwise) logistic regression and cox proportional hazards regression.
+
 
 ## ANZCTR
 

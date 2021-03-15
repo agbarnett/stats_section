@@ -6,7 +6,7 @@ output: bookdown::pdf_document2
 toc: false
 link-citations: yes
 bibliography: references.bib
-subtitle: An observational study of papers published in _PLOS ONE_.
+subtitle: An observational study of papers published in _PLOS ONE_ and studies posted to a trial registry.
 always_allow_html: yes
 ---
 
@@ -40,14 +40,18 @@ An ideal statistical analysis will use appropriate methods to create insights fr
 Many researchers lack adequate training in research methods, and statistics is something they do with trepidation and even ignorance [@Altman1994;@King2019]. 
 However, using the wrong statistical methods can cause real harm [@Altman1994] and bad statistical practices are being to used abet weak science [@Stark2018].
 Statistical mistakes are a key source of waste in research and partly explain the current reproducibility crisis in science [@Allison2016]. Even when the correct methods are used, many researchers fail to describe them adequately, making it difficult to reproduce the results [@Ernst2017;@Zhou2018].
-
-The International Committee of Medical Journal Editors recommend that researchers should: “Describe statistical methods with enough detail to enable a knowledgeable reader with access to the original data to judge its appropriateness for the study and to verify the reported results” [@ICMJE2019]. Although the general lack of statistical understanding from both authors and reviewers means this recommendation may not be checked.
+Poor statistical methods might not be caught by reviewers, as they may not be qualified to judge the statistics.
 A recent survey of editors found that only 23% of health and medical journals used expert statistical review for all articles [@Hardwicke2020], which was little different from a survey from 22 years ago [@Goodman1998].
 
-Two statisticians on this paper (AB and NW) have heard researchers admit that they sometimes copy-and-paste their statistical methods sections from other papers, regardless of whether they are appropriate. 
+There is guideance for researchers on how to write up their statistical methods and results.
+The International Committee of Medical Journal Editors recommend that researchers should: “Describe statistical methods with enough detail to enable a knowledgeable reader with access to the original data to judge its appropriateness for the study and to verify the reported results” [@ICMJE2019]. 
+More detailed guideance is given by the SAMPL and EQUATOR guidelines [@Lang2013;@Altman2016] with the latter covering all apsects of the paper. Both of these guidelines were led by Doug Altman, who spoke often and for many years about the need for better statistical reporting. 
+The awareness of these guidelines could likely be improved. There were 256 Google Scholar citations to the SAMPL paper (as at 15~March~2021) which is a good citation statistic for most papers, but feels low considering the millions of papers that use statistical analysis.
+<!--- Although the general lack of statistical understanding from both authors and reviewers means this recommendation may not be checked. --->
+
+Two statisticians on this paper (AB and NW) have heard researchers admit that they have copied-and-pasted their statistical methods sections from other papers, regardless of whether they are appropriate. 
 The aim of this paper is to use text-mining methods to estimate the extent that researchers are using cut-and-paste or 'boilerplate' statistical methods sections.
 Use of these methods sections indicates that little thought has gone into the statistical analysis.
-
 
 # Methods
 
@@ -57,9 +61,10 @@ We used two openly available data sources to find statistical methods sections.
 
 ### Public Library of Science (PLOS ONE)
 
-_PLOS ONE_ is a large open access journal that publishes original research across a wide range of scientific fields. Articles must be in English. Article submissions are handled by an academic editor who selects peer reviewers based on their self-nominated area(s) of expertise. Submissions do not undergo formal statistical review. Instead, reviewers are required to assess submissions against several publication criteria, including whether: “Experiments, statistics, and other analyses are performed to a high technical standard and are described in sufficient detail”. Authors are encouraged to follow published reporting guidelines to ensure that chosen statistical methods are appropriate for the study design, and adequate details are provided to enable independent replication of results. Reporting guidelines are available from the EQUATOR network which has developed guidelines for study designs commonly used in health research, and these guidelines were developed to tackle poor statistical application and reporting in health and medical journals [@Altman2016].
+_PLOS ONE_ is a large open access journal that publishes original research across a wide range of scientific fields. Articles must be in English. Article submissions are handled by an academic editor who selects peer reviewers based on their self-nominated area(s) of expertise. Submissions do not undergo formal statistical review. Instead, reviewers are required to assess submissions against several publication criteria, including whether: “Experiments, statistics, and other analyses are performed to a high technical standard and are described in sufficient detail”. Authors are encouraged to follow published reporting guidelines such as EQUATOR, to ensure that chosen statistical methods are appropriate for the study design, and adequate details are provided to enable independent replication of results. 
+<!--- Reporting guidelines are available from the EQUATOR network which has developed guidelines for study designs commonly used in health research, and these guidelines were developed to tackle poor statistical application and reporting in health and medical journals [@Altman2016]. --->
 
-All _PLOS ONE_ articles are freely accessible via the PLOS Application Programming Interface (API). This functionality enabled us to conduct semi-automated searches of full-text articles and analyse data on individual records, including text content and general attributes such as publication date and field(s) of research. To find papers with a statistical methods section we used targeted API searches followed by article filtering based on section headings. The data were downloaded on 3 July 2020.
+All _PLOS ONE_ articles are freely accessible via the PLOS Application Programming Interface (API). This enabled us to conduct semi-automated searches of full-text articles and analyse data on individual records, including text content and general attributes such as publication date and field(s) of research. To find papers with a statistical methods section we used targeted API searches followed by article filtering based on section headings. The data were downloaded on 3 July 2020.
 
 _Step 1_: Targeted API searches. API searches were completed using the R package ‘rplos’ [@rplos]. Search queries targeted the presence of analysis-related terms anywhere in the article. Search terms combined the words “data” or “statistical” with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Search terms were intended to be broad whilst keeping search results to a manageable number for full-text review (see Step 2). By allowing terms to appear anywhere within the article, we accounted for the possibility of relevant text being placed in different sections, for example, in the _Material and Methods_ section versus _Results_. Search results were indexed by a unique Digital Object Identifier (DOI). Attribute data collected per DOI included journal volume, subject classification(s) and total article views since publication.
 
@@ -67,23 +72,23 @@ _Step 2_: Partial matching on section headings. Full text XML data for all searc
 
 ### Australia and New Zealand Clinical Trials Registry (ANZCTR)
 
-The ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting; observational studies can also be registered. All studies registered on ANZCTR are publicly available and can be searched via an online portal (https://www.anzctr.org.au/). 
+The ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting; observational studies can also be registered. All studies registered on ANZCTR are publicly available and can be searched via an online portal (https://www.anzctr.org.au). 
 <!--- Researchers responsible for overseeing a clinical trial are expected to register full details before commencing participant enrolment. --->
-Details required for registration follow a standardised template (reference or supp file), which covers participant eligibility, the intervention(s) being evaluated, study design and outcomes. Researchers are asked to provide a "brief description" of the sample size calculations, statistical methods and planned analyses, although this section is not compulsory [@ANZCTR]. The information provided must be in English. Studies are reviewed by ANZCTR staff for completeness of key information, which does not include the completeness of the statistical methods sections. Studies are not peer reviewed. 
+Details required for registration follow a standardised template [@ANZCTR], which covers participant eligibility, the intervention(s) being evaluated, study design and outcomes. Researchers are asked to provide a "brief description" of the sample size calculations, statistical methods and planned analyses, although this section is not compulsory [@ANZCTR]. The information provided must be in English. Studies are reviewed by ANZCTR staff for completeness of key information, which does not include the completeness of the statistical methods sections. Studies are not peer reviewed. 
 <!---Upon successful registration, the trial is assigned a unique registration number for use in future reporting in scientific publications. --->
 
 All studies available on ANZCTR were downloaded on 1 February 2020 in XML format. 
 We used all the text available in the "Statistical methods" section. We also collated basic information about the study including the study type (interventional or observational), submission date, number of funders and target sample size. These variables were chosen as we believed they might influence the completeness of the statistical methods section, because we expected larger studies and those with funding to be more complete, and we also were interested in changes over time.
 Studies prior to 2013 were excluded as the statistical methods section appeared to be introduced in 2013.
-Some studies were first registered on the alternative trial database _clinicaltrials.gov_ and then also posted to ANZCTR. We excluded these studies because they almost all had no completed statistical methods section as this requested by _clinicaltrials.gov_.
+Some studies were first registered on the alternative trial database _clinicaltrials.gov_ and then also posted to ANZCTR. We excluded these studies because they almost all had no completed statistical methods section as this section is not included in _clinicaltrials.gov_.
 
 ## Full-text processing
 
-Text cleaning aimed to standardise notation and statistical terminology, whilst minimising changes to article style and formatting. Full details of text cleaning steps undertaken and corresponding R code are provided in Supplementary File X.
+Text cleaning aimed to standardise notation and statistical terminology, whilst minimising changes to article style and formatting. Full details of the text cleaning steps  and corresponding _R_ code are provided in Supplementary File X.
 
-Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode characters corresponding to $\theta$ (<U+03B8>) was replaced with ‘theta’. Similarly, common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were converted into plain text, using functions available in the ‘textclean’ package [@textclean]. General formatting was removed, this included carriage returns, punctuation marks, in-text references (e.g. "[42]") centred equations, and other non-ascii characters. Text contained inside brackets was retained in the dataset to maximise content for analysis, with brackets removed.
+Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode characters corresponding to $\theta$ (<U+03B8>) were replaced with ‘theta’. Similarly, common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were converted into plain text, using functions available in the ‘textclean’ package [@textclean]. General formatting was removed, this included carriage returns, punctuation marks, in-text references (e.g. "[42]") centred equations, and other non-ascii characters. Text contained inside brackets was retained in the dataset to maximise content for analysis, with brackets removed.
 
-We compiled an extensive list of statistical terms to standardise descriptions of statistical methods reported across both datasets. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of statistics reference textbooks [ref]. The final list is provided as Supplementary Material. Possible variants including plurals (e.g. ‘chi-squares’) unhyphenated (e.g ‘chi square’) and combined (e.g. ‘chisquare’) terms were transformed to singular, hyphenated form (e.g ‘chi-square’). Common statistical tests were also hyphenated (e.g. ‘hosmer lemeshow’ to ‘hosmer-lemeshow’).
+We compiled an extensive list of statistical terms to standardise descriptions of statistical methods reported across both datasets. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of three statistics textbooks [@Dobson2018,Diggle2013,Bland2015]. The final list is provided as Supplementary Material. Plurals (e.g., ‘chi-squares’) unhyphenated (e.g., ‘chi square’) and combined (e.g. ‘chisquare’) terms were transformed to singular, hyphenated form (e.g., ‘chi-square’). Common statistical tests were also hyphenated (e.g., ‘hosmer lemeshow’ to ‘hosmer-lemeshow’).
 
 As a final step, common stop words including pronouns, contractions and selected prepositions were removed. We retained selected stop words that, if excluded, may have changed the context of statistical method(s) being described, for example ‘between’ and ‘against’.
 

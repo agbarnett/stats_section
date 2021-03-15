@@ -229,9 +229,9 @@ Topic 9
 
 ___
 
-Expanded descriptions of between-group analysis were found in three topics (4, 6 and 10), varying based on method(s) used and study design (Box 3). [TODO: link to topics 1 and 9 here]Statistical methods sections associated with Topic 4 (n = 10,163) combined descriptive statistics followed by Student's t-test and/or one-way analysis of variance with post-hoc multiple comparisons.  Descriptive statistics were commonly reported as means with standard deviations or standard errors. Topic 6 (n = 4,746) followed a similar template minus multiple comparisons. Topic 10 (Topic 10: n = 4,664) concentrated on between-group analysis applied to experimental replicates.
+Expanded descriptions of between-group analysis were found in three topics (4, 6 and 10), varying based on method(s) used and study design (Box 3). Topics appeared to follow the general template of reporting descriptive statistics followed by methods of hypothesis testing depending on the number of groups being compared. Sections strongly associated with Topic 6 (n = 4,746) combined descriptive statistics with follow-up testing of group differences by Student's t-test, Mann Whitney U or one-way analysis of variance. Descriptive statistics were commonly reported as means with standard deviations or standard errors. Topic 10 (n = 4,664) reported similar methods applied to replicates from experimental designs. Variations to descriptions of one-way analysis of variance were identified under Topic 4 (n = 10,163) which emphasised the use of post-hoc multiple comparisons.
 
-Remaining topics reflected applications of meta-analysis (Topic 7: n = 5,165), regression/survival analysis (Topic 2: n = 19,478) and larger sections that combined data processing and analysis (Topic 8: n = 38,183) [TODO: more work needed on this]
+Remaining topics reflected applications of meta-analysis (Topic 7: n = 5,165), regression/survival analysis (Topic 2: n = 19,478) and larger sections that combined data processing and analysis (Topic 8: n = 38,183). Top matches for Topic 2 shared features of the 'describe-compare' template seen in other topics, followed by details of multivariable regression modelling. Examples of multivariable models included (stepwise) logistic regression and cox proportional hazards regression.
 
 ## ANZCTR
 

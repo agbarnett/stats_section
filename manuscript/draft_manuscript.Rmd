@@ -61,7 +61,9 @@ We used two openly available data sources to find statistical methods sections.
 
 ### Public Library of Science (PLOS ONE)
 
-_PLOS ONE_ is a large open access journal that publishes original research across a wide range of scientific fields. Articles must be in English. Article submissions are handled by an academic editor who selects peer reviewers based on their self-nominated area(s) of expertise. Submissions do not undergo formal statistical review. Instead, reviewers are required to assess submissions against several publication criteria, including whether: “Experiments, statistics, and other analyses are performed to a high technical standard and are described in sufficient detail”. Authors are encouraged to follow published reporting guidelines such as EQUATOR, to ensure that chosen statistical methods are appropriate for the study design, and adequate details are provided to enable independent replication of results. 
+_PLOS ONE_ is a large open access journal that publishes original research across a wide range of scientific fields. Articles must be in English. Article submissions are handled by an academic editor who selects peer reviewers based on their self-nominated area(s) of expertise. Submissions do not undergo formal statistical review. Instead, reviewers are required to assess submissions against several publication criteria, including whether: “Experiments, statistics, and other analyses are performed to a high technical standard and are described in sufficient detail”. All reviewers are asked the question: "Has the statistical analysis been performed appropriately and rigorously?", with the possible responses of "Yes", "No" and "I don't know".
+
+Authors are encouraged to follow published reporting guidelines such as EQUATOR, to ensure that chosen statistical methods are appropriate for the study design, and adequate details are provided to enable independent replication of results. 
 <!--- Reporting guidelines are available from the EQUATOR network which has developed guidelines for study designs commonly used in health research, and these guidelines were developed to tackle poor statistical application and reporting in health and medical journals [@Altman2016]. --->
 
 All _PLOS ONE_ articles are freely accessible via the PLOS Application Programming Interface (API). This enabled us to conduct semi-automated searches of full-text articles and analyse data on individual records, including text content and general attributes such as publication date and field(s) of research. To find papers with a statistical methods section we used targeted API searches followed by article filtering based on section headings. The data were downloaded on 3 July 2020.
@@ -94,14 +96,6 @@ As a final step, common stop words including pronouns, contractions and selected
 
 <!-- Questions: -->
 
-<!-- * What questions are asked of PLOS ONE Reviewers? -->
-
-<!-- - Is the manuscript technically sound, and do the data support the conclusions? -->
-<!-- - Has the statistical analysis been performed appropriately and rigorously? -->
-<!-- - Does the manuscript adhere to the PLOS Data Policy? -->
-<!-- - Is the manuscript presented in an intelligible fashioin and written in standard English? -->
-
-
 <!-- * Reference updates to stats reporting guidelines; e.g see: -->
 
 <!-- - https://everyone.plos.org/2019/09/26/new-plos-one-statistical-reporting-guidelines/. -->
@@ -113,12 +107,13 @@ As a final step, common stop words including pronouns, contractions and selected
 
 ## Missing statistical methods sections
 
-The statistical methods section for the ANZCTR data was somtimes missing and so we examined if there were particular studies where this section was more likely to be missing. 
+The statistical methods section for the ANZCTR data was missing for some studies and we examined if there were particular studies where this section was more likely to be missing. 
+We used four independent variables of date, study type (observational or interventional), number of funders and target sample size. 
 We used a logistic regression model fitted using a Bayesian paradigm. A small number of sections were labelled as "Not applicable", "Nil" or "None" and we changed these to missing. 
 
 # Results
 
-## PLOS ONE
+## _PLOS ONE_
 
 ```{r}
 load('total.records.plos.rda')
@@ -127,7 +122,6 @@ n.include = total.records[[1]] %>% filter(stage=='Included in analysis') %>% pul
 perc.include = round(100*n.include/n.api)
 min.perc.stats = total.records[[2]] %>% filter(percentage==min(percentage)) %>% select(volume,percentage)
 max.perc.stats = total.records[[2]] %>% filter(percentage==max(percentage)) %>% select(volume,percentage)
-
 ```
 
 ```{r}
@@ -135,12 +129,10 @@ load('wordcount.plos.rda')
 n.words = wordcounts %>% summarise(med = median(words),q1=quantile(words,.25),q3=quantile(words,.75))
 p.extremes = wordcounts %>% summarise(morethan500 = round(100*mean(words>500)),lessthan50=round(100*mean(words<50)))
 n.extremes = wordcounts %>% summarise(morethan500 = sum(words>500),lessthan50=sum(words<50))
-
 ```
 
 
-
-```{r,fig.width=10,fig.height=12,fig.cap='\\label{fig:plos-n}Search results by PLOS ONE volume (1st row); word count per statistical methods section included in analysis (n = 111,731; 2nd row); subject classifications assigned to full-text records included in analysis (3rd row)'}
+```{r,fig.width=10,fig.height=12,fig.cap='\\label{fig:plos-n}Search results by _PLOS ONE_ volume (1st row); word count per statistical methods section included in analysis (n = 111,731; 2nd row); subject classifications assigned to full-text records included in analysis (3rd row)'}
 to_plot = total.records[[2]] %>% select(-percentage) %>% gather(variable,value,-volume) %>%
   mutate(variable=factor(variable,levels=c('API','Included in analysis')))
 
@@ -164,7 +156,7 @@ g3 = ggplot(to_plot.bar,aes(x=subject_level_name,y=value/10000,fill=`Top 3 subje
 legend.direction = 'horizontal',axis.text = element_text(size=12),axis.text.x = element_text(size=12),axis.text.y = element_text(size=12))
 
 ggarrange(g1,g2,g3,nrow=3,labels=LETTERS[1:3])
-  
+ 
 
 n.top3 = to_plot %>% filter(n==Yes)
 n.biology = to_plot %>% filter(subject_level_name=='Biology and life sciences') %>% pull(n)
@@ -173,20 +165,17 @@ n.computer = to_plot %>% filter(subject_level_name=='Computer and information sc
 
 ```
 
+API searches returned `r format(n.api,big.mark=',')` unique records, of which `r format(n.include,big.mark=',')` (`r perc.include`%) included a statistical methods section based on our search criteria. 
 
-API searches returned `r n.api` unique records, of which `r n.include` (`r perc.include`%) included a statistical methods section based on our search criteria. 
+Search results varied by journal volume (Figure \@ref(fig:plos-n)A). The total number of API search results peaked at volumes 8 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`) and 9 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in _PLOS ONE_ over the same timeframe. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`). [TODO: breakdown of number of records that had stats methods in supp material, other observations about those excluded at second stage filter]
 
-Search results varied by journal volume (Figure \@ref(fig:plos-n)A). The total number of API search results peaked at volumes 8 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`) and 9 (n = `r total.records[[2]] %>% filter(volume==8) %>% pull(API)`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in PLOS ONE over the same timeframe. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`). [TODO: breakdown of number of records that had stats methods in supp material, other observations about those excluded at second stage filter]
+The median length of statistical methods sections was `r n.words[['med']]` words (IQR: `r n.words[['q1']]` to `r n.words[['q3']]` words) (Figure \@ref(fig:plos-n)B). `r format(n.extremes[['morethan500']],big.mark=',')` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r format(n.extremes[['lessthan50']],big.mark=',')` articles (`r p.extremes[['lessthan50']]`%) had a statistical methods section of 50 words or less, equal to the length of this paragraph.
 
-The median length of statistical methods sections was `r n.words[['med']]` words (IQR: `r n.words[['q1']]` to `r n.words[['q3']]` words) (Figure \@ref(fig:plos-n)B). `r n.extremes[['morethan500']]` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r n.extremes[['lessthan50']]` articles (`r p.extremes[['lessthan50']]`%) had a statistical methods section of 50 words or less, equal to the length of this paragraph.
-
-All papers included Biology and life sciences (n = `r n.biology`), Earth sciences
-(n = `r n.earth`) and/or Computer and information sciences (n = `r n.computer`) within their top 3 subject classifications
+All papers included Biology and life sciences (n = `r format(n.biology,big.mark=',')`), Earth sciences
+(n = `r format(n.earth,big.mark=',')`) and/or Computer and information sciences (n = `r format(n.computer,big.mark=',')`) in their top 3 subject classifications
 (Figure \@ref(fig:plos-n)C).
 
-
-
-```{r,fig.width=10,fig.align="center",fig.cap="\\label{fig:plot-10-topics}Topic clouds summarising common terms in PLOS ONE statistical methods sections assuming ten clusters"}
+```{r,fig.width=10,fig.align="center",fig.cap="\\label{fig:plot-10-topics}Topic clouds summarising common terms in _PLOS ONE_ statistical methods sections assuming ten clusters"}
 
 include_graphics("figures/plosone.10topics.jpg")
 
@@ -196,7 +185,7 @@ We applied the clustering algorithm to the cleaned dataset, varying the number o
 
 Figure \@ref(fig:plot-10-topics) displays topic clouds based on ten clusters. General themes reflected the use of statistical software, between-group hypothesis testing, definitions of statistical significance and regression modelling.
 
-Two topics reflected the use of statistical software: Prism GraphPad (Topic 3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). Manual review of top matching sections assigned to Topic 3 showed evidence of boilerplate text. Out of the top 10 matches, 9 did not specify which statistical methods were used.
+Two topics reflected the use of statistical software: Prism GraphPad (Topic 3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). Manual review of top matching sections assigned to Topic 3 showed strong evidence of boilerplate text. Out of the top 10 matches, 9 did not specify which statistical methods were used, but did give the software.
 
 ___
 **Box 1: Examples of boilerplate text (Statistical software)**
@@ -215,7 +204,7 @@ Topic 5
 
 ___
 
-Evidence of boilerplate text was identified among topics that focused on two-group hypothesis testing as the only statistical method used (Box 2). Topic 1 reflected applications of Student's t-test assuming a 5% level of statistical significance (n = 3,775). Similar methods sections were identified under Topic 9 (n = 6,104) but were differentiated by multiple thresholds for declaring statistical significance: \*p<0.05, \*\*p<0.01 and \*\*\*p<0.001.
+Boilerplate text was identified among topics that focused on two-group hypothesis testing as the only statistical method used (Box 2). Topic 1 reflected applications of Student's t-test assuming a 5% level of statistical significance (n = 3,775). Similar methods sections were identified under Topic 9 (n = 6,104) but were differentiated by multiple thresholds for declaring statistical significance: \*p<0.05, \*\*p<0.01 and \*\*\*p<0.001.
 
 ___
 **Box 2: Examples of boilerplate text (Between-group hypothesis testing, two groups)**

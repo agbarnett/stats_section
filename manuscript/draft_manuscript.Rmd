@@ -189,7 +189,7 @@ Figure \@ref(fig:plot-10-topics) displays topic clouds based on ten clusters. Ge
 Two topics reflected the use of statistical software: Prism GraphPad (Topic 3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). Manual review of top matching sections assigned to Topic 3 showed strong evidence of boilerplate text. Out of the top 10 matches, 9 did not specify which statistical methods were used, but did give the software.
 
 ___
-**Box 1: Examples of boilerplate text (Statistical software)**
+**Box 1: Examples of boilerplate text from _PLOS ONE_ (Statistical software)**
 
 Topic 3
 
@@ -208,7 +208,7 @@ ___
 Boilerplate text was identified among topics that focused on two-group hypothesis testing as the only statistical method used (Box 2). Topic 1 reflected applications of Student's t-test assuming a 5% level of statistical significance (n = 3,775). Similar methods sections were identified under Topic 9 (n = 6,104) but were differentiated by multiple thresholds for declaring statistical significance: \*p<0.05, \*\*p<0.01 and \*\*\*p<0.001.
 
 ___
-**Box 2: Examples of boilerplate text (Between-group hypothesis testing, two groups)**
+**Box 2: Examples of boilerplate text from _PLOS ONE_ (Between-group hypothesis testing, two groups)**
 
 Topic 1
 
@@ -252,7 +252,18 @@ ftab
 
 Some of the non-missing statistics sections were only one word, including "ANOVA", "t-test", "SPSS" and even "SSPS". The median length of the section was 129 words with an inter-quartile range of 71 to 219 words.
 
-The clustering algorithm found groups that were purely sample size calculations (topic 2), pilot studies (topic 5) and repeated measures ANOVA (topic 10). There were cases where the exact same method section had been ...
+The clustering algorithm found groups that were purely sample size calculations (topic 2), pilot studies (topic 5), safety/tolerability studies (topic 6) and repeated measures ANOVA (topic 10). There were cases where the exact same method section had been ...
+
+We also found evidence of 'boilerplate' sections clustered as topic 3, example text 
+
+___
+**Box x: Examples of boilerplate text from ANZCTR**
+
+Topic 3
+
+* "Shapiro Wilk test was used as normality test. Continuous variables were compared using Student t-test and Mann-Whitney U test when the data were not normally distributed. Categorical variables were compared using Pearson’s chi-squared test and Fisher’s exact test. Paired data were analyzed using Paired t-test and Wilcoxon signed rank test when data were not normally distributed"
+* "Comparisons between categorical variables will be made either using chi square or Fisher exact test. Continuous data will be compared using the Student’s t-test or Mann-Whitney U test. Two sided p values of less than 0.05 will be considered statistically significant."
+___
 
 * Final sample size
 
@@ -260,7 +271,9 @@ The clustering algorithm found groups that were purely sample size calculations 
 
 Many researchers are using lazy practice by copying a standard "boilerplate" statistical methods section, likely cut-and-pasting from other researchers or projects. This is a strong sign of the ritualistic practice of statistics where researchers go through the motions rather than using conscientious practice [@Stark2018]. This is concerning because using the wrong statistical methods can reduce the potential of study, or worse, invalidate the entire study. Poor statistical practice is a key driver of the ongoing reproducibility crisis in science [@Ioannidis2014].
 
-The first line in many statistical analysis sections in _PLOS ONE_ was the software used and some entire sections in ANZCTR only stated the software, implying that the software is the most important detail. As Doug Altman said, "Many people think that all you need to do statistics is a computer and appropriate software" [@Altman1994]. This is not the case, and whilst it is important for researchers to mention the software and version used for reproducibility purposes, it is a minor detail compared with detailing what methods were used and why.
+The first line in many statistical analysis sections in _PLOS ONE_ was the software used and some entire sections in ANZCTR only stated the software, implying that the software is the most important detail. As Doug Altman said, "Many people think that all you need to do statistics is a computer and appropriate software" [@Altman1994]. This is far from the truth, and whilst it is important for researchers to mention the software and version used for reproducibility purposes, it is a minor detail compared with detailing what methods were used and why.
+
+A frequent theme in the boilerplate statistical methods is the definition of statistical significance, nearly always using a p-value at the 5% level. This widespread use of statistical significance is troubling giving the bright-line thinking it engenders [mcshane] and the common misinterpretations of p-values [goodman].
 
 Despite the extensive array of statistical tests available, many authors are reporting the same few methods.
 
@@ -277,4 +290,3 @@ We only examined one journal and one trial registry and hence our results may no
 We searched the full text of _PLOS ONE_ papers but not the supporting information which may contain statistical methods sections for some papers. The search terms we used to find statistical methods appeared in the supporting information titles for xxx papers (x%). We did not include the supporting information because it is less structured than the paper and could be in PDF or Word format.
 
 # References
-

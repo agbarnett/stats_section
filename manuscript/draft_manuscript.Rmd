@@ -279,6 +279,10 @@ Despite the extensive array of statistical tests available, many authors are rep
 
 One reason these inadequate sections get published is that most journals do not use statistical reviewers, despite empirical evidence showing they improve manuscript quality [@Hardwicke2020]. 
 
+A related paper has criticised vague statistical methods sections because they deprive readers and reviewers for the opportunity to confirm that the appropriate methods were used [@Weissgerber2018]. These authors checked hundreds of papers using ANOVA and found that 95\% did not contain the information needed to determine what type of ANOVA was performed. This lack of information could well be because the authors used a boilerplate statistical methods section that was missing key details.
+
+If authors shared their code then this would provide an alternative route for checking what statistical methods were used. This is not a perfect solution, as we still want authors to accurately report their methods, but it does increase transparency. However, a recent paper found that code sharing was very low in biomedical papers, with just 2\% of a sample of over 6,000 papers sharing code [@Serghiou2021].
+
 ## Limitations
 
 We did not check whether papers used the correct methods, and for some simple studies a 'boilerplate' statistical methods section would be fine.

@@ -38,7 +38,7 @@ g.theme = theme_bw()+theme(legend.position = 'top',legend.direction = 'horizonta
 An ideal statistical analysis will use appropriate methods to create insights from the data and inform the research questions. Unfortunately many current statistical analyses are far from ideal, with many researchers using the wrong methods, misinterpreting the results, or failing to adequately check their assumptions [@Goodman2008;@Leek2017]. Some researchers take a "mechanistic" approach to statistics, copying the few methods they know regardless of their appropriateness, and then going through the motions of the analysis [@Stark2018]. 
 
 Many researchers lack adequate training in research methods, and statistics is something they do with trepidation and even ignorance [@Altman1994;@King2019]. 
-However, using the wrong statistical methods can cause real harm [@Altman1994] and bad statistical practices are being to used abet weak science [@Stark2018].
+However, using the wrong statistical methods can cause real harm [@Altman1994;@Brown2018] and bad statistical practices are being to used abet weak science [@Stark2018].
 Statistical mistakes are a key source of waste in research and partly explain the current reproducibility crisis in science [@Allison2016]. Even when the correct methods are used, many researchers fail to describe them adequately, making it difficult to reproduce the results [@Ernst2017;@Zhou2018].
 Poor statistical methods might not be caught by reviewers, as they may not be qualified to judge the statistics.
 A recent survey of editors found that only 23% of health and medical journals used expert statistical review for all articles [@Hardwicke2020], which was little different from a survey from 22 years ago [@Goodman1998].

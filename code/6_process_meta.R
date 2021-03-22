@@ -107,3 +107,56 @@ subject_patterns = distinct(doi_subject_matrix %>% select(-doi))
 
 hc = hclust(dist(subject_patterns))
 plot(hc)
+
+#excluded dois
+excluded_doi = setdiff(meta_dat_allrecords[['doi']],doi_list[['doi']]) %>% unique()
+#sample 100
+excluded_doi_sample100 = sample(excluded_doi,100)
+included_doi_sample100 = sample(doi_list[['doi']],100)
+
+prefix = c('data','statistical')
+suffix = c('analysis','analyses','method','methodology','modelling')
+search_terms = apply(expand.grid(prefix,suffix),1,paste,collapse=' ')
+q = str_c(search_terms,collapse='|')
+heading_search_result = list()
+library(rplos)
+library(XML)
+for (i in 1:length(excluded_doi)){
+  skip_to_next <- FALSE
+  tryCatch(plos_fulltext(excluded_doi[i]), error = function(e) { skip_to_next <<- TRUE})
+  if(skip_to_next) { next } 
+  
+  full_text <- plos_fulltext(excluded_doi[i])
+  full_text_xml <- xmlParse(full_text,asText=T,useInternalNodes = T,encoding='UTF-8')
+  methods_text = list()
+  node_info = getNodeSet(full_text_xml,"//sec")
+  
+  methods_text[['text_heading']] = sapply(node_info,xpathSApply,"./title",xmlValue)
+  methods_text[['text_heading']] =  unlist(as.character(methods_text[['text_heading']]))
+  
+  text_out = sapply(node_info,xpathSApply,"./p",xmlValue)
+  methods_text[['text_data']] = sapply(text_out,function(s) tolower(paste(s,collapse='')))
+  
+  if (!is.null(methods_text[['text_heading']]) & !is.null(methods_text[['text_data']])){
+    dat = do.call(cbind.data.frame,methods_text)
+    rownames(dat) <- NULL
+    dat = as_tibble(dat) %>% mutate_if(is.factor,as.character)
+    
+    #remove empty text fields
+    #dat = dat %>% filter(text_data!="")
+    
+    #filter to where original search terms appeared
+    heading_search_result[[i]] = dat %>% filter(grepl(q,ignore.case = T,text_data)|grepl(q,ignore.case = T,text_heading)) %>%
+      add_column(doi=excluded_doi[i],.before='text_heading')
+
+  }
+ 
+}
+
+
+exact_match = paste0('^',str_c(analysis_keywords,collapse = '$|^'),'$')
+stats_section_exact = stats_section %>% filter(grepl(exact_match,ignore.case = T,text_heading)) %>%
+  mutate(text_heading = tolower(text_heading))
+stats_section_exact %>% distinct(doi) %>% nrow()
+
+stats_section_exact %>% count(text_heading) %>% arrange(-n)

@@ -19,6 +19,7 @@ library(ggplot2)
 library(ggpubr)
 library(knitr)
 library(flextable)
+library(tidytext)
 panderOptions('table.emphasize.rownames', FALSE)
 panderOptions('keep.trailing.zeros', TRUE)
 panderOptions('table.split.table', Inf)
@@ -184,6 +185,17 @@ include_graphics("figures/plosone.10topics.jpg")
 ```
 
 We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. 
+
+
+```{r}
+load('plos.results.10topics.rda')
+
+ftab.plos = matches %>%
+  group_by(topic_id) %>% summarise(DOIs = n(),`Median word count` = median(words),Q1=quantile(words,.25),Q3=quantile(words,.75),.groups='drop') 
+
+flextable(ftab.plos)
+
+```
 
 Figure \@ref(fig:plot-10-topics) displays topic clouds based on ten clusters. Frequently occurring words reflected the use of statistical software (Topics 3 and 5), descriptive statistics (Topic 6), group based hypothesis testing (Topics 1 and 4) and definitions of statistical significance (Topics 1 and 9). Statistical methods sections associated with regression (Topic 2) and meta-analysis (Topic 7) were also identified. 
 

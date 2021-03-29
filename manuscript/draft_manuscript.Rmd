@@ -95,11 +95,11 @@ Some studies were first registered on the alternative trial database _clinicaltr
 We applied the same text cleaning to both data sources. 
 Text cleaning aimed to standardise notation and statistical terminology, whilst minimising changes to article style and formatting. _R_ code used for data extraction and cleaning is available from https://github.com/agbarnett/stats_section.
 
-Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode characters corresponding to $\theta$ (<U+03B8>) were replaced with ‘theta’. Similarly, common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were converted into plain text using the ‘textclean’ package [@textclean]. General formatting was removed, this included carriage returns, punctuation marks, in-text references (e.g. "[42]") centred equations, and other non-ascii characters. Text contained inside brackets was retained to maximise content for analysis, with brackets removed.
+Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode characters corresponding to $\theta$ (<U+03B8>) were replaced with ‘theta’. Similarly, common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were converted into plain text using the ‘textclean’ package [@textclean]. General formatting was removed, this included carriage returns, punctuation marks, in-text references (e.g. "[42]") centred equations, and other non-ASCII characters. Text contained inside brackets was retained to maximise content for analysis, with brackets removed.
 
-We compiled an extensive list of statistical terms to standardise descriptions of statistical methods reported across both datasets. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of three statistics textbooks [@Dobson2018,Diggle2013,Bland2015]. The final list is provided as Supplementary Material. Plurals (e.g., ‘chi-squares’) unhyphenated (e.g., ‘chi square’) and combined (e.g. ‘chisquare’) terms were transformed to singular, hyphenated form (e.g., ‘chi-square’). Common statistical tests were also hyphenated (e.g., ‘hosmer lemeshow’ to ‘hosmer-lemeshow’).
+We compiled an extensive list of statistical terms to standardise descriptions of statistical methods reported across both datasets. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of three statistics textbooks [@Dobson2018,@Diggle2013,@Bland2015]. The final list is provided as Supplementary Material. Plurals (e.g., ‘chi-squares’) unhyphenated (e.g., ‘chi square’) and combined (e.g. ‘chisquare’) terms were transformed to singular, hyphenated form (e.g., ‘chi-square’). Common statistical tests were also hyphenated (e.g., ‘hosmer lemeshow’ to ‘hosmer-lemeshow’).
 
-As a final step, common stop words including pronouns, contractions and selected prepositions were removed. We retained selected stop words that, if excluded, may have changed the context of statistical method(s) being described, for example ‘between’ and ‘against’.
+As a final step, common stop words including pronouns, contractions and selected prepositions were removed. We retained selected stop words that, if excluded, may have changed the context of statistical methods being described, for example ‘between’ and ‘against’.
 
 <!-- Questions: -->
 
@@ -111,6 +111,10 @@ As a final step, common stop words including pronouns, contractions and selected
 
 
 ## Clustering algorithm
+
+_Details to come_
+
+Results were transformed to lower case for the clustering, but examples are given using the original capitalisation.
 
 ## Missing statistical methods sections
 
@@ -141,13 +145,13 @@ n.extremes = wordcounts %>% summarise(morethan500 = sum(words>500),lessthan50=su
 
 ```{r,fig.width=10,fig.height=12,fig.cap='\\label{fig:plos-n}Search results by _PLOS ONE_ volume (1st row); word count per statistical methods section included in analysis (n = 111,731; 2nd row); subject classifications assigned to full-text records included in analysis (3rd row)'}
 to_plot = total.records[[2]] %>% select(-percentage) %>% gather(variable,value,-volume) %>%
-  mutate(variable=factor(variable,levels=c('API','Included in analysis')))
+  mutate(variable=factor(variable,levels=c('Retrieved from search','Included in analysis')))
 
 g1 = ggplot(to_plot,aes(x=volume,y=value,fill=variable))+geom_bar(stat='identity',position='dodge',width=0.9,colour='black')+scale_y_continuous('Total records',breaks=seq(0,20000,2500))+
   scale_x_continuous('Volume',breaks=1:15)+scale_fill_grey(guide = guide_legend(reverse = TRUE) )+g.theme+theme(legend.title = element_blank())
 
-g2 = ggplot(wordcounts,aes(y=log10(words),x=volume,group=volume))+geom_boxplot()+
-  scale_x_continuous('Volume',breaks=1:14)+scale_y_continuous('Word count (log10 transformed)',breaks=seq(0,4,0.5))+g.theme
+g2 = ggplot(wordcounts,aes(y=words,x=volume,group=volume))+geom_boxplot()+
+  scale_x_continuous('Volume',breaks=1:14)+scale_y_log10('Word count (log-10 transformed)',breaks=c(0,10,100,200))+g.theme
 
 load('stats_section_subject.classifications.rda')
 stats_section_subject = mutate(stats_section_subject,
@@ -158,8 +162,8 @@ to_plot.bar = to_plot %>% arrange(-n) %>% select(-n) %>% gather('Top 3 subject c
 mutate(subject_level_name=factor(subject_level_name,levels=rev(unique(subject_level_name))),
 'Top 3 subject classification'=factor(`Top 3 subject classification`,levels = c('No','Yes')))
   
-  
-g3 = ggplot(to_plot.bar,aes(x=subject_level_name,y=value/10000,fill=`Top 3 subject classification`))+geom_bar(stat='identity',colour='black',width=0.75)+scale_y_continuous('Total records (x 10,000)',breaks=seq(0,12,1))+xlab('')+coord_flip()+scale_fill_manual(values = c('grey75','grey15'))+ theme_bw() + theme(legend.position = 'top',
+ 
+g3 = ggplot(to_plot.bar,aes(x=subject_level_name,y=value/10000,fill=`Top 3 subject classification`))+geom_bar(stat='identity',colour='black',width=0.75)+scale_y_continuous('Total records (x 10,000)',breaks=seq(0,12,1))+xlab('')+coord_flip()+scale_fill_manual(values = c('grey75','grey15'))+ theme_bw() + theme(legend.position = c(0.8,0.2),
 legend.direction = 'horizontal',axis.text = element_text(size=12),axis.text.x = element_text(size=12),axis.text.y = element_text(size=12))
 
 ggarrange(g1,g2,g3,nrow=3,labels=LETTERS[1:3])
@@ -174,7 +178,7 @@ n.computer = to_plot %>% filter(subject_level_name=='Computer and information sc
 
 API searches returned `r format(n.api,big.mark=',')` unique records, of which `r format(n.include,big.mark=',')` (`r perc.include`%) included a statistical methods section based on our search criteria. In the final sample, 95,518 (85%) DOIs returned an exact match against common section headings, including 64,133 for 'statistical analysis', 13,380 for 'statistical analyses' and 13,627 for 'data analysis'. Among DOIs that did not meet the partial matching criteria, initial search terms appeared in [TODO].
 
-Search results varied by journal volume (Figure \@ref(fig:plos-n)A). The total number of API search results peaked at volumes 8 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`) and 9 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in _PLOS ONE_ over the same timeframe. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`).
+Search results varied by journal volume (Figure \@ref(fig:plos-n)A). The total number of API search results peaked at volumes 8 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`) and 9 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in _PLOS ONE_ over the same period. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`).
 
 The median length of statistical methods sections was `r n.words[['med']]` words (IQR: `r n.words[['q1']]` to `r n.words[['q3']]` words) (Figure \@ref(fig:plos-n)B). `r format(n.extremes[['morethan500']],big.mark=',')` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r format(n.extremes[['lessthan50']],big.mark=',')` articles (`r p.extremes[['lessthan50']]`%) had a statistical methods section of 50 words or less, equal to the length of this paragraph.
 
@@ -201,9 +205,9 @@ flextable(ftab.plos)
 
 ```
 
-Figure \@ref(fig:plot-10-topics) displays topic clouds based on ten clusters. Frequently occurring words reflected the use of statistical software (Topics 3 and 5), descriptive statistics (Topic 6), group based hypothesis testing (Topics 1 and 4) and definitions of statistical significance (Topics 1 and 9). Statistical methods sections associated with regression (Topic 2) and meta-analysis (Topic 7) were also identified. 
+The topic clouds based on ten clusters are in Figure~\@ref(fig:plot-10-topics). Frequently occurring words reflected the use of statistical software (Topics~3 and 5), descriptive statistics (Topic~6), group based hypothesis testing (Topics 1 and 4) and definitions of statistical significance (Topics~1 and 9). There are also statistical methods sections associated with regression (Topic~2) and meta-analysis (Topic~7). 
 
-Topics related to the use of statistical software differentiated between Prism GraphPad (Topic 3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). Manual review of top matching sections assigned showed strong evidence of boilerplate text. Nine out ten top matches for Topic 3 stated the use of Prism GraphPad but did not specify which statistical methods were used; six out of ten top matches returned the same cluster score. Top matching sections for Topic 5 included information on SPSS version numbers and definitions of statistical significance.
+Topics related to the use of statistical software differentiated between Prism GraphPad (Topic~3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). A manual review of the top matching sections in these topics showed strong evidence of boilerplate text. Nine out ten top matches for Topic 3 stated the use of Prism GraphPad but did not specify which statistical methods were used; six out of ten top matches returned the same cluster score indicating near identical text. Top matching sections for Topic 5 included information on SPSS version numbers and definitions of statistical significance.
 
 ___
 **Box 1: Examples of boilerplate text from _PLOS ONE_ (Statistical software)**
@@ -235,7 +239,7 @@ Topic 1
 
 Topic 9
 
-* *statistical significance was determined by students t-tests.* \**p<0.05,* \*\* *p = <0.01,* \*\*\* *p<0.001.*
+* *statistical significance was determined by students t-tests. \* p<0.05, \*\* p = <0.01, \*\*\* p<0.001.*
 * *statistical analyses were performed using the nonparametric mann-whitney test. differences were considered significant for* \**p<0.05,* \*\* *p<0.01, \*\*\* *p<0.001.*
 * *comparisons between two groups were performed by student’s test. statistical significance was defined as \**p<0.05;* \*\* *p<0.01;* \*\*\* *p<0.001.*
 

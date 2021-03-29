@@ -189,7 +189,7 @@ We applied the clustering algorithm to the cleaned dataset, varying the number o
 
 ```{r}
 load('plos.results.10topics.rda')
-
+  
 ftab.plos = matches %>%
   group_by(topic_id) %>% summarise(DOIs = n(),`Median word count` = median(words),Q1=quantile(words,.25),Q3=quantile(words,.75),.groups='drop') 
 

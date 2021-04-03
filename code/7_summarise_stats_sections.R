@@ -5,12 +5,15 @@ library(openxlsx)
 dat = readRDS('data/stats_section_cleaned.rds')
 #ten topics, PLOS ONE
 matches = read.csv('manuscript/plos_one_10topics.csv',header=T)
-matches = left_join(matches,dat,by=c('DOI'='doi')) %>% rename('doi'=DOI)
+matches = left_join(dat,matches,by=c('doi'='DOI')) %>%
+  mutate(value = as.numeric(value)) %>%
+  distinct(doi,text_heading,.keep_all = T)
 
 #examples of boilerplate text: topic 3
  tidy_matches = matches %>%
    unnest_tokens(word,text_data_clean)
- wordcounts <- tidy_matches %>%
+ 
+wordcounts <- tidy_matches %>%
    group_by(topic_id,doi) %>%
    summarise(words = n(),.groups='drop')
  
@@ -35,7 +38,39 @@ matches %>% filter(topic_id %in% c('Topic 1','Topic 9')) %>% ggplot(.,aes(x=rank
   scale_x_continuous('Rank (1 = strongest topic match)')+scale_y_continuous('Word count (cleaned text)')+theme_minimal()
 
 
-matches %>% filter(topic_id=='Topic 1') %>% View()
+cos.sim <- function(ix,distances.mat) 
+{
+  A = distances.mat[,ix[1]]
+  B = distances.mat[,ix[2]]
+  return( sum(A*B)/sqrt(sum(A^2)*sum(B^2)) )
+} 
+
+distances = tidy_matches %>% left_join(.,matches %>% select(doi,rank),by='doi') %>% filter(rank<=100)
+
+calc_dist_mat <- function(indata=distances,topicNumber){
+ to_stat = indata %>% filter(topic_id==topicNumber) %>%
+    distinct(doi,word,.keep_all=F) %>%
+    group_by(doi) %>% count(word) %>%
+    spread(doi,n,fill=0) 
+  
+  distances.mat = as.matrix(to_stat[,-1])
+  distances.doi = colnames(to_stat[,-1])
+  
+  #calc cos similarity
+  n <- ncol(distances.mat) 
+  cmb <- expand.grid(i=1:n, j=1:n) %>% filter(i<j)
+
+  cos.sim.vec <- apply(cmb,1,function(x) cos.sim(x,distances.mat))
+  
+  to_plot = cmb %>% add_column(sim=cos.sim.vec)
+  
+  return(list(to_plot=to_plot,doi.list=distances.doi))
+}
+
+stats_section.sim = lapply(1:10, function(tt)calc_dist_mat(topicNumber=tt))
+
+save(stats_section.sim,file='manuscript/plos.cosinesim.10topics.rda')
+
 
 # 
 # #five topics

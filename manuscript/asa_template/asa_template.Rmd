@@ -52,7 +52,6 @@ There is guidance for researchers on how to write up their statistical methods a
 The International Committee of Medical Journal Editors recommend that researchers should: “Describe statistical methods with enough detail to enable a knowledgeable reader with access to the original data to judge its appropriateness for the study and to verify the reported results” [@ICMJE2019]. 
 More detailed guideance is given by the SAMPL and EQUATOR guidelines [@Lang2013;@Altman2016] with the latter covering all apsects of the paper. Both of these guidelines were led by Doug Altman, who spoke often and for many years about the need for better statistical reporting. 
 The awareness and use of these guidelines could be improved. There were 256 Google Scholar citations to the SAMPL paper (as at 15 March 2021) which is a good citation statistic for most papers, but is low considering the millions of papers that use statistical analysis.
-<!--- Although the general lack of statistical understanding from both authors and reviewers means this recommendation may not be checked. --->
 
 Two statisticians on this paper (AB and NW) have heard researchers admit that they have copied-and-pasted their statistical methods sections from other papers, regardless of whether they are appropriate. 
 The aim of this paper is to use text-mining methods to estimate the extent that researchers are using cut-and-paste or 'boilerplate' statistical methods sections.
@@ -83,7 +82,7 @@ _Step 2_: Partial matching on section headings. Full text XML data for all searc
 \label{sec:methodsANZCTR}
 
 The ANZCTR was established in 2005 as part of a coordinated global effort to improve research quality and transparency in clinical trials reporting; observational studies can also be registered. All studies registered on ANZCTR are publicly available and can be searched via an online portal (https://www.anzctr.org.au). 
-<!--- Researchers responsible for overseeing a clinical trial are expected to register full details before commencing participant enrolment. --->
+
 Details required for registration follow a standardised template [@ANZCTR], which covers participant eligibility, the intervention(s) being evaluated, study design and outcomes. The information provided must be in English. Studies are not peer reviewed. 
 
 For the statistical methods section, researchers are asked to provide a "brief description" of the sample size calculations, statistical methods and planned analyses, although this section is not compulsory [@ANZCTR]. Studies are reviewed by ANZCTR staff for completeness of key information, which does not include the completeness of the statistical methods sections. 
@@ -149,7 +148,7 @@ p.extremes = wordcounts %>% summarise(morethan500 = round(100*mean(words>500)),l
 n.extremes = wordcounts %>% summarise(morethan500 = sum(words>500),lessthan50=sum(words<50))
 ```
 
-![\label{fig:plos-n}A: Search results by _PLOS ONE_ volume; B: word count per statistical methods section included in analysis (n = 111,73); C: subject classifications assigned to full-text records included in analysis](figures/figure1.jpg)
+![\label{fig:plos-n}A: Search results by _PLOS ONE_ volume; B: word count per statistical methods section included in analysis (n = 111,73); C: subject classifications assigned to full-text records included in analysis](figures/plos.summary.jpg)
 
 ```{r,fig.height=12,fig.width=6,fig.asp=0.6,fig.cap='\\label{fig:plos-n}Search results by _PLOS ONE_ volume (1st row); word count per statistical methods section included in analysis (n = 111,731; 2nd row); subject classifications assigned to full-text records included in analysis (3rd row)'}
 
@@ -177,7 +176,7 @@ All papers included Biology and life sciences (n = `r format(n.biology,big.mark=
 (n = `r format(n.earth,big.mark=',')`) and/or Computer and information sciences (n = `r format(n.computer,big.mark=',')`) in their top 3 subject classifications
 (Figure \ref{fig:plos-n}C).
 
-![\label{fig:plot-10-topics}Topic clouds summarising common terms in _PLOS ONE_ statistical methods sections assuming ten clusters](figures/figure2.jpg)
+![\label{fig:plot-10-topics}Topic clouds summarising common terms in _PLOS ONE_ statistical methods sections assuming ten clusters](figures/plos.wordclouds.jpg)
 
 We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. 
 
@@ -192,6 +191,8 @@ flextable(ftab.plos)
 
 ```
 
-The topic clouds based on ten clusters are in Figure~\@ref(fig:plot-10-topics). Frequently occurring words reflected the use of statistical software (Topics~3 and 5), descriptive statistics (Topic~6), group based hypothesis testing (Topics 1 and 4) and definitions of statistical significance (Topics~1 and 9). There are also statistical methods sections associated with regression (Topic~2) and meta-analysis (Topic~7). 
+The topic clouds based on ten clusters are in Figure~\ref{fig:plot-10-topics}. Frequently occurring words reflected the use of statistical software (Topics~3 and 5), descriptive statistics (Topic~6), group based hypothesis testing (Topics 1 and 4) and definitions of statistical significance (Topics~1 and 9). There are also statistical methods sections associated with regression (Topic~2) and meta-analysis (Topic~7). 
 
 Topics related to the use of statistical software differentiated between Prism GraphPad (Topic~3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). A manual review of the top matching sections in these topics showed strong evidence of boilerplate text. Nine out ten top matches for Topic 3 stated the use of Prism GraphPad but did not specify which statistical methods were used; six out of ten top matches returned the same cluster score indicating near identical text. Top matching sections for Topic 5 included information on SPSS version numbers and definitions of statistical significance.
+
+

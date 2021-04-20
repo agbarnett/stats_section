@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.12)  20 APR 2021 18:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.12)  20 APR 2021 18:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -371,33 +371,33 @@ Package natbib Warning: Citation `2008' on page 2 undefined on input line 87.
 
 [2] [3] [4]
 LaTeX Font Info:    Trying to load font information for OML+cmr on input line 2
-40.
+41.
 (c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 240.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 241.
 [5] [6]
 <figures/figure1.jpg, id=155, 481.8pt x 602.25pt>
 File: figures/figure1.jpg Graphic file (type jpg)
 <use figures/figure1.jpg>
-Package pdftex.def Info: figures/figure1.jpg  used on input line 299.
+Package pdftex.def Info: figures/figure1.jpg  used on input line 300.
 (pdftex.def)             Requested size: 481.79881pt x 602.24852pt.
 
-Overfull \hbox (19.52882pt too wide) in paragraph at lines 299--303
+Overfull \hbox (19.52882pt too wide) in paragraph at lines 300--304
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 35.20546pt on input line 304.
+LaTeX Warning: Float too large for page by 35.20546pt on input line 305.
 
 <figures/figure2.jpg, id=159, 366.61969pt x 598.48593pt>
 File: figures/figure2.jpg Graphic file (type jpg)
 <use figures/figure2.jpg>
-Package pdftex.def Info: figures/figure2.jpg  used on input line 335.
+Package pdftex.def Info: figures/figure2.jpg  used on input line 336.
 (pdftex.def)             Requested size: 366.61879pt x 598.48447pt.
 
-LaTeX Warning: Float too large for page by 10.41646pt on input line 338.
+LaTeX Warning: Float too large for page by 10.41646pt on input line 339.
 
 <asa_template_files/figure-latex/unnamed-chunk-4-1.png, id=160, 505.89pt x 388.
 45125pt>
@@ -405,7 +405,7 @@ File: asa_template_files/figure-latex/unnamed-chunk-4-1.png Graphic file (type
 png)
 <use asa_template_files/figure-latex/unnamed-chunk-4-1.png>
 Package pdftex.def Info: asa_template_files/figure-latex/unnamed-chunk-4-1.png 
- used on input line 348.
+ used on input line 349.
 (pdftex.def)             Requested size: 258.83415pt x 198.74765pt.
 [7] [8 <./figures/figure1.jpg>] [9 <./figures/figure2.JPG>] (./asa_template.bbl
 [10 <./asa_template_files/figure-latex/unnamed-chunk-4-1.png>] [11] [12])
@@ -436,10 +436,10 @@ c/amsfonts/cm/cmr10.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/font
 s/type1/public/amsfonts/cm/cmr12.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><c:/Users/Nicol/AppData/Roam
 ing/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on asa_template.pdf (13 pages, 484153 bytes).
+Output written on asa_template.pdf (13 pages, 483940 bytes).
 PDF statistics:
- 247 PDF objects out of 1000 (max. 8388607)
- 215 compressed objects within 3 object streams
+ 248 PDF objects out of 1000 (max. 8388607)
+ 216 compressed objects within 3 object streams
  52 named destinations out of 1000 (max. 500000)
  96 words of extra memory for PDF output out of 10000 (max. 10000000)
 

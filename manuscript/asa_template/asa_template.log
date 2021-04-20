@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.12)  20 APR 2021 18:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.12)  20 APR 2021 18:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -391,10 +391,10 @@ Overfull \hbox (19.52882pt too wide) in paragraph at lines 299--303
 
 LaTeX Warning: Float too large for page by 35.20546pt on input line 304.
 
-<figures/plosone.10topics.jpg, id=159, 366.61969pt x 598.48593pt>
-File: figures/plosone.10topics.jpg Graphic file (type jpg)
-<use figures/plosone.10topics.jpg>
-Package pdftex.def Info: figures/plosone.10topics.jpg  used on input line 335.
+<figures/figure2.jpg, id=159, 366.61969pt x 598.48593pt>
+File: figures/figure2.jpg Graphic file (type jpg)
+<use figures/figure2.jpg>
+Package pdftex.def Info: figures/figure2.jpg  used on input line 335.
 (pdftex.def)             Requested size: 366.61879pt x 598.48447pt.
 
 LaTeX Warning: Float too large for page by 10.41646pt on input line 338.
@@ -407,9 +407,8 @@ png)
 Package pdftex.def Info: asa_template_files/figure-latex/unnamed-chunk-4-1.png 
  used on input line 348.
 (pdftex.def)             Requested size: 258.83415pt x 198.74765pt.
-[7] [8 <./figures/figure1.jpg>] [9 <./figures/plosone.10topics.JPG>] (./asa_tem
-plate.bbl [10 <./asa_template_files/figure-latex/unnamed-chunk-4-1.png>] [11] [
-12])
+[7] [8 <./figures/figure1.jpg>] [9 <./figures/figure2.JPG>] (./asa_template.bbl
+[10 <./asa_template_files/figure-latex/unnamed-chunk-4-1.png>] [11] [12])
 
 Package natbib Warning: There were undefined citations.
 
@@ -419,7 +418,7 @@ Package rerunfilecheck Info: File `asa_template.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  8752 strings out of 480954
- 130082 string characters out of 5905582
+ 130028 string characters out of 5905582
  426106 words of memory out of 5000000
  25808 multiletter control sequences out of 15000+600000
  412773 words of font info for 59 fonts, out of 8000000 for 9000

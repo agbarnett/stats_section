@@ -177,7 +177,7 @@ All papers included Biology and life sciences (n = `r format(n.biology,big.mark=
 (n = `r format(n.earth,big.mark=',')`) and/or Computer and information sciences (n = `r format(n.computer,big.mark=',')`) in their top 3 subject classifications
 (Figure \ref{fig:plos-n}C).
 
-![\label{fig:plot-10-topics}Topic clouds summarising common terms in _PLOS ONE_ statistical methods sections assuming ten clusters](figures/plosone.10topics.jpg)
+![\label{fig:plot-10-topics}Topic clouds summarising common terms in _PLOS ONE_ statistical methods sections assuming ten clusters](figures/figure2.jpg)
 
 We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. 
 

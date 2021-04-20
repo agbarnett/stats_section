@@ -45,7 +45,7 @@ Statistical mistakes are a key source of waste in research and partly explain th
 Poor statistical methods might not be caught by reviewers, as they may not be qualified to judge the statistics.
 A recent survey of editors found that only 23% of health and medical journals used expert statistical review for all articles [@Hardwicke2020], which was little different from a survey from 22 years ago [@Goodman1998].
 
-There is guideance for researchers on how to write up their statistical methods and results.
+There is guidance for researchers on how to write up their statistical methods and results.
 The International Committee of Medical Journal Editors recommend that researchers should: “Describe statistical methods with enough detail to enable a knowledgeable reader with access to the original data to judge its appropriateness for the study and to verify the reported results” [@ICMJE2019]. 
 More detailed guideance is given by the SAMPL and EQUATOR guidelines [@Lang2013;@Altman2016] with the latter covering all apsects of the paper. Both of these guidelines were led by Doug Altman, who spoke often and for many years about the need for better statistical reporting. 
 The awareness and use of these guidelines could be improved. There were 256 Google Scholar citations to the SAMPL paper (as at 15 March 2021) which is a good citation statistic for most papers, but is low considering the millions of papers that use statistical analysis.

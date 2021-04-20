@@ -40,6 +40,6 @@ g3 = ggplot(plot.subjects,aes(x=subject_level_name,y=value/10000,fill=`Top 3 sub
                                                                                                                                                                                                                                                                                                                       legend.direction = 'horizontal')
 
 
-jpeg('../manuscript/asa_template/figures/plots.summary.jpg',width=480,height=600,quality=100)
+jpeg('../manuscript/asa_template/figures/plos.summary.jpg',width=480,height=600,quality=100)
 ggarrange(g1,g2,g3,nrow=3,labels=LETTERS[1:3])
 dev.off()

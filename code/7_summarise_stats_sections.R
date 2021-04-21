@@ -80,3 +80,6 @@ boilerplate.text.plos = boilerplate.dois %>% left_join(matches %>% select(doi,te
 save(matches,file='../results/plos.results.10topics.rda')
 save(stats_section.sim,ftab.cosine.plos,boilerplate.text.plos,file='../results/plos.cosinesim.10topics.rda')
 
+#save boilerplate text as separate excel file
+write.xlsx(boilerplate.text.plos,file='../results/plos.boilerplate.xlsx')
+

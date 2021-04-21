@@ -212,7 +212,7 @@ Topics related to the use of statistical software differentiated between Prism G
 load('../../results/plos.cosinesim.10topics.rda')
 
 ftab = flextable(ftab.cosine.plos) %>% theme_box() %>% autofit()
-ftab <- set_caption(ftab, "Summary of cosine similarity scores by topic: PLOS ONE")
+ftab <- set_caption(ftab, "Summary of cosine similarity scores among top 500 DOIs assigned to each topic: PLOS ONE")
 ftab
 
 ```

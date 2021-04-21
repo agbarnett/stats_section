@@ -2,14 +2,14 @@
 library(tidyverse)
 library(tidytext)
 library(openxlsx)
-dat = readRDS('data/stats_section_cleaned.rds')
+
+dat = readRDS('../data/stats_section_cleaned.rds')
 #ten topics, PLOS ONE
-matches = read.csv('manuscript/plos_one_10topics.csv',header=T)
+matches = read.csv('../results/plos_one_10topics.csv',header=T)
 matches = left_join(dat,matches,by=c('doi'='DOI')) %>%
   mutate(value = as.numeric(value)) %>%
   distinct(doi,text_heading,.keep_all = T)
 
-#examples of boilerplate text: topic 3
  tidy_matches = matches %>%
    unnest_tokens(word,text_data_clean)
  

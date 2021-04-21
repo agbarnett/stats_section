@@ -278,6 +278,13 @@ S1).{[}TODO\ldots finish this thought\ldots{]}
 Results were transformed to lower case for the clustering, but examples
 are given using the original capitalisation.
 
+Results were examined for evidence of boilerplate text in two ways. We
+first reviewed the top ten results that represented the strongest
+matches to each cluster. To compare results within a cluster, we
+calculated cosine similarity score for all pairs of records; higher
+scores denoted a higher degree of similarity in text between a pair of
+records.
+
 \subsection{Missing statistical methods sections}
 
 The statistical methods section for the ANZCTR data was missing for some
@@ -296,12 +303,12 @@ to missing.
 \subsection{\texorpdfstring{\emph{PLOS ONE}}{PLOS ONE}}\label{plos-one}}
 
 \begin{figure}
-\centering
-\includegraphics{figures/figure1.jpg}
-\caption{\label{fig:plos-n}A: Search results by \emph{PLOS ONE} volume;
-B: word count per statistical methods section included in analysis (n =
-111,73); C: subject classifications assigned to full-text records
-included in analysis}
+
+{\centering \includegraphics[width=0.95\linewidth]{figures/plos.summary} 
+
+}
+
+\caption{PLOS ONE result summary.}\label{fig:unnamed-chunk-3}
 \end{figure}
 
 API searches returned 131,847 unique records, of which 111,731 (85\%)
@@ -332,10 +339,12 @@ sciences (n = 7,605) and/or Computer and information sciences (n =
 \ref{fig:plos-n}C).
 
 \begin{figure}
-\centering
-\includegraphics{figures/figure2.jpg}
-\caption{\label{fig:plot-10-topics}Topic clouds summarising common terms
-in \emph{PLOS ONE} statistical methods sections assuming ten clusters}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/plos.wordclouds} 
+
+}
+
+\caption{PLOS ONE topic clouds.}\label{fig:unnamed-chunk-5}
 \end{figure}
 
 We applied the clustering algorithm to the cleaned dataset, varying the
@@ -346,7 +355,7 @@ within-cluster dispersion leveling off around 20 clusters. This
 indicated that the data comprised one large, heterogeneous cluster and
 multiple smaller clusters.
 
-\includegraphics[width=3.75in,height=2.75in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-4-1.png}
+\includegraphics[width=3.75in,height=2.75in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-6-1.png}
 
 The topic clouds based on ten clusters are in
 Figure\textasciitilde{}\ref{fig:plot-10-topics}. Frequently occurring
@@ -366,6 +375,59 @@ but did not specify which statistical methods were used; six out of ten
 top matches returned the same cluster score indicating near identical
 text. Top matching sections for Topic 5 included information on SPSS
 version numbers and definitions of statistical significance.
+
+\subsection{ANZCTR}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/anzctr.wordclouds} 
+
+}
+
+\caption{ANZCTR topic clouds.}\label{fig:unnamed-chunk-7}
+\end{figure}
+
+\section{Supplementary}
+
+\subsection{PLOS}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{figures/supplementary/supp_plosone.50clusters} 
+
+}
+
+\caption{PLOS ONE clustering metrics.}\label{fig:unnamed-chunk-8}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{figures/supplementary/plos.topicvalues} 
+
+}
+
+\caption{PLOS ONE topic values.}\label{fig:unnamed-chunk-9}
+\end{figure}
+
+\subsection{ANZCTR}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{figures/supplementary/supp_anzctr.50clusters} 
+
+}
+
+\caption{ANZCTR clustering metrics.}\label{fig:unnamed-chunk-10}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{figures/supplementary/anzctr.topicvalues} 
+
+}
+
+\caption{ANZCTR topic values.}\label{fig:unnamed-chunk-11}
+\end{figure}
 
 \bibliographystyle{agsm}
 \bibliography{references.bib}

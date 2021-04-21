@@ -121,6 +121,8 @@ _Details to come_
 
 Results were transformed to lower case for the clustering, but examples are given using the original capitalisation.
 
+Results were examined for evidence of boilerplate text in two ways. We first reviewed the top ten results that represented the strongest matches to each cluster. To compare results within a cluster, we calculated cosine similarity score for all pairs of records; higher scores denoted a higher degree of similarity in text between a pair of records.
+
 \subsection{Missing statistical methods sections}
 
 The statistical methods section for the ANZCTR data was missing for some studies and we examined if there were particular studies where this section was more likely to be missing. 
@@ -133,7 +135,7 @@ We used a logistic regression model fitted using a Bayesian paradigm. A small nu
 ## _PLOS ONE_
 
 ```{r}
-load('../total.records.plos.rda')
+load('../../results/total.records.plos.rda')
 n.api = total.records[[1]] %>% filter(stage=='API') %>% pull(n) %>% sum()
 n.include = total.records[[1]] %>% filter(stage=='Included in analysis') %>% pull(n) %>% sum()
 perc.include = round(100*n.include/n.api)
@@ -142,17 +144,23 @@ max.perc.stats = total.records[[2]] %>% filter(percentage==max(percentage)) %>% 
 ```
 
 ```{r}
-load('../wordcount.plos.rda')
+load('../../results/wordcount.plos.rda')
 n.words = wordcounts %>% summarise(med = median(words),q1=quantile(words,.25),q3=quantile(words,.75))
 p.extremes = wordcounts %>% summarise(morethan500 = round(100*mean(words>500)),lessthan50=round(100*mean(words<50)))
 n.extremes = wordcounts %>% summarise(morethan500 = sum(words>500),lessthan50=sum(words<50))
 ```
 
-![\label{fig:plos-n}A: Search results by _PLOS ONE_ volume; B: word count per statistical methods section included in analysis (n = 111,73); C: subject classifications assigned to full-text records included in analysis](figures/plos.summary.jpg)
+```{r, echo=FALSE, fig.align='center', out.width="95%", fig.cap="PLOS ONE result summary."}
+knitr::include_graphics("figures/plos.summary.jpg")
+```
 
-```{r,fig.height=12,fig.width=6,fig.asp=0.6,fig.cap='\\label{fig:plos-n}Search results by _PLOS ONE_ volume (1st row); word count per statistical methods section included in analysis (n = 111,731; 2nd row); subject classifications assigned to full-text records included in analysis (3rd row)'}
+<!-- ![\label{fig:plos-n}A: Search results by _PLOS ONE_ volume; B: word count per statistical methods section included in analysis (n = 111,73); C: subject classifications assigned to full-text records included in analysis](figures/plos.summary.jpg) -->
 
-load('../stats_section_subject.classifications.rda')
+
+
+```{r,fig.height=12,fig.width=6,fig.asp=0.55,fig.cap='\\label{fig:plos-n}Search results by _PLOS ONE_ volume (1st row); word count per statistical methods section included in analysis (n = 111,731; 2nd row); subject classifications assigned to full-text records included in analysis (3rd row)'}
+
+load('../../results/stats_section_subject.classifications.rda')
 stats_section_subject = mutate(stats_section_subject,
                                top3 = ifelse(subject_level_number %in% 1:3,1,0))
 
@@ -176,13 +184,15 @@ All papers included Biology and life sciences (n = `r format(n.biology,big.mark=
 (n = `r format(n.earth,big.mark=',')`) and/or Computer and information sciences (n = `r format(n.computer,big.mark=',')`) in their top 3 subject classifications
 (Figure \ref{fig:plos-n}C).
 
-![\label{fig:plot-10-topics}Topic clouds summarising common terms in _PLOS ONE_ statistical methods sections assuming ten clusters](figures/plos.wordclouds.jpg)
+```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="PLOS ONE topic clouds."}
+knitr::include_graphics("figures/plos.wordclouds.jpg")
+```
 
 We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. 
 
 
 ```{r}
-load('../plos.results.10topics.rda')
+load('../../results/plos.results.10topics.rda')
   
 ftab.plos = matches %>%
   group_by(topic_id) %>% summarise(DOIs = n(),`Median word count` = median(words),Q1=quantile(words,.25),Q3=quantile(words,.75),.groups='drop') 
@@ -195,4 +205,37 @@ The topic clouds based on ten clusters are in Figure~\ref{fig:plot-10-topics}. F
 
 Topics related to the use of statistical software differentiated between Prism GraphPad (Topic~3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). A manual review of the top matching sections in these topics showed strong evidence of boilerplate text. Nine out ten top matches for Topic 3 stated the use of Prism GraphPad but did not specify which statistical methods were used; six out of ten top matches returned the same cluster score indicating near identical text. Top matching sections for Topic 5 included information on SPSS version numbers and definitions of statistical significance.
 
+
+\subsection{ANZCTR}
+
+
+
+```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="ANZCTR topic clouds."}
+knitr::include_graphics("figures/anzctr.wordclouds.jpg")
+```
+
+\section{Supplementary}
+
+\subsection{PLOS}
+
+
+```{r, echo=FALSE, fig.align='center', out.width="100%", fig.cap="PLOS ONE clustering metrics."}
+knitr::include_graphics("figures/supplementary/supp_plosone.50clusters.jpg")
+```
+
+
+```{r, echo=FALSE, fig.align='center', out.width="100%", fig.cap="PLOS ONE topic values."}
+knitr::include_graphics("figures/supplementary/plos.topicvalues.jpg")
+```
+
+\subsection{ANZCTR}
+
+```{r, echo=FALSE, fig.align='center', out.width="100%", fig.cap="ANZCTR clustering metrics."}
+knitr::include_graphics("figures/supplementary/supp_anzctr.50clusters.jpg")
+```
+
+
+```{r, echo=FALSE, fig.align='center', out.width="100%", fig.cap="ANZCTR topic values."}
+knitr::include_graphics("figures/supplementary/anzctr.topicvalues.jpg")
+```
 

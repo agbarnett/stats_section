@@ -6,11 +6,12 @@ library(openxlsx)
 dat = readRDS('../data/stats_section_cleaned.rds')
 #ten topics, PLOS ONE
 matches = read.csv('../results/plos_one_10topics.csv',header=T)
+
 matches = left_join(dat,matches,by=c('doi'='DOI')) %>%
   mutate(value = as.numeric(value)) %>%
   distinct(doi,text_heading,.keep_all = T)
 
- tidy_matches = matches %>%
+tidy_matches = matches %>%
    unnest_tokens(word,text_data_clean)
  
 wordcounts <- tidy_matches %>%
@@ -23,21 +24,6 @@ matches = left_join(matches,wordcounts,by=c('doi','topic_id')) %>%
   mutate(topic_id = paste('Topic',topic_id))
 
 
-save(matches,file='manuscript/plos.results.10topics.rda')
-
-
-#example - topics 3 and 5
-matches %>% filter(topic_id %in% c('Topic 1', 'Topic 3','Topic 5')) %>% ggplot(.,aes(x=rank,y=words)) + 
-  geom_point(alpha=0.1)+ geom_smooth(method='loess',se=T,colour='blue')+ facet_wrap(~topic_id,scales = 'free') + 
-  scale_x_continuous('Rank (1 = strongest topic match)')+scale_y_continuous('Word count (cleaned text)',breaks=seq(0,1500,100))+theme_minimal()
-
-
-#example - topics 1 and 9
-matches %>% filter(topic_id %in% c('Topic 1','Topic 9')) %>% ggplot(.,aes(x=rank,y=words)) + 
-  geom_point(alpha=0.1)+ geom_smooth(method='loess',se=T,colour='blue')+ facet_wrap(~topic_id,scales='free') + 
-  scale_x_continuous('Rank (1 = strongest topic match)')+scale_y_continuous('Word count (cleaned text)')+theme_minimal()
-
-
 cos.sim <- function(ix,distances.mat) 
 {
   A = distances.mat[,ix[1]]
@@ -45,7 +31,7 @@ cos.sim <- function(ix,distances.mat)
   return( sum(A*B)/sqrt(sum(A^2)*sum(B^2)) )
 } 
 
-distances = tidy_matches %>% left_join(.,matches %>% select(doi,rank),by='doi') %>% filter(rank<=100)
+distances = tidy_matches %>% left_join(.,matches %>% select(doi,rank),by='doi') %>% filter(rank<=500) %>% arrange(rank)
 
 calc_dist_mat <- function(indata=distances,topicNumber){
  to_stat = indata %>% filter(topic_id==topicNumber) %>%
@@ -68,37 +54,29 @@ calc_dist_mat <- function(indata=distances,topicNumber){
 }
 
 stats_section.sim = lapply(1:10, function(tt)calc_dist_mat(topicNumber=tt))
+#summarise for table
+stats_section.sim.top500 = lapply(stats_section.sim,function(x) x$to_plot) %>% bind_rows(.,.id='topic')
+stats_section.doi.top500 = lapply(stats_section.sim,function(x) x$doi.list) 
 
-save(stats_section.sim,file='manuscript/plos.cosinesim.10topics.rda')
+ftab.cosine.plos = stats_section.sim.top500 %>% group_by(topic) %>% summarise(Median=median(sim),Q1=quantile(sim,.25),Q3=quantile(sim,.75),
+                                                                              pgt80=sum(sim>0.8),pgt90=sum(sim>0.9),peq1=sum(sim==1)) %>% arrange(as.numeric(topic),.groups='drop') %>%
+  mutate_if(is.numeric,function(x) round(x,2))
 
+ftab.cosine.plos = mutate(ftab.cosine.plos,'Median (IQR)' = paste0(Median,' (',Q1,' to ',Q3,')')) %>%
+  select(topic,'Median (IQR)',pgt80,pgt90,peq1) %>%
+  rename('Similarity > 0.8'=pgt80,'Similarity > 0.9' = pgt90, 'Similarity = 1' = peq1) 
 
-# 
-# #five topics
-# matches = read.xlsx('manuscript/top.matches.5topics.xlsx')
-# matches = left_join(matches,dat,by='doi')
-# write.xlsx(matches,file='manuscript/top.matches.5topics.text.xlsx',colNames=T)
-# 
+#exact matches, topic 1
+boilerplate = lapply(1:10,function(x) stats_section.sim.top500 %>% filter(topic==x,sim>0.8) %>% mutate(pair = row_number(),
+                                                                               doi.i = stats_section.doi.top500[[x]][i],
+                                                                               doi.j = stats_section.doi.top500[[x]][j]) %>% select(topic,pair,sim,doi.i,doi.j))
+  
 
+boilerplate.dois = bind_rows(boilerplate) %>% gather(variable,doi,-topic,-pair,-sim) %>% arrange(topic,-sim,pair) %>% select(-variable)
 
-#topic 1
-filter(matches,topic==1) %>% select(doi,text_data) %>% View()
+#join to text
+boilerplate.text.plos = boilerplate.dois %>% left_join(matches %>% select(doi,text_heading,text_data,text_data_clean,rank,words),by='doi')
 
-# not run:
-# tidy_dat = dat %>%
-#   unnest_tokens(word,text_data_clean)
-# 
-# wordcounts <- tidy_dat %>%
-#   group_by(doi) %>%
-#   summarise(words = n(),.groups='drop')
-# 
-# #join with metadata
-# #load meta data for all records found
-# load('./data/plos_meta_data.rda')
-# 
-# wordcounts = left_join(wordcounts,meta_dat_allrecords,by='doi')
-# wordcounts %>% group_by(volume) %>% summarise(med=median(words),
-#                                               Min=min(words),Max=max(words),
-#                                               q1=quantile(words,.25),q3=quantile(words,.75),.groups='drop')
-# 
-# 
-# ggplot(wordcounts,aes(y=log(words),x=volume,group=volume))+geom_boxplot()  
+save(matches,file='../results/plos.results.10topics.rda')
+save(stats_section.sim,ftab.cosine.plos,boilerplate.text.plos,file='../results/plos.cosinesim.10topics.rda')
+

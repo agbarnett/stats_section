@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.12)  21 APR 2021 13:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.12)  21 APR 2021 13:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -378,7 +378,7 @@ File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 241.
 [5] [6]
-<figures/plos.summary.jpg, id=170, 481.8pt x 602.25pt>
+<figures/plos.summary.jpg, id=178, 481.8pt x 602.25pt>
 File: figures/plos.summary.jpg Graphic file (type jpg)
 <use figures/plos.summary.jpg>
 Package pdftex.def Info: figures/plos.summary.jpg  used on input line 307.
@@ -392,12 +392,12 @@ LaTeX Warning: Reference `fig:plos-n' on page 7 undefined on input line 331.
 
 LaTeX Warning: Reference `fig:plos-n' on page 7 undefined on input line 339.
 
-<figures/plos.wordclouds.jpg, id=171, 366.61969pt x 598.48593pt>
+<figures/plos.wordclouds.jpg, id=179, 366.61969pt x 598.48593pt>
 File: figures/plos.wordclouds.jpg Graphic file (type jpg)
 <use figures/plos.wordclouds.jpg>
 Package pdftex.def Info: figures/plos.wordclouds.jpg  used on input line 343.
 (pdftex.def)             Requested size: 323.58757pt x 528.26736pt.
-<asa_template_files/figure-latex/unnamed-chunk-6-1.png, id=172, 505.89pt x 388.
+<asa_template_files/figure-latex/unnamed-chunk-6-1.png, id=180, 505.89pt x 388.
 45125pt>
 File: asa_template_files/figure-latex/unnamed-chunk-6-1.png Graphic file (type 
 png)
@@ -410,78 +410,105 @@ Package pdftex.def Info: asa_template_files/figure-latex/unnamed-chunk-6-1.png
 LaTeX Warning: Reference `fig:plot-10-topics' on page 10 undefined on input lin
 e 361.
 
-<figures/anzctr.wordclouds.jpg, id=191, 420.82219pt x 665.48625pt>
+<asa_template_files/figure-latex/unnamed-chunk-7-1.png, id=199, 827.4915pt x 39
+3.8715pt>
+File: asa_template_files/figure-latex/unnamed-chunk-7-1.png Graphic file (type 
+png)
+<use asa_template_files/figure-latex/unnamed-chunk-7-1.png>
+Package pdftex.def Info: asa_template_files/figure-latex/unnamed-chunk-7-1.png 
+ used on input line 385.
+(pdftex.def)             Requested size: 443.02556pt x 210.87242pt.
+[10 <./asa_template_files/figure-latex/unnamed-chunk-6-1.png>]
+<figures/anzctr.wordclouds.jpg, id=206, 420.82219pt x 665.48625pt>
 File: figures/anzctr.wordclouds.jpg Graphic file (type jpg)
 <use figures/anzctr.wordclouds.jpg>
-Package pdftex.def Info: figures/anzctr.wordclouds.jpg  used on input line 383.
+Package pdftex.def Info: figures/anzctr.wordclouds.jpg  used on input line 391.
 
 (pdftex.def)             Requested size: 323.58757pt x 511.72533pt.
-<figures/supplementary/supp_plosone.50clusters.jpg, id=192, 1163.0953pt x 341.7
+[11 <./asa_template_files/figure-latex/unnamed-chunk-7-1.png>] [12 <./figures/a
+nzctr.wordclouds.JPG>]
+<asa_template_files/figure-latex/unnamed-chunk-9-1.png, id=217, 625.1355pt x 16
+4.41425pt>
+File: asa_template_files/figure-latex/unnamed-chunk-9-1.png Graphic file (type 
+png)
+<use asa_template_files/figure-latex/unnamed-chunk-9-1.png>
+Package pdftex.def Info: asa_template_files/figure-latex/unnamed-chunk-9-1.png 
+ used on input line 443.
+(pdftex.def)             Requested size: 336.77641pt x 88.57413pt.
+[13 <./asa_template_files/figure-latex/unnamed-chunk-9-1.png>] [14]
+<figures/supplementary/supp_plosone.50clusters.jpg, id=251, 1163.0953pt x 341.7
 7687pt>
 File: figures/supplementary/supp_plosone.50clusters.jpg Graphic file (type jpg)
 
 <use figures/supplementary/supp_plosone.50clusters.jpg>
 Package pdftex.def Info: figures/supplementary/supp_plosone.50clusters.jpg  use
-d on input line 396.
+d on input line 532.
 (pdftex.def)             Requested size: 462.26999pt x 135.8374pt.
-<figures/supplementary/plos.topicvalues.jpg, id=193, 1003.75pt x 803.0pt>
+<figures/supplementary/plos.topicvalues.jpg, id=252, 1003.75pt x 803.0pt>
 File: figures/supplementary/plos.topicvalues.jpg Graphic file (type jpg)
 <use figures/supplementary/plos.topicvalues.jpg>
 Package pdftex.def Info: figures/supplementary/plos.topicvalues.jpg  used on in
-put line 405.
+put line 541.
 (pdftex.def)             Requested size: 462.26999pt x 369.82559pt.
-<figures/supplementary/supp_anzctr.50clusters.jpg, id=194, 1163.0953pt x 341.77
+<figures/supplementary/supp_anzctr.50clusters.jpg, id=253, 1163.0953pt x 341.77
 687pt>
 File: figures/supplementary/supp_anzctr.50clusters.jpg Graphic file (type jpg)
 <use figures/supplementary/supp_anzctr.50clusters.jpg>
 Package pdftex.def Info: figures/supplementary/supp_anzctr.50clusters.jpg  used
- on input line 416.
+ on input line 552.
 (pdftex.def)             Requested size: 462.26999pt x 135.8374pt.
-<figures/supplementary/anzctr.topicvalues.jpg, id=195, 1003.75pt x 803.0pt>
+<figures/supplementary/anzctr.topicvalues.jpg, id=254, 1003.75pt x 803.0pt>
 File: figures/supplementary/anzctr.topicvalues.jpg Graphic file (type jpg)
 <use figures/supplementary/anzctr.topicvalues.jpg>
 Package pdftex.def Info: figures/supplementary/anzctr.topicvalues.jpg  used on 
-input line 425.
+input line 561.
 (pdftex.def)             Requested size: 462.26999pt x 369.82559pt.
-(./asa_template.bbl [10 <./asa_template_files/figure-latex/unnamed-chunk-6-1.pn
-g>] [11 <./figures/anzctr.wordclouds.JPG>] [12 <./figures/supplementary/supp_pl
-osone.50clusters.jpg> <./figures/supplementary/plos.topicvalues.jpg>] [13 <./fi
-gures/supplementary/supp_anzctr.50clusters.jpg> <./figures/supplementary/anzctr
-.topicvalues.jpg>] [14] [15])
+(./asa_template.bbl [15 <./figures/supplementary/supp_plosone.50clusters.jpg>] 
+[16 <./figures/supplementary/plos.topicvalues.jpg> <./figures/supplementary/sup
+p_anzctr.50clusters.jpg>] [17 <./figures/supplementary/anzctr.topicvalues.jpg>]
+[18] [19]
+Overfull \hbox (162.78514pt too wide) in paragraph at lines 155--160
+\OT1/cmr/bx/n/12 URL: \OT1/cmr/m/it/12 https://gateway.library.qut.edu.au/login
+?url=https://search.proquest.com/docview/2174217344?accountid=13380 
+ []
+
+)
 
 Package natbib Warning: There were undefined citations.
 
-[16] (./asa_template.aux)
+[20] (./asa_template.aux)
 
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `asa_template.out' has not changed.
-(rerunfilecheck)             Checksum: 01C0A0C157AE39B7242F62EABEF1BC74;2066.
+(rerunfilecheck)             Checksum: 4F0B500C278F5EE9CC642DC8FF116B0C;2273.
  ) 
 Here is how much of TeX's memory you used:
- 8835 strings out of 480954
- 132555 string characters out of 5905582
- 426077 words of memory out of 5000000
- 25865 multiletter control sequences out of 15000+600000
- 412773 words of font info for 59 fonts, out of 8000000 for 9000
+ 8882 strings out of 480954
+ 133720 string characters out of 5905582
+ 426572 words of memory out of 5000000
+ 25896 multiletter control sequences out of 15000+600000
+ 413110 words of font info for 60 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 71i,11n,74p,446b,468s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,11n,74p,446b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
  <c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/e
-c/tcrm0700.600pk> <c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/lj
-four/jknappen/ec/tcrm1000.600pk><c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/Users/Nicol/AppData/Roaming/T
-inyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/Users/Nicol/App
-Data/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:
-/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi12.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr12.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><c:/Users/Nicol/AppData/Roam
-ing/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on asa_template.pdf (16 pages, 1470054 bytes).
+c/tcrm1200.600pk> <c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/lj
+four/jknappen/ec/tcrm0700.600pk> <c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-
+var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk><c:/Users/Nicol/AppData/Roaming/
+TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/Users/Nicol/Ap
+pData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/
+Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mbxti10.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmmi12.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/Users/Nicol/AppData/Roa
+ming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><c:/Users/Nic
+ol/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb
+>
+Output written on asa_template.pdf (20 pages, 1561629 bytes).
 PDF statistics:
- 284 PDF objects out of 1000 (max. 8388607)
- 244 compressed objects within 3 object streams
- 64 named destinations out of 1000 (max. 500000)
- 153 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 344 PDF objects out of 1000 (max. 8388607)
+ 295 compressed objects within 3 object streams
+ 77 named destinations out of 1000 (max. 500000)
+ 179 words of extra memory for PDF output out of 10000 (max. 10000000)
 

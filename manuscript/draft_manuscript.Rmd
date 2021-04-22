@@ -251,7 +251,7 @@ Group-based hypothesis testing was a recurring theme across topics, with text de
 <!-- Topic 10 (n = 4,664) reported similar methods applied to the analysis of replicates collected under experimental designs. Top matching sections across these three topics did not define the groups being compared. [nw: excluded for now as evidence for boilerplate not as strong]-->
 
 
-Remaining topics reflected applications of meta-analysis (Topic 7: n = 5,165), regression modelling (Topic 2: n = 19,478) and larger sections that reported data processing and statistical methods within the same section (Topic 8: n = 38,183). 
+
 
 <!-- Top matches for Topic 2 shared features of the 'describe-compare' template seen in other topics, expanded to include details of multivariable regression modelling. Examples of multivariable models were (stepwise) logistic regression and Cox proportional hazards regression. -->
 

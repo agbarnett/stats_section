@@ -27,6 +27,7 @@
 
 % Pandoc citation processing
 
+\usepackage{pdflscape}
 
 \begin{document}
 
@@ -310,20 +311,21 @@ to missing.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.7\linewidth]{figures/plos.summary} 
+{\centering \includegraphics[width=0.6\linewidth]{figures/plos.summary} 
 
 }
 
 \caption{\label{fig:plos-n}PLOS summary}\label{fig:unnamed-chunk-3}
 \end{figure}
 
-API searches returned 131,847 unique records, of which 111,731 (85\%)
+API searches returned 131,847 results (DOIs), of which 111,731 (85\%)
 included a statistical methods section based on our search strategy. In
 the final sample, 95,518 (85\%) DOIs returned an exact match against
-common section headings, including 64,133 for `statistical analysis',
-13,380 for `statistical analyses' and 13,627 for `data analysis'. Among
-DOIs that did not meet the partial matching criteria, initial search
-terms appeared in {[}TODO{]}.
+common section headings: 64,133 for `statistical analysis', 13,380 for
+`statistical analyses' and 13,627 for `data analysis'.
+
+Among DOIs that did not meet the partial matching criteria, initial
+search terms appeared in {[}TODO{]}.
 
 Search results varied by journal volume (Figure \ref{fig:plos-n}A). The
 total number of API search results peaked at volumes 8 (n = 19,045) and
@@ -333,13 +335,13 @@ same period. The percentage of records that included a statistical
 methods section by volume based on our proposed matching criteria varied
 between 64\% (volume 2) and 86\% (volume 9).
 
-The median length of statistical methods sections was 127 words (IQR: 61
-to 254 words) (Figure \ref{fig:plos-n}B). 7,450 articles (7\%) had a
-statistical methods section of 500 words or more. 19,461 articles (17\%)
-had a statistical methods section of 50 words or less, equal to the
-length of this paragraph.
+Statistical methods sections had a median length of 127 words and
+inter-quartile range of 61 to 254 words (Figure \ref{fig:plos-n}B).
+7,450 articles (7\%) had a statistical methods section of 500 words or
+more. 19,461 articles (17\%) had sections with 50 words or less, equal
+to the length of this paragraph.
 
-All papers included Biology and life sciences (n = 107,584), Earth
+All DOIs included Biology and life sciences (n = 107,584), Earth
 sciences (n = 7,605) and/or Computer and information sciences (n =
 5,190) in their top 3 subject classifications (Figure
 \ref{fig:plos-n}C).
@@ -350,52 +352,59 @@ sciences (n = 7,605) and/or Computer and information sciences (n =
 
 }
 
-\caption{\label{fig:plos-wordclouds}PLOS ONE topic clouds.}\label{fig:unnamed-chunk-5}
+\caption{\label{fig:plos-clouds}Topic clouds for ten clusters for PLOS ONE (left) and ANZCTR (right)}\label{fig:unnamed-chunk-5}
 \end{figure}
 
-Increasing the number of clusters decreased cluster quality based on
-global goodness-of-fit measures (Supplementary Figure 1), with average
-silhouette score and within-cluster dispersion leveling off around 20
-clusters. This indicated that the data comprised one large,
-heterogeneous cluster and multiple smaller clusters.
-
 The topic clouds based on ten clusters are in
-Figure\textasciitilde{}\ref{fig:plos-wordclouds}. Frequently occurring
-words reflected the use of statistical software (Topics 3 and 5),
-descriptive statistics (Topic 6), group based hypothesis testing (Topics
-1 and 4) and definitions of statistical significance
-(Topics\textasciitilde1 and 9). Statistical methods sections associated
-with regression (Topic 2) and meta-analysis (Topic 7) were also
-identified.
+Figure\textasciitilde{}\ref{fig:plos-clouds}. Frequently occurring words
+reflected the use of statistical software (Topics 3 and 5), descriptive
+statistics (Topic 6), group based hypothesis testing (Topics 1 and 4)
+and definitions of statistical significance (Topics\textasciitilde1 and
+9). Statistical methods sections associated with regression (Topic 2)
+and meta-analysis (Topic 7) were also identified.
+
+\includegraphics[width=3.75in,height=2.75in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-6-1.png}
 
 Topics related to the use of statistical software differentiated between
 Prism GraphPad (Topic\textasciitilde3: n = 9,879; 8.8\%) and SPSS (Topic
-5: n = 9,574; 8.6\%) (Box 1). A manual review of the top matching
-sections in these topics showed strong evidence of boilerplate text.
-Nine out ten top matches for Topic 3 stated the use of Prism GraphPad
-but did not specify which statistical methods were used; six out of ten
-top matches returned the same cluster score indicating near identical
-text. Top matching sections for Topic 5 included information on SPSS
-version numbers and definitions of statistical significance.
+5: n = 9,574; 8.6\%) . Manual review of results showed that nine out of
+the ten top matching DOIs for Topic 3 stated the use of Prism GraphPad,
+but did not specify which statistical methods were used. Top matching
+sections for Topic 5 included information on SPSS version numbers and
+definitions of statistical significance. Examples of boilerplate text
+for selected topics are presented in Table
+\ref{tab:plos-example-boilerplate}. Examples correspond to top ranking
+DOIs, and DOIs with the higher number of matches based on cosine
+similarity score greater than 0.8. Further results from cosine
+similarity scores are provided in Supplementary File 2.
 
-\begin{itemize}
-\tightlist
-\item
-  Results of cosine similaritites
-\end{itemize}
+\includegraphics[width=8.00in,height=4.12in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-7-1.png}
 
-\includegraphics[width=6.13in,height=3.49in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-6-1.png}
+Definitions of statistical significance featured strongly in Topic 1 (n
+= 3,775) and Topic 9 (n = 6,104) combined with hypothesis testing for
+comparing differences between two groups. Topic 1 reflected applications
+of Student's t-test assuming a 5\% level of statistical significance.
+Topic 9 referenced similar methods combined with multiple thresholds for
+declaring statistical significance by asterisk: ``\(^{*}p<0.05\),
+\(^{**}p<0.01\) and \(^{***}p<0.001\)''., a practice that has been
+criticised {[}add wasserstein2019{]}.
+
+Group-based hypothesis testing was a recurring theme across topics, with
+text descriptions varying based on method(s) used. One-way analysis of
+variance also featured strongly in Topic 4 (n = 10,163), with text
+citing common methods for performing post-hoc multiple comparisons. Top
+matching sections across these topics did not include definitions of
+groups being compared.
+
+Frequently occurring words in Topic 6 (n = 4,746) including `Mean', `SD'
+and `SEM' reflected the use of descriptive statistics for summarising
+continuous variables. Sections associated with this topic appeared to be
+expanded versions of Topics 1 and 9, showing evidence of boilerplate
+text in the form of descriptive statistics followed by hypothesis
+testing using Student's t-test, Mann Whitney U or one-way analysis of
+variance.
 
 \subsection{ANZCTR}
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{figures/anzctr.wordclouds} 
-
-}
-
-\caption{ANZCTR topic clouds.}\label{fig:unnamed-chunk-7}
-\end{figure}
 
 We downloaded 28,008 studies. The numbers of excluded studies are shown
 in Figure\textasciitilde{}\ref{fig:anzctr-missing}. Of the 12,700
@@ -408,6 +417,15 @@ included studies, 9,523 (75\%) had a statistical methods section.
 }
 
 \caption{ANZCTR search results.}\label{fig:unnamed-chunk-8}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/anzctr.wordclouds} 
+
+}
+
+\caption{ANZCTR topic clouds.}\label{fig:unnamed-chunk-9}
 \end{figure}
 
 The median length of the section was 129 words with an inter-quartile
@@ -451,7 +469,7 @@ sections became less likely over time. Studies with more funders and a
 larger target sample size were less likely to have a missing methods
 section.
 
-\includegraphics[width=4.66in,height=1.55in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-9-1.png}
+\includegraphics[width=4.66in,height=1.55in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-10-1.png}
 
 \begin{itemize}
 \tightlist
@@ -544,7 +562,7 @@ than the paper and could be in PDF or Word format.
 
 }
 
-\caption{PLOS ONE clustering metrics.}\label{fig:unnamed-chunk-10}
+\caption{PLOS ONE clustering metrics.}\label{fig:unnamed-chunk-11}
 \end{figure}
 
 \begin{figure}
@@ -553,7 +571,7 @@ than the paper and could be in PDF or Word format.
 
 }
 
-\caption{PLOS ONE topic values.}\label{fig:unnamed-chunk-11}
+\caption{PLOS ONE topic values.}\label{fig:unnamed-chunk-12}
 \end{figure}
 
 \subsection{ANZCTR}
@@ -564,7 +582,7 @@ than the paper and could be in PDF or Word format.
 
 }
 
-\caption{ANZCTR clustering metrics.}\label{fig:unnamed-chunk-12}
+\caption{ANZCTR clustering metrics.}\label{fig:unnamed-chunk-13}
 \end{figure}
 
 \begin{figure}
@@ -573,7 +591,7 @@ than the paper and could be in PDF or Word format.
 
 }
 
-\caption{ANZCTR topic values.}\label{fig:unnamed-chunk-13}
+\caption{ANZCTR topic values.}\label{fig:unnamed-chunk-14}
 \end{figure}
 
 \bibliographystyle{agsm}

@@ -66,16 +66,20 @@ ftab.cosine.plos = mutate(ftab.cosine.plos,'Median (IQR)' = paste0(Median,' (',Q
   select(topic,'Median (IQR)',pgt80,pgt90,peq1) %>%
   rename('Similarity > 0.8'=pgt80,'Similarity > 0.9' = pgt90, 'Similarity = 1' = peq1) 
 
-#exact matches, topic 1
-boilerplate = lapply(1:10,function(x) stats_section.sim.top500 %>% filter(topic==x,sim>0.8) %>% mutate(pair = row_number(),
-                                                                               doi.i = stats_section.doi.top500[[x]][i],
-                                                                               doi.j = stats_section.doi.top500[[x]][j]) %>% select(topic,pair,sim,doi.i,doi.j))
+#boilerplate text, pairwise
+boilerplate = lapply(1:10,function(x) stats_section.sim.top500 %>% filter(topic==x,sim>0.5) %>% mutate(pair = row_number(),
+                                                                               doi_1 = stats_section.doi.top500[[x]][i],
+                                                                               doi_2 = stats_section.doi.top500[[x]][j]) %>% select(topic,pair,sim,doi_1,doi_2))
   
 
-boilerplate.dois = bind_rows(boilerplate) %>% gather(variable,doi,-topic,-pair,-sim) %>% arrange(topic,-sim,pair) %>% select(-variable)
+boilerplate.dois = bind_rows(boilerplate) ##%>% gather(variable,doi,-topic,-pair,-sim) %>% arrange(topic,-sim,pair)
 
 #join to text
-boilerplate.text.plos = boilerplate.dois %>% left_join(matches %>% select(doi,text_heading,text_data,text_data_clean,rank,words),by='doi')
+boilerplate.text.plos = boilerplate.dois %>% left_join(matches %>% select(doi,text_data,rank,words),by=c('doi_1'='doi')) %>%
+  rename('stats_section_1'=text_data,'rank_1'=rank,'words_1'=words) %>%
+  left_join(matches %>% select(doi,text_data,rank,words),by=c('doi_2'='doi')) %>%
+  rename('stats_section_2'=text_data,'rank_2'=rank,'words_2'=words) %>%
+  select(topic,pair,sim,doi_1,rank_1,words_1,doi_2,rank_2,words_2,stats_section_1,stats_section_2) %>% arrange(topic,-sim)
 
 save(matches,file='../results/plos.results.10topics.rda')
 save(stats_section.sim,ftab.cosine.plos,boilerplate.text.plos,file='../results/plos.cosinesim.10topics.rda')
@@ -83,3 +87,11 @@ save(stats_section.sim,ftab.cosine.plos,boilerplate.text.plos,file='../results/p
 #save boilerplate text as separate excel file
 write.xlsx(boilerplate.text.plos,file='../results/plos.boilerplate.xlsx')
 
+
+# #get total matches by topic, assume sim score>0.8
+# check.dois  = boilerplate.text.plos %>% filter(sim>0.8) %>% count(topic,doi) %>% arrange(topic,-n)
+# 
+# check.dois %>% group_by(topic) %>% slice(1)
+# 
+# top.matches = boilerplate.text.plos %>% filter(rank==1) %>% distinct(topic,doi)
+# 

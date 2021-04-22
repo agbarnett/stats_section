@@ -43,7 +43,9 @@
 studies posted to a trial registry.}
 
   \author{
-        Nicole White \thanks{The authors gratefully acknowledge \ldots{}} \\
+        Nicole White \thanks{The authors gratefully acknowledge computational resources and services
+used in this work provided by the eResearch Office, Queensland
+University of Technology, Brisbane, Australia.} \\
     School of Public Health and Social Work, QUT\\
      and \\     Thiru Balasubramaniam, Richi Nayak \\
     To add\\
@@ -136,8 +138,11 @@ thought has gone into the statistical analysis.
 \subsection{Data sources}
 
 We used two openly available data sources to find statistical methods
-sections, covering peer-reviewed journal articles and registered
-clinical trial protocols.
+sections: research articles published in \emph{PLOS ONE} and study
+protocols registered on the Australian and New Zealand Clinical Trials
+Registry (ANZCTR). Data sources were chosen as examples of common
+research outputs that include descriptions of statistical methods that
+were used, or are planned, for analysing study outcomes.
 
 \subsubsection{Public Library of Science (PLOS ONE)}
 \label{sec:methodsPLOS}
@@ -161,12 +166,11 @@ independent replication of results.
 
 All \emph{PLOS ONE} articles are freely accessible via the PLOS
 Application Programming Interface (API). This enabled us to conduct
-semi-automated searches of full-text articles and analyse data on
-individual records, including text content and general attributes such
-as publication date and field(s) of research. To find papers with a
-statistical methods section we used targeted API searches followed by
-article filtering based on section headings. The data were downloaded on
-3 July 2020.
+searches of full-text articles and analyse data on articles' text
+content and general attributes such as publication date and field(s) of
+research. To find papers with a statistical methods section we used
+targeted API searches followed by article filtering based on section
+headings. The data were downloaded on 3 July 2020.
 
 \emph{Step 1}: Targeted API searches. API searches were completed using
 the R package `rplos' \citep{rplos}. Search queries targeted the
@@ -187,7 +191,13 @@ for all search results were downloaded and combined into a single
 dataset, organised by DOI and subsection heading(s). Since \emph{PLOS
 ONE} does not prescribe standardised headings to preface statistical
 methods sections, we performed partial matching on available headings
-agai
+against frequently used terms in initial search results: `Statistical
+analysis', `Statistical analyses', `Statistical method', `Statistics',
+`Data analysis' and `Data analyses'. For records that did not pass this
+second stage filter, we selected a random sample of XXX records and
+reviewed where initial search terms appeared in the full-text, to
+estimate the likely proportion of statistical methods sections that were
+missed.
 
 \subsubsection{Australia and New Zealand Clinical Trials Registry (ANZCTR)}
 \label{sec:methodsANZCTR}
@@ -264,26 +274,22 @@ selected prepositions were removed. We retained selected stop words
 that, if excluded, may have changed the context of statistical methods
 being described, for example `between' and `against'.
 
-nst frequently used terms in initial search results: `Statistical
-analysis', `Statistical analyses', `Statistical method', `Statistics',
-`Data analysis' and `Data analyses'. To determine the reliability of our
-chosen filters, we manually reviewed full text data extracted for a
-random sample of XXX articles that were not matched (File
-S1).{[}TODO\ldots finish this thought\ldots{]}
-
 \subsection{Clustering algorithm}
 
 \emph{Details to come}
 
+We applied the clustering algorithm to the cleaned dataset, varying the
+number of clusters from 1 to 50.
+
 Results were transformed to lower case for the clustering, but examples
 are given using the original capitalisation.
 
-Results were examined for evidence of boilerplate text in two ways. We
-first reviewed the top ten results that represented the strongest
-matches to each cluster. To compare results within a cluster, we
-calculated cosine similarity score for all pairs of records; higher
-scores denoted a higher degree of similarity in text between a pair of
-records.
+For each dataset, records assigned to invididual clusters were examined
+for evidence of boilerplate text in two ways. We first reviewed the top
+ten results that represented the strongest matches to each cluster.
+Records assigned to the same cluster were also compared by calculating
+pairwise cosine similarities; higher scores denoted a higher degree of
+similarity in text between a pair of records.
 
 \subsection{Missing statistical methods sections}
 
@@ -304,15 +310,15 @@ to missing.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.95\linewidth]{figures/plos.summary} 
+{\centering \includegraphics[width=0.7\linewidth]{figures/plos.summary} 
 
 }
 
-\caption{PLOS ONE result summary.}\label{fig:unnamed-chunk-3}
+\caption{\label{fig:plos-n}PLOS summary}\label{fig:unnamed-chunk-3}
 \end{figure}
 
 API searches returned 131,847 unique records, of which 111,731 (85\%)
-included a statistical methods section based on our search criteria. In
+included a statistical methods section based on our search strategy. In
 the final sample, 95,518 (85\%) DOIs returned an exact match against
 common section headings, including 64,133 for `statistical analysis',
 13,380 for `statistical analyses' and 13,627 for `data analysis'. Among
@@ -344,27 +350,23 @@ sciences (n = 7,605) and/or Computer and information sciences (n =
 
 }
 
-\caption{PLOS ONE topic clouds.}\label{fig:unnamed-chunk-5}
+\caption{\label{fig:plos-wordclouds}PLOS ONE topic clouds.}\label{fig:unnamed-chunk-5}
 \end{figure}
 
-We applied the clustering algorithm to the cleaned dataset, varying the
-number of clusters from 1 to 50. Increasing the number of clusters
-decreased cluster quality based on global goodness-of-fit measures
-(Supplementary Figure 1), with average silhouette score and
-within-cluster dispersion leveling off around 20 clusters. This
-indicated that the data comprised one large, heterogeneous cluster and
-multiple smaller clusters.
-
-\includegraphics[width=3.75in,height=2.75in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-6-1.png}
+Increasing the number of clusters decreased cluster quality based on
+global goodness-of-fit measures (Supplementary Figure 1), with average
+silhouette score and within-cluster dispersion leveling off around 20
+clusters. This indicated that the data comprised one large,
+heterogeneous cluster and multiple smaller clusters.
 
 The topic clouds based on ten clusters are in
-Figure\textasciitilde{}\ref{fig:plot-10-topics}. Frequently occurring
-words reflected the use of statistical software (Topics\textasciitilde3
-and 5), descriptive statistics (Topic\textasciitilde6), group based
-hypothesis testing (Topics 1 and 4) and definitions of statistical
-significance (Topics\textasciitilde1 and 9). There are also statistical
-methods sections associated with regression (Topic\textasciitilde2) and
-meta-analysis (Topic\textasciitilde7).
+Figure\textasciitilde{}\ref{fig:plos-wordclouds}. Frequently occurring
+words reflected the use of statistical software (Topics 3 and 5),
+descriptive statistics (Topic 6), group based hypothesis testing (Topics
+1 and 4) and definitions of statistical significance
+(Topics\textasciitilde1 and 9). Statistical methods sections associated
+with regression (Topic 2) and meta-analysis (Topic 7) were also
+identified.
 
 Topics related to the use of statistical software differentiated between
 Prism GraphPad (Topic\textasciitilde3: n = 9,879; 8.8\%) and SPSS (Topic
@@ -382,7 +384,7 @@ version numbers and definitions of statistical significance.
   Results of cosine similaritites
 \end{itemize}
 
-\includegraphics[width=6.13in,height=3.49in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-7-1.png}
+\includegraphics[width=6.13in,height=3.49in,keepaspectratio]{asa_template_files/figure-latex/unnamed-chunk-6-1.png}
 
 \subsection{ANZCTR}
 
@@ -392,12 +394,21 @@ version numbers and definitions of statistical significance.
 
 }
 
-\caption{ANZCTR topic clouds.}\label{fig:unnamed-chunk-8}
+\caption{ANZCTR topic clouds.}\label{fig:unnamed-chunk-7}
 \end{figure}
 
 We downloaded 28,008 studies. The numbers of excluded studies are shown
-in Figure\textasciitilde X. Of the 12,700 included studies, 9,523 (75\%)
-had a statistical methods section.
+in Figure\textasciitilde{}\ref{fig:anzctr-missing}. Of the 12,700
+included studies, 9,523 (75\%) had a statistical methods section.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/excluded_anzctr_missing} 
+
+}
+
+\caption{ANZCTR search results.}\label{fig:unnamed-chunk-8}
+\end{figure}
 
 The median length of the section was 129 words with an inter-quartile
 range of 71 to 219 words. Some methods sections were only one word,

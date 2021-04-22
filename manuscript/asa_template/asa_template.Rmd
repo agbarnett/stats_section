@@ -6,7 +6,7 @@ blinded: 0
 
 authors: 
 - name: Nicole White
-  thanks: The authors gratefully acknowledge ...
+  thanks: The authors gratefully acknowledge computational resources and services used in this work provided by the eResearch Office, Queensland University of Technology, Brisbane, Australia.
   affiliation: School of Public Health and Social Work, QUT
 
 - name: Thiru Balasubramaniam, Richi Nayak
@@ -63,7 +63,7 @@ Use of these methods sections indicates that little thought has gone into the st
 
 \subsection{Data sources}
 
-We used two openly available data sources to find statistical methods sections, covering peer-reviewed journal articles and registered clinical trial protocols.
+We used two openly available data sources to find statistical methods sections: research articles published in _PLOS ONE_ and study protocols registered on the Australian and New Zealand Clinical Trials Registry (ANZCTR). Data sources were chosen as examples of common research outputs that include descriptions of statistical methods that were used, or are planned, for analysing study outcomes.
 
 \subsubsection{Public Library of Science (PLOS ONE)}
 \label{sec:methodsPLOS}
@@ -72,11 +72,14 @@ _PLOS ONE_ is a large open access journal that publishes original research acros
 
 Authors are encouraged to follow published reporting guidelines such as EQUATOR, to ensure that chosen statistical methods are appropriate for the study design, and adequate details are provided to enable independent replication of results. 
 
-All _PLOS ONE_ articles are freely accessible via the PLOS Application Programming Interface (API). This enabled us to conduct semi-automated searches of full-text articles and analyse data on individual records, including text content and general attributes such as publication date and field(s) of research. To find papers with a statistical methods section we used targeted API searches followed by article filtering based on section headings. The data were downloaded on 3 July 2020.
+All _PLOS ONE_ articles are freely accessible via the PLOS Application Programming Interface (API). This enabled us to conduct searches of full-text articles and analyse data on articles' text content and general attributes such as publication date and field(s) of research. To find papers with a statistical methods section we used targeted API searches followed by article filtering based on section headings. The data were downloaded on 3 July 2020.
 
 _Step 1_: Targeted API searches. API searches were completed using the R package ‘rplos’ [@rplos]. Search queries targeted the presence of analysis-related terms anywhere in the article. Search terms combined the words “data” or “statistical” with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Search terms were intended to be broad whilst keeping search results to a manageable number for full-text review (see Step 2). By allowing terms to appear anywhere in the article, we accounted for the possibility of relevant text being placed in different sections, for example, in the _Material and Methods_ section versus _Results_. Search results were indexed by a unique Digital Object Identifier (DOI). Attribute data collected per DOI included journal volume and subject classification(s).
 
-_Step 2_: Partial matching on section headings. Full text XML data for all search results were downloaded and combined into a single dataset, organised by DOI and subsection heading(s). Since _PLOS ONE_ does not prescribe standardised headings to preface statistical methods sections, we performed partial matching on available headings agai
+_Step 2_: Partial matching on section headings. Full text XML data for all search results were downloaded and combined into a single dataset, organised by DOI and subsection heading(s). Since _PLOS ONE_ does not prescribe standardised headings to preface statistical methods sections, we performed partial matching on available headings against frequently used terms in initial search results: ‘Statistical analysis’, ‘Statistical analyses’, ‘Statistical method’, ‘Statistics’, ‘Data analysis’ and ‘Data analyses’. For records that did not pass this second stage filter, we selected a random sample of XXX records and reviewed where initial search terms appeared in the full-text, to estimate the likely proportion of statistical methods sections that were missed.
+
+<!-- For records that did not pass this second stage filter, we reviewed where keywords appeared in the full-text to ascertain the extent of missing statistical analysis sections. ...[TODO: finish this whilst draft is with coauthors]-->
+
 
 \subsubsection{Australia and New Zealand Clinical Trials Registry (ANZCTR)}
 \label{sec:methodsANZCTR}
@@ -113,15 +116,16 @@ As a final step, common stop words including pronouns, contractions and selected
 <!-- - https://web.archive.org/web/20190607174803/https://journals.plos.org/plosone/s/submission-guidelines -->
 <!-- - https://web.archive.org/web/20150507175314/https://journals.plos.org/plosone/s/submission-guidelines -->
 
-nst frequently used terms in initial search results: ‘Statistical analysis’, ‘Statistical analyses’, ‘Statistical method’, ‘Statistics’, ‘Data analysis’ and ‘Data analyses’. To determine the reliability of our chosen filters, we manually reviewed full text data extracted for a random sample of XXX articles that were not matched (File S1).[TODO…finish this thought…]
 
 \subsection{Clustering algorithm}
 
 _Details to come_
 
+We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50.
+
 Results were transformed to lower case for the clustering, but examples are given using the original capitalisation.
 
-Results were examined for evidence of boilerplate text in two ways. We first reviewed the top ten results that represented the strongest matches to each cluster. To compare results within a cluster, we calculated cosine similarity score for all pairs of records; higher scores denoted a higher degree of similarity in text between a pair of records.
+For each dataset, records assigned to invididual clusters were examined for evidence of boilerplate text in two ways. We first reviewed the top ten results that represented the strongest matches to each cluster. Records assigned to the same cluster were also compared by calculating pairwise cosine similarities; higher scores denoted a higher degree of similarity in text between a pair of records.
 
 \subsection{Missing statistical methods sections}
 
@@ -150,15 +154,15 @@ p.extremes = wordcounts %>% summarise(morethan500 = round(100*mean(words>500)),l
 n.extremes = wordcounts %>% summarise(morethan500 = sum(words>500),lessthan50=sum(words<50))
 ```
 
-```{r, echo=FALSE, fig.align='center', out.width="95%", fig.cap="PLOS ONE result summary."}
+```{r, echo=FALSE, fig.align='center', out.width="70%",fig.cap="\\label{fig:plos-n}PLOS summary"}
+
 knitr::include_graphics("figures/plos.summary.jpg")
 ```
 
 <!-- ![\label{fig:plos-n}A: Search results by _PLOS ONE_ volume; B: word count per statistical methods section included in analysis (n = 111,73); C: subject classifications assigned to full-text records included in analysis](figures/plos.summary.jpg) -->
 
 
-
-```{r,fig.height=12,fig.width=6,fig.asp=0.55,fig.cap='\\label{fig:plos-n}Search results by _PLOS ONE_ volume (1st row); word count per statistical methods section included in analysis (n = 111,731; 2nd row); subject classifications assigned to full-text records included in analysis (3rd row)'}
+```{r}
 
 load('../../results/stats_section_subject.classifications.rda')
 stats_section_subject = mutate(stats_section_subject,
@@ -174,7 +178,9 @@ n.computer = to_plot %>% filter(subject_level_name=='Computer and information sc
 ```
 
 
-API searches returned `r format(n.api,big.mark=',')` unique records, of which `r format(n.include,big.mark=',')` (`r perc.include`%) included a statistical methods section based on our search criteria. In the final sample, 95,518 (85%) DOIs returned an exact match against common section headings, including 64,133 for 'statistical analysis', 13,380 for 'statistical analyses' and 13,627 for 'data analysis'. Among DOIs that did not meet the partial matching criteria, initial search terms appeared in [TODO].
+API searches returned `r format(n.api,big.mark=',')` unique records, of which `r format(n.include,big.mark=',')` (`r perc.include`%) included a statistical methods section based on our search strategy. In the final sample, 95,518 (85%) DOIs returned an exact match against common section headings, including 64,133 for 'statistical analysis', 13,380 for 'statistical analyses' and 13,627 for 'data analysis'. Among DOIs that did not meet the partial matching criteria, initial search terms appeared in [TODO].
+
+
 
 Search results varied by journal volume (Figure \ref{fig:plos-n}A). The total number of API search results peaked at volumes 8 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`) and 9 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`), corresponding to years 2013 and 2014. This trend aligned with the total number of papers published in _PLOS ONE_ over the same period. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`).
 
@@ -184,24 +190,24 @@ All papers included Biology and life sciences (n = `r format(n.biology,big.mark=
 (n = `r format(n.earth,big.mark=',')`) and/or Computer and information sciences (n = `r format(n.computer,big.mark=',')`) in their top 3 subject classifications
 (Figure \ref{fig:plos-n}C).
 
-```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="PLOS ONE topic clouds."}
+```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="\\label{fig:plos-wordclouds}PLOS ONE topic clouds."}
 knitr::include_graphics("figures/plos.wordclouds.jpg")
 ```
 
-We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. 
+Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters.
+
+The topic clouds based on ten clusters are in Figure~\ref{fig:plos-wordclouds}. Frequently occurring words reflected the use of statistical software (Topics 3 and 5), descriptive statistics (Topic 6), group based hypothesis testing (Topics 1 and 4) and definitions of statistical significance (Topics~1 and 9). Statistical methods sections associated with regression (Topic 2) and meta-analysis (Topic 7) were also identified. 
 
 
-```{r}
-load('../../results/plos.results.10topics.rda')
-  
-ftab.plos = matches %>%
-  group_by(topic_id) %>% summarise(DOIs = n(),`Median word count` = median(words),Q1=quantile(words,.25),Q3=quantile(words,.75),.groups='drop') 
+<!-- ```{r} -->
+<!-- load('../../results/plos.results.10topics.rda') -->
 
-flextable(ftab.plos)
+<!-- ftab.plos = matches %>% -->
+<!--   group_by(topic_id) %>% summarise(DOIs = n(),`Median word count` = median(words),Q1=quantile(words,.25),Q3=quantile(words,.75),.groups='drop')  -->
 
-```
+<!-- flextable(ftab.plos) -->
 
-The topic clouds based on ten clusters are in Figure~\ref{fig:plot-10-topics}. Frequently occurring words reflected the use of statistical software (Topics~3 and 5), descriptive statistics (Topic~6), group based hypothesis testing (Topics 1 and 4) and definitions of statistical significance (Topics~1 and 9). There are also statistical methods sections associated with regression (Topic~2) and meta-analysis (Topic~7). 
+<!-- ``` -->
 
 Topics related to the use of statistical software differentiated between Prism GraphPad (Topic~3: n = 9,879; 8.8%) and SPSS (Topic 5: n = 9,574; 8.6%) (Box 1). A manual review of the top matching sections in these topics showed strong evidence of boilerplate text. Nine out ten top matches for Topic 3 stated the use of Prism GraphPad but did not specify which statistical methods were used; six out of ten top matches returned the same cluster score indicating near identical text. Top matching sections for Topic 5 included information on SPSS version numbers and definitions of statistical significance.
 
@@ -226,8 +232,14 @@ knitr::include_graphics("figures/anzctr.wordclouds.jpg")
 ```
 
 
-We downloaded 28,008 studies. The numbers of excluded studies are shown in Figure~X. 
-Of the 12,700 included studies, 9,523 (75%) had a statistical methods section. 
+We downloaded 28,008 studies. The numbers of excluded studies are shown in Figure~\ref{fig:anzctr-missing}. Of the 12,700 included studies, 9,523 (75%) had a statistical methods section. 
+
+
+```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="ANZCTR search results."}
+
+knitr::include_graphics("figures/excluded_anzctr_missing.jpg")
+
+```
 
 The median length of the section was 129 words with an inter-quartile range of 71 to 219 words.
 Some methods sections were only one word, including "ANOVA", "t-test", "SPSS" and even "SSPS". 

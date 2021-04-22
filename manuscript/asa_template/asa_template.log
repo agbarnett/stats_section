@@ -1,14 +1,14 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.12)  21 APR 2021 13:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.21)  22 APR 2021 15:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **asa_template.tex
 (./asa_template.tex
 LaTeX2e <2020-10-01> patch level 4
-L3 programming layer <2021-02-18> (c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf
--dist/tex/latex/base/article.cls
+L3 programming layer <2021-02-18>
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size12.clo
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
 )
 \c@part=\count179
@@ -23,26 +23,29 @@ File: size12.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.st
-y
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.
+sty
 Package: amsmath 2020/09/23 v2.17i AMS math features
 \@mathmargin=\skip49
 For additional information on amsmath, use the `?' option.
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.st
-y
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.
+sty
 Package: amstext 2000/06/29 v2.01 AMS text
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.s
+ty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks15
 \ex@=\dimen139
 ))
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.s
+ty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen140
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.s
+ty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
 \inf@bad=\count187
@@ -83,40 +86,44 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 LaTeX Info: Redefining \[ on input line 2923.
 LaTeX Info: Redefining \] on input line 2924.
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.
-sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphic
+x.sty
 Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.st
-y
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.
+sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks20
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphics.
-sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphic
+s.sty
 Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.st
+y
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graph
-ics.cfg
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/gra
+phics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdfte
-x.def
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdf
+tex.def
 File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen148
 \Gin@req@width=\dimen149
-) (c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psfrag/psfrag.st
+)
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psfrag/psfrag.st
 y
 Package: psfrag 1998/04/11 v3.04 PSfrag (MCG)
 \pfg@pcount=\count199
 \pfg@scount=\count266
 \pfg@temp=\write3
-) (c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/epsf/epsf.sty
+) (c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/epsf/epsf.st
+y
 This is `epsf.tex' v2.7.4 <14 February 2011>
 \epsffilein=\read2
 \epsfframemargin=\dimen150
@@ -128,102 +135,106 @@ This is `epsf.tex' v2.7.4 <14 February 2011>
 \epsfysize=\dimen156
 \pspoints=\dimen157
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/enumerate.st
-y
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/enumerate.
+sty
 Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
 \@enLab=\toks21
-) (c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.st
+)
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.st
 y
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip52
 \bibsep=\skip53
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count267
-) (c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/textcomp.st
+)
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/textcomp.st
 y
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-) (c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
+) (c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.
-sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperre
+f.sty
 Package: hyperref 2021-02-27 v7.00k Hypertext links for LaTeX
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.
-sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmd
+s.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-) (c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.st
+)
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.st
 y
 Package: iftex 2020/03/06 v1.0d TeX engine tests
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdfte
-xcmds.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdf
+texcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwar
-err.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infw
+arerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetk
-eys.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvse
+tkeys.sty
 Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvd
-efinekeys.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/k
+vdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfesc
-ape.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfe
+scape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.st
-y
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.
+sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/letltxmacro/letltx
-macro.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/letltxmacro/letl
+txmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.st
-y
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.
+sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoption
-s.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvopti
+ons.sty
 Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 )
 \@linkdim=\dimen158
 \Hy@linkcounter=\count268
 \Hy@pagecounter=\count269
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.de
-f
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.
+def
 File: pd1enc.def 2021-02-27 v7.00k Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref-
-langpatches.def
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperre
+f-langpatches.def
 File: hyperref-langpatches.def 2021-02-27 v7.00k Hyperref: patches for babel la
 nguages
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.
-sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcal
+c.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmd
-s.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexc
+mds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count270
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.d
+ef
 File: puenc.def 2021-02-27 v7.00k Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -239,12 +250,12 @@ Package hyperref Info: Bookmarks ON on input line 4445.
 LaTeX Info: Redefining \url on input line 4804.
 \XeTeXLinkMargin=\dimen159
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.st
-y
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.
+sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigin
-tcalc.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/big
+intcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
@@ -261,8 +272,8 @@ Package hyperref Info: PDF/A mode OFF on input line 6105.
 LaTeX Info: Redefining \ref on input line 6145.
 LaTeX Info: Redefining \pageref on input line 6149.
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.
-sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-lt
+x.sty
 Package: atbegshi-ltx 2020/08/17 v1.0a Emulation of the original atbegshi packa
 ge
 with kernel methods
@@ -273,12 +284,12 @@ with kernel methods
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.d
-ef
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex
+.def
 File: hpdftex.def 2021-02-27 v7.00k Hyperref driver for pdfTeX
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx
-.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-l
+tx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
 e
 with kernel methods
@@ -286,12 +297,12 @@ with kernel methods
 \Fld@listcount=\count276
 \c@bookmark@seq@number=\count277
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rer
-unfilecheck.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/r
+erunfilecheck.sty
 Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/un
-iquecounter.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/
+uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
@@ -299,8 +310,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip54
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backen
-d-pdftex.def
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3back
+end-pdftex.def
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count278
 \l__pdf_internal_box=\box49
@@ -326,29 +337,29 @@ LaTeX Font Info:    ... okay on input line 31.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 31.
 LaTeX Font Info:    ... okay on input line 31.
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epsto
-pdf-base.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/eps
+topdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstop
-df-sys.cfg
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epst
+opdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 Package hyperref Info: Link coloring OFF on input line 31.
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.s
-ty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref
+.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.
-sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcoun
+t.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 )
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/g
-ettitlestring.sty
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring
+/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count279
@@ -364,104 +375,92 @@ LaTeX Info: Redefining \nameref on input line 31.
 Non-PDF special ignored!
 <special> header=psfrag.pro
 
-{c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdfte
-x.map}]
+{c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdf
+tex.map}]
 
-Package natbib Warning: Citation `2008' on page 2 undefined on input line 87.
+Package natbib Warning: Citation `2008' on page 2 undefined on input line 89.
 
 [2] [3] [4]
 LaTeX Font Info:    Trying to load font information for OML+cmr on input line 2
-41.
-(c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/omlcmr.fd
+51.
+(c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 241.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 251.
 [5] [6]
 <figures/plos.summary.jpg, id=178, 481.8pt x 602.25pt>
 File: figures/plos.summary.jpg Graphic file (type jpg)
 <use figures/plos.summary.jpg>
-Package pdftex.def Info: figures/plos.summary.jpg  used on input line 307.
-(pdftex.def)             Requested size: 439.15508pt x 548.95811pt.
-
-LaTeX Warning: Reference `fig:plos-n' on page 7 undefined on input line 322.
-
-
-LaTeX Warning: Reference `fig:plos-n' on page 7 undefined on input line 331.
-
-
-LaTeX Warning: Reference `fig:plos-n' on page 7 undefined on input line 339.
-
-<figures/plos.wordclouds.jpg, id=179, 366.61969pt x 598.48593pt>
+Package pdftex.def Info: figures/plos.summary.jpg  used on input line 313.
+(pdftex.def)             Requested size: 323.58757pt x 404.49788pt.
+<figures/plos.wordclouds.jpg, id=182, 366.61969pt x 598.48593pt>
 File: figures/plos.wordclouds.jpg Graphic file (type jpg)
 <use figures/plos.wordclouds.jpg>
-Package pdftex.def Info: figures/plos.wordclouds.jpg  used on input line 343.
+Package pdftex.def Info: figures/plos.wordclouds.jpg  used on input line 349.
 (pdftex.def)             Requested size: 323.58757pt x 528.26736pt.
-<asa_template_files/figure-latex/unnamed-chunk-6-1.png, id=180, 505.89pt x 388.
-45125pt>
+[7] [8 <./figures/plos.summary.jpg>] [9 <./figures/plos.wordclouds.JPG>]
+<asa_template_files/figure-latex/unnamed-chunk-6-1.png, id=201, 1034.36438pt x 
+535.2497pt>
 File: asa_template_files/figure-latex/unnamed-chunk-6-1.png Graphic file (type 
 png)
 <use asa_template_files/figure-latex/unnamed-chunk-6-1.png>
 Package pdftex.def Info: asa_template_files/figure-latex/unnamed-chunk-6-1.png 
- used on input line 358.
-(pdftex.def)             Requested size: 258.83415pt x 198.74765pt.
-[7] [8 <./figures/plos.summary.jpg>] [9 <./figures/plos.wordclouds.JPG>]
-
-LaTeX Warning: Reference `fig:plot-10-topics' on page 10 undefined on input lin
-e 361.
-
-<asa_template_files/figure-latex/unnamed-chunk-7-1.png, id=199, 827.4915pt x 39
-3.8715pt>
-File: asa_template_files/figure-latex/unnamed-chunk-7-1.png Graphic file (type 
-png)
-<use asa_template_files/figure-latex/unnamed-chunk-7-1.png>
-Package pdftex.def Info: asa_template_files/figure-latex/unnamed-chunk-7-1.png 
- used on input line 385.
-(pdftex.def)             Requested size: 443.02556pt x 210.87242pt.
-[10 <./asa_template_files/figure-latex/unnamed-chunk-6-1.png>]
-<figures/anzctr.wordclouds.jpg, id=206, 420.82219pt x 665.48625pt>
+ used on input line 387.
+(pdftex.def)             Requested size: 443.0161pt x 229.2463pt.
+<figures/anzctr.wordclouds.jpg, id=203, 420.82219pt x 665.48625pt>
 File: figures/anzctr.wordclouds.jpg Graphic file (type jpg)
 <use figures/anzctr.wordclouds.jpg>
-Package pdftex.def Info: figures/anzctr.wordclouds.jpg  used on input line 391.
+Package pdftex.def Info: figures/anzctr.wordclouds.jpg  used on input line 393.
 
 (pdftex.def)             Requested size: 323.58757pt x 511.72533pt.
-[11 <./asa_template_files/figure-latex/unnamed-chunk-7-1.png>] [12 <./figures/a
-nzctr.wordclouds.JPG>]
-<asa_template_files/figure-latex/unnamed-chunk-9-1.png, id=217, 625.1355pt x 16
-4.41425pt>
+
+LaTeX Warning: Reference `fig:anzctr-missing' on page 10 undefined on input lin
+e 401.
+
+<figures/excluded_anzctr_missing.jpg, id=204, 361.35pt x 289.08pt>
+File: figures/excluded_anzctr_missing.jpg Graphic file (type jpg)
+<use figures/excluded_anzctr_missing.jpg>
+Package pdftex.def Info: figures/excluded_anzctr_missing.jpg  used on input lin
+e 406.
+(pdftex.def)             Requested size: 323.58757pt x 258.87276pt.
+[10 <./asa_template_files/figure-latex/unnamed-chunk-6-1.png>] [11 <./figures/a
+nzctr.wordclouds.JPG>] [12 <./figures/excluded_anzctr_missing.jpg>]
+<asa_template_files/figure-latex/unnamed-chunk-9-1.png, id=221, 781.41937pt x 2
+05.5178pt>
 File: asa_template_files/figure-latex/unnamed-chunk-9-1.png Graphic file (type 
 png)
 <use asa_template_files/figure-latex/unnamed-chunk-9-1.png>
 Package pdftex.def Info: asa_template_files/figure-latex/unnamed-chunk-9-1.png 
- used on input line 443.
-(pdftex.def)             Requested size: 336.77641pt x 88.57413pt.
+ used on input line 454.
+(pdftex.def)             Requested size: 336.77881pt x 88.57477pt.
 [13 <./asa_template_files/figure-latex/unnamed-chunk-9-1.png>] [14]
-<figures/supplementary/supp_plosone.50clusters.jpg, id=251, 1163.0953pt x 341.7
+<figures/supplementary/supp_plosone.50clusters.jpg, id=255, 1163.0953pt x 341.7
 7687pt>
 File: figures/supplementary/supp_plosone.50clusters.jpg Graphic file (type jpg)
 
 <use figures/supplementary/supp_plosone.50clusters.jpg>
 Package pdftex.def Info: figures/supplementary/supp_plosone.50clusters.jpg  use
-d on input line 532.
+d on input line 543.
 (pdftex.def)             Requested size: 462.26999pt x 135.8374pt.
-<figures/supplementary/plos.topicvalues.jpg, id=252, 1003.75pt x 803.0pt>
+<figures/supplementary/plos.topicvalues.jpg, id=256, 1003.75pt x 803.0pt>
 File: figures/supplementary/plos.topicvalues.jpg Graphic file (type jpg)
 <use figures/supplementary/plos.topicvalues.jpg>
 Package pdftex.def Info: figures/supplementary/plos.topicvalues.jpg  used on in
-put line 541.
+put line 552.
 (pdftex.def)             Requested size: 462.26999pt x 369.82559pt.
-<figures/supplementary/supp_anzctr.50clusters.jpg, id=253, 1163.0953pt x 341.77
+<figures/supplementary/supp_anzctr.50clusters.jpg, id=257, 1163.0953pt x 341.77
 687pt>
 File: figures/supplementary/supp_anzctr.50clusters.jpg Graphic file (type jpg)
 <use figures/supplementary/supp_anzctr.50clusters.jpg>
 Package pdftex.def Info: figures/supplementary/supp_anzctr.50clusters.jpg  used
- on input line 552.
+ on input line 563.
 (pdftex.def)             Requested size: 462.26999pt x 135.8374pt.
-<figures/supplementary/anzctr.topicvalues.jpg, id=254, 1003.75pt x 803.0pt>
+<figures/supplementary/anzctr.topicvalues.jpg, id=258, 1003.75pt x 803.0pt>
 File: figures/supplementary/anzctr.topicvalues.jpg Graphic file (type jpg)
 <use figures/supplementary/anzctr.topicvalues.jpg>
 Package pdftex.def Info: figures/supplementary/anzctr.topicvalues.jpg  used on 
-input line 561.
+input line 572.
 (pdftex.def)             Requested size: 462.26999pt x 369.82559pt.
 (./asa_template.bbl [15 <./figures/supplementary/supp_plosone.50clusters.jpg>] 
 [16 <./figures/supplementary/plos.topicvalues.jpg> <./figures/supplementary/sup
@@ -484,31 +483,31 @@ Package rerunfilecheck Info: File `asa_template.out' has not changed.
 (rerunfilecheck)             Checksum: 4F0B500C278F5EE9CC642DC8FF116B0C;2273.
  ) 
 Here is how much of TeX's memory you used:
- 8882 strings out of 480954
- 133720 string characters out of 5905582
- 426572 words of memory out of 5000000
- 25896 multiletter control sequences out of 15000+600000
+ 8887 strings out of 480954
+ 134037 string characters out of 5905582
+ 426682 words of memory out of 5000000
+ 25900 multiletter control sequences out of 15000+600000
  413110 words of font info for 60 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 71i,11n,74p,446b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
- <c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/e
-c/tcrm1200.600pk> <c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/lj
-four/jknappen/ec/tcrm0700.600pk> <c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-
-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk><c:/Users/Nicol/AppData/Roaming/
-TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/Users/Nicol/Ap
-pData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/
-Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbxti10.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmmi12.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/Nicol/AppData/Roaming/TinyTeX/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/Users/Nicol/AppData/Roa
-ming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><c:/Users/Nic
-ol/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb
->
-Output written on asa_template.pdf (20 pages, 1561629 bytes).
+ 71i,11n,74p,446b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
+ <c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen
+/ec/tcrm1200.600pk> <c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-var/fonts/p
+k/ljfour/jknappen/ec/tcrm0700.600pk> <c:/Users/whitenm/AppData/Roaming/TinyTeX/
+texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk><c:/Users/whitenm/AppData/
+Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/Users/
+whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
+2.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmbxti10.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi12.pfb><c:/Users/whitenm/AppData/Roaming/TinyT
+eX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/whitenm/AppDat
+a/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/Users
+/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
+12.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmtt12.pfb>
+Output written on asa_template.pdf (20 pages, 1620331 bytes).
 PDF statistics:
- 344 PDF objects out of 1000 (max. 8388607)
- 295 compressed objects within 3 object streams
- 77 named destinations out of 1000 (max. 500000)
+ 348 PDF objects out of 1000 (max. 8388607)
+ 300 compressed objects within 3 object streams
+ 78 named destinations out of 1000 (max. 500000)
  179 words of extra memory for PDF output out of 10000 (max. 10000000)
 

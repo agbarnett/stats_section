@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2021/W32TeX)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: asa_template.aux
+The style file: agsm.bst
+Database file #1: references.bib
+Warning--I didn't find a database entry for "2008"
+Warning--empty institution in ANZCTR
+Warning--empty institution in PLOS
+Warning--empty institution in Wikipedia
+You've used 27 entries,
+            2909 wiz_defined-function locations,
+            843 strings with 10330 characters,
+and the built_in function-call counts, 130812 in all, are:
+= -- 21436
+> -- 1770
+< -- 0
++ -- 10398
+- -- 542
+* -- 11527
+:= -- 26026
+add.period$ -- 29
+call.type$ -- 27
+change.case$ -- 376
+chr.to.int$ -- 27
+cite$ -- 30
+duplicate$ -- 406
+empty$ -- 836
+format.name$ -- 636
+if$ -- 23430
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 24
+newline$ -- 109
+num.names$ -- 284
+pop$ -- 106
+preamble$ -- 1
+purify$ -- 405
+quote$ -- 0
+skip$ -- 311
+stack$ -- 0
+substring$ -- 30558
+swap$ -- 56
+text.length$ -- 378
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 102
+warning$ -- 3
+while$ -- 596
+width$ -- 0
+write$ -- 378
+(There were 4 warnings)

@@ -1,0 +1,180 @@
+\begin{thebibliography}{xx}
+
+\harvarditem[Allison et~al.]{Allison, Brown, George \harvardand\
+  Kaiser}{2016}{Allison2016}
+Allison, D.~B., Brown, A.~W., George, B.~J. \harvardand\ Kaiser, K.~A.
+  \harvardyearleft 2016\harvardyearright , `Reproducibility: A tragedy of
+  errors', {\em Nature} {\bf 530}(7588),~27--29.
+\newline\harvardurl{https://doi.org/10.1038/530027a}
+
+\harvarditem{Altman}{1994}{Altman1994}
+Altman, D.~G.  \harvardyearleft 1994\harvardyearright , `The scandal of poor
+  medical research', {\em {BMJ}} {\bf 308}(6924),~283--284.
+\newline\harvardurl{https://doi.org/10.1136/bmj.308.6924.283}
+
+\harvarditem{Altman \harvardand\ Simera}{2016}{Altman2016}
+Altman, D.~G. \harvardand\ Simera, I.  \harvardyearleft 2016\harvardyearright ,
+  `A history of the evolution of guidelines for reporting medical research: the
+  long road to the {EQUATOR} {N}etwork', {\em Journal of the Royal Society of
+  Medicine} {\bf 109}(2),~67--77.
+\newline\harvardurl{https://doi.org/10.1177/0141076815625599}
+
+\harvarditem{ANZCTR}{2019}{ANZCTR}
+ANZCTR  \harvardyearleft 2019\harvardyearright , {ANZCTR} data field
+  definitions v25, Technical report.
+\newline\harvardurl{https://www.anzctr.org.au/docs/ANZCTR\%20Data\%20field\%20explanation.pdf}
+
+\harvarditem{Bland}{2015}{Bland2015}
+Bland, M.  \harvardyearleft 2015\harvardyearright , {\em An Introduction to
+  Medical Statistics}, Oxford medical publications, Oxford University Press.
+
+\harvarditem[Brown et~al.]{Brown, Kaiser \harvardand\ Allison}{2018}{Brown2018}
+Brown, A.~W., Kaiser, K.~A. \harvardand\ Allison, D.~B.  \harvardyearleft
+  2018\harvardyearright , `Issues with data and analyses: {E}rrors, underlying
+  themes, and potential solutions', {\em Proceedings of the National Academy of
+  Sciences} {\bf 115}(11),~2563--2570.
+\newline\harvardurl{https://www.pnas.org/content/115/11/2563}
+
+\harvarditem[Chamberlain et~al.]{Chamberlain, Boettiger \harvardand\
+  Ram}{2020}{rplos}
+Chamberlain, S., Boettiger, C. \harvardand\ Ram, K.  \harvardyearleft
+  2020\harvardyearright , {\em rplos: Interface to the Search {API} for
+  '{PLoS}' Journals}.
+\newblock R package version 0.9.0.
+\newline\harvardurl{https://CRAN.R-project.org/package=rplos}
+
+\harvarditem[Diggle et~al.]{Diggle, Heagerty, Liang \harvardand\
+  Zeger}{2013}{Diggle2013}
+Diggle, P., Heagerty, P., Liang, K. \harvardand\ Zeger, S.  \harvardyearleft
+  2013\harvardyearright , {\em Analysis of Longitudinal Data}, Oxford
+  Statistical Science Series, OUP Oxford.
+
+\harvarditem{Dobson \harvardand\ Barnett}{2018}{Dobson2018}
+Dobson, A. \harvardand\ Barnett, A.  \harvardyearleft 2018\harvardyearright ,
+  {\em An Introduction to Generalized Linear Models}, Chapman \& Hall/CRC Texts
+  in Statistical Science, CRC Press.
+
+\harvarditem{Ernst \harvardand\ Albers}{2017}{Ernst2017}
+Ernst, A.~F. \harvardand\ Albers, C.~J.  \harvardyearleft 2017\harvardyearright
+  , `Regression assumptions in clinical psychology research
+  practice{\textemdash}a systematic review of common misconceptions', {\em
+  {PeerJ}} {\bf 5},~e3323.
+\newline\harvardurl{https://doi.org/10.7717/peerj.3323}
+
+\harvarditem{Goodman}{2008}{Goodman2008}
+Goodman, S.  \harvardyearleft 2008\harvardyearright , `A dirty dozen: Twelve
+  p-value misconceptions', {\em Seminars in Hematology} {\bf 45}(3),~135--140.
+\newline\harvardurl{https://doi.org/10.1053/j.seminhematol.2008.04.003}
+
+\harvarditem[Goodman et~al.]{Goodman, Altman \harvardand\
+  George}{1998}{Goodman1998}
+Goodman, S.~N., Altman, D.~G. \harvardand\ George, S.~L.  \harvardyearleft
+  1998\harvardyearright , `Statistical reviewing policies of medical journals',
+  {\em Journal of General Internal Medicine} {\bf 13}(11),~753--756.
+\newline\harvardurl{https://doi.org/10.1046/j.1525-1497.1998.00227.x}
+
+\harvarditem{Hardwicke \harvardand\ Goodman}{2020}{Hardwicke2020}
+Hardwicke, T.~E. \harvardand\ Goodman, S.  \harvardyearleft
+  2020\harvardyearright , `How often do leading biomedical journalsuse
+  statistical experts to evaluate statistical methods? {T}he results of a
+  survey'.
+\newline\harvardurl{osf.io/preprints/metaarxiv/z27u4}
+
+\harvarditem{{ICJME}}{2019}{ICMJE2019}
+{ICJME}  \harvardyearleft 2019\harvardyearright , `Recommendations for the
+  conduct, reporting, editing, and publication of scholarly work in medical
+  journals'.
+\newline\harvardurl{http://www.icmje.org/icmje-recommendations.pdf}
+
+\harvarditem[Ioannidis et~al.]{Ioannidis, Greenland, Hlatky, Khoury, Macleod,
+  Moher, Schulz \harvardand\ Tibshirani}{2014}{Ioannidis2014}
+Ioannidis, J. P.~A., Greenland, S., Hlatky, M.~A., Khoury, M.~J., Macleod,
+  M.~R., Moher, D., Schulz, K.~F. \harvardand\ Tibshirani, R.  \harvardyearleft
+  2014\harvardyearright , `Increasing value and reducing waste in research
+  design, conduct, and analysis', {\em The Lancet} {\bf 383}(9912),~166--175.
+\newline\harvardurl{https://doi.org/10.1016/s0140-6736(13)62227-8}
+
+\harvarditem[King et~al.]{King, Pullmann, Lyon, Dorsey \harvardand\
+  Lewis}{2019}{King2019}
+King, K.~M., Pullmann, M.~D., Lyon, A.~R., Dorsey, S. \harvardand\ Lewis, C.~C.
+   \harvardyearleft 2019\harvardyearright , `Using implementation science to
+  close the gap between the optimal and typical practice of quantitative
+  methods in clinical science', {\em Journal of Abnormal Psychology} {\bf
+  128}(6),~547--562.
+\newline\harvardurl{https://doi.org/10.1037/abn0000417}
+
+\harvarditem{Lang \harvardand\ Altman}{2013}{Lang2013}
+Lang, T. \harvardand\ Altman, D.  \harvardyearleft 2013\harvardyearright ,
+  Basic statistical reporting for articles published in clinical medical
+  journals: the {SAMPL} guidelines, {\em in} P.~Smart, H.~Maisonneuve
+  \harvardand\ A.~Polderman, eds, `Science Editors' Handbook', European
+  Association of Science Editors.
+
+\harvarditem[Leek et~al.]{Leek, McShane, Gelman, Colquhoun, Nuijten
+  \harvardand\ Goodman}{2017}{Leek2017}
+Leek, J., McShane, B.~B., Gelman, A., Colquhoun, D., Nuijten, M.~B.
+  \harvardand\ Goodman, S.~N.  \harvardyearleft 2017\harvardyearright , `Five
+  ways to fix statistics', {\em Nature} {\bf 551}(7682),~557--559.
+\newline\harvardurl{https://doi.org/10.1038/d41586-017-07522-z}
+
+\harvarditem[McShane et~al.]{McShane, Gal, Gelman, Robert \harvardand\
+  Tackett}{2019}{McShane2019}
+McShane, B.~B., Gal, D., Gelman, A., Robert, C. \harvardand\ Tackett, J.~L.
+  \harvardyearleft 2019\harvardyearright , `Abandon statistical significance',
+  {\em The American Statistician} {\bf 73}(sup1),~235--245.
+\newline\harvardurl{https://doi.org/10.1080/00031305.2018.1527253}
+
+\harvarditem{{PLOS}}{2021}{PLOS}
+{PLOS}  \harvardyearleft 2021\harvardyearright , Plos one: accelerating the
+  publication of peer-reviewed science, Technical report.
+\newline\harvardurl{https://journals.plos.org/plosone/s/criteria-for-publication}
+
+\harvarditem{Rinker}{2018}{textclean}
+Rinker, T.~W.  \harvardyearleft 2018\harvardyearright , {\em {textclean}: Text
+  Cleaning Tools}, Buffalo, New York.
+\newblock version 0.9.3.
+\newline\harvardurl{https://github.com/trinker/textclean}
+
+\harvarditem[Serghiou et~al.]{Serghiou, Contopoulos-Ioannidis, Boyack, Riedel,
+  Wallach \harvardand\ Ioannidis}{2021}{Serghiou2021}
+Serghiou, S., Contopoulos-Ioannidis, D.~G., Boyack, K.~W., Riedel, N., Wallach,
+  J.~D. \harvardand\ Ioannidis, J. P.~A.  \harvardyearleft
+  2021\harvardyearright , `Assessment of transparency indicators across the
+  biomedical literature: How open is open?', {\em PLOS Biology} {\bf
+  19}(3),~1--26.
+\newline\harvardurl{https://doi.org/10.1371/journal.pbio.3001107}
+
+\harvarditem{Stark \harvardand\ Saltelli}{2018}{Stark2018}
+Stark, P.~B. \harvardand\ Saltelli, A.  \harvardyearleft 2018\harvardyearright
+  , `Cargo-cult statistics and scientific crisis', {\em Significance} {\bf
+  15}(4),~40--43.
+\newline\harvardurl{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.1740-9713.2018.01174.x}
+
+\harvarditem[Wasserstein et~al.]{Wasserstein, Schirm \harvardand\
+  Lazar}{2019}{Wasserstein2019}
+Wasserstein, R.~L., Schirm, A.~L. \harvardand\ Lazar, N.~A.  \harvardyearleft
+  2019\harvardyearright , `Moving to a world beyond p < 0.05', {\em The
+  American Statistician} {\bf 73}(sup1),~1--19.
+\newline\harvardurl{https://doi.org/10.1080/00031305.2019.1583913}
+
+\harvarditem[Weissgerber~Tracey et~al.]{Weissgerber~Tracey, Garcia-Valencia,
+  Garovic, Milic \harvardand\ Winham}{2018}{Weissgerber2018}
+Weissgerber~Tracey, L., Garcia-Valencia, O., Garovic, V.~D., Milic, N.~M.
+  \harvardand\ Winham, S.~J.  \harvardyearleft 2018\harvardyearright , `Why we
+  need to report more than '{D}ata were analyzed by t-tests or {ANOVA}'', {\em
+  eLife} {\bf 7}.
+\newline\harvardurl{https://gateway.library.qut.edu.au/login?url=https://search.proquest.com/docview/2174217344?accountid=13380}
+
+\harvarditem{{Wikipedia}}{2021}{Wikipedia}
+{Wikipedia}  \harvardyearleft 2021\harvardyearright , Boilerplate text,
+  Technical report.
+\newline\harvardurl{https://en.wikipedia.org/wiki/Boilerplate\_text}
+
+\harvarditem{Zhou \harvardand\ Skidmore}{2018}{Zhou2018}
+Zhou, Y. \harvardand\ Skidmore, S.  \harvardyearleft 2018\harvardyearright , `A
+  reassessment of {ANOVA} reporting practices: A review of three {APA}
+  journals', {\em Journal of Methods and Measurement in the Social Sciences}
+  {\bf 8}(1),~3--19.
+\newline\harvardurl{https://journals.uair.arizona.edu/index.php/jmmss/article/view/22019}
+
+\end{thebibliography}

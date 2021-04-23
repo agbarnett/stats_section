@@ -23,8 +23,8 @@ plot.records = total.records[[2]] %>% select(-percentage) %>%
 g1 = ggplot(plot.records,aes(x=volume,y=value,fill=variable))+geom_bar(stat='identity',position='dodge',width=0.9,colour='black')+scale_y_continuous('Total records',breaks=seq(0,20000,2500))+
   scale_x_continuous('Volume',breaks=1:15)+scale_fill_grey(guide = guide_legend(reverse = TRUE) )+theme(legend.title = element_blank(),legend.position = 'top',legend.direction = 'horizontal')
 
-g2 = ggplot(wordcounts,aes(y=log10(words),x=volume,group=volume))+geom_boxplot()+
-  scale_x_continuous('Volume',breaks=1:14)+scale_y_continuous('Word count\n(log10 transformed)',breaks=seq(0,4,0.5))
+g2 = ggplot(wordcounts,aes(y=words,x=volume,group=volume))+geom_boxplot()+
+  scale_x_continuous('Volume',breaks=1:14)+scale_y_continuous('Word count',breaks=seq(0,3500,250))
 
 stats_section_subject = mutate(stats_section_subject,
                                top3 = ifelse(subject_level_number %in% 1:3,1,0))

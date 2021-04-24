@@ -8,6 +8,7 @@ analysis_keywords = c('statistical analysis','statistical analyses',
 #loop over batches
 batch = 1:5
 stats_section = list()
+stats_section_excluded = list()
 for (b in batch){
   folder_name = paste0('data/full text records/batch_',b)
   results_by_doi = list.files(folder_name)
@@ -20,6 +21,9 @@ for (b in batch){
   text_results = bind_rows(text_results,.id='doi')
   stats_section[[b]] = text_results %>% filter(grepl(paste(analysis_keywords,collapse='|'),text_heading,
                                        ignore.case=T,fixed=F))
+  stats_section_excluded[[b]] = text_results %>% filter(!grepl(paste(analysis_keywords,collapse='|'),text_heading,
+                                                              ignore.case=T,fixed=F))
 }
 
 save(stats_section,file='data/stats_section_info.rda')
+save(stats_section_excluded,file='data/stats_section_excluded_plos.rda')

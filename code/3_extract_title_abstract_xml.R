@@ -5,14 +5,15 @@ library(XML)
 library(tidyverse)
 
 #plos full text - loop over batches
-dat = list()
+
 for (batch.number in 1:5){
 meta_dat = readRDS(paste0('./data/plos_meta_',batch.number,'.RDS'))
 doi_list = meta_dat %>% pull(doi)
 
-dat.batch = list()
+dat.batch_titleabs = list()
+dat.batch_subjects = list()
 
-for(i in 1:10){ #length(doi_list)
+for(i in 1:length(doi_list)){
   #extract xml of full text. if no xml available, skip to the next doi
   full_text <- tryCatch(
     plos_fulltext(doi_list[i]),
@@ -48,7 +49,7 @@ for(i in 1:10){ #length(doi_list)
   subjects[['level3']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subj-group/subject",xmlValue)))
     
   if (!is.null(title_abstract[['title']]) & !is.null(title_abstract[['abstract']])){
-    dat.batch[[i]] = bind_cols(title_abstract) %>% add_column(doi=doi_list[i],.before = 1) %>% mutate_if(is.factor,as.character)
+    dat.batch_titleabs[[i]] = bind_cols(title_abstract) %>% add_column(doi=doi_list[i],.before = 1) %>% mutate_if(is.factor,as.character)
   }
   
   if (!is.null(subjects[['level1']])){ #must have level 1 subject classification at a minimum
@@ -56,13 +57,22 @@ for(i in 1:10){ #length(doi_list)
       arrange(level1,level2,level3) %>% 
       mutate_at(c("level1","level2","level3"),function(z) str_remove_all(z,'list\\(\\)')) %>% 
       add_column(doi=doi_list[i],.before = 1) %>% mutate_if(is.factor,as.character)
+    #collapse level 3 by ';', then create one line for levels 1-3
+    dat.batch_subjects[[i]] = dat.batch_subjects[[i]] %>% group_by(doi,level1,level2) %>% 
+      summarise(level3=str_c(level3,collapse=';'),.groups='drop') %>%
+      mutate(classifications = paste(level1,level2,level3,sep='/')) %>% select(doi,classifications) 
+    
   }
   
 }
 
-dat.title.abstract[[batch.number]] = bind_rows(dat.batch)
-dat.subject.class[[batch.number]] = bind_rows(dat.batch_subjects)
+dat.title.abstract = bind_rows(dat.batch)
+dat.subject.class = bind_rows(dat.batch_subjects)
+
+#save
+save(dat.title.abstract,file=paste0('./data/title_abstract_plos_batch.',batch.number,'.rda'))
+save(dat.subject.class,file=paste0('./data/subjects.',batch.number,'.rda'))
+
 }
 
-dat = bind_rows(dat)
-save(dat,file='./data/title_abstract_plos.rda')
+

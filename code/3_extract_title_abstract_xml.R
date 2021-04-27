@@ -44,9 +44,9 @@ for(i in 1:length(doi_list)){
   
   #level 1 classification (e..g biology and life sciences)
   #use as.characters() to force blank cells
-  subjects[['level1']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subject",xmlValue)))
-  subjects[['level2']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subject",xmlValue)))
-  subjects[['level3']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subj-group/subject",xmlValue)))
+  subjects[['level1']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subject",xmlValue))) %>% str_c(.,collapse = ';')
+  subjects[['level2']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subject",xmlValue))) %>% str_c(.,collapse = ';')
+  subjects[['level3']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subj-group/subject",xmlValue))) %>% str_c(.,collapse = ';')
     
   if (!is.null(title_abstract[['title']]) & !is.null(title_abstract[['abstract']])){
     dat.batch_titleabs[[i]] = bind_cols(title_abstract) %>% add_column(doi=doi_list[i],.before = 1) %>% mutate_if(is.factor,as.character)
@@ -54,12 +54,10 @@ for(i in 1:length(doi_list)){
   
   if (!is.null(subjects[['level1']])){ #must have level 1 subject classification at a minimum
     dat.batch_subjects[[i]] = bind_cols(subjects) %>% distinct() %>% 
-      arrange(level1,level2,level3) %>% 
       mutate_at(c("level1","level2","level3"),function(z) str_remove_all(z,'list\\(\\)')) %>% 
       add_column(doi=doi_list[i],.before = 1) %>% mutate_if(is.factor,as.character)
     #collapse level 3 by ';', then create one line for levels 1-3
-    dat.batch_subjects[[i]] = dat.batch_subjects[[i]] %>% group_by(doi,level1,level2) %>% 
-      summarise(level3=str_c(level3,collapse=';'),.groups='drop') %>%
+    dat.batch_subjects[[i]] = dat.batch_subjects[[i]] %>% 
       mutate(classifications = paste(level1,level2,level3,sep='/')) %>% select(doi,classifications) 
     
   }

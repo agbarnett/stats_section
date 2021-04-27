@@ -31,7 +31,9 @@ cos.sim <- function(ix,distances.mat)
   return( sum(A*B)/sqrt(sum(A^2)*sum(B^2)) )
 } 
 
-distances = tidy_matches %>% left_join(.,matches %>% select(doi,rank),by='doi') %>% filter(rank<=500) %>% arrange(rank)
+distances = tidy_matches %>% left_join(.,matches %>% select(doi,rank),by='doi') %>% 
+  filter(rank<=500) %>% 
+  arrange(rank)
 
 calc_dist_mat <- function(indata=distances,topicNumber){
  to_stat = indata %>% filter(topic_id==topicNumber) %>%
@@ -54,6 +56,8 @@ calc_dist_mat <- function(indata=distances,topicNumber){
 }
 
 stats_section.sim = lapply(1:10, function(tt)calc_dist_mat(topicNumber=tt))
+
+
 #summarise for table
 stats_section.sim.top500 = lapply(stats_section.sim,function(x) x$to_plot) %>% bind_rows(.,.id='topic')
 stats_section.doi.top500 = lapply(stats_section.sim,function(x) x$doi.list) 
@@ -87,11 +91,26 @@ save(stats_section.sim,ftab.cosine.plos,boilerplate.text.plos,file='../results/p
 #save boilerplate text as separate excel file
 write.xlsx(boilerplate.text.plos,file='../results/plos.boilerplate.xlsx')
 
+#################### END COSINE SIMILARITY CODE ###########################
+#take subject classifications from meta-data afind top keywords/classifications per topic
+load('../data/plos_meta_data.rda')
 
-# #get total matches by topic, assume sim score>0.8
-# check.dois  = boilerplate.text.plos %>% filter(sim>0.8) %>% count(topic,doi) %>% arrange(topic,-n)
-# 
-# check.dois %>% group_by(topic) %>% slice(1)
-# 
-# top.matches = boilerplate.text.plos %>% filter(rank==1) %>% distinct(topic,doi)
-# 
+#remove level1 subject classifications common to all records (e.g biology and life sciences)
+meta_dat_allrecords = meta_dat_allrecords %>% mutate(level_1 = paste0('/',
+                                                str_replace_all(subject_level_1,pattern=',',replacement = '/|/'),
+                                                '/'))
+meta_dat_allrecords = meta_dat_allrecords %>% mutate(subjects = str_remove_all(subject,level_1), 
+                                 subjects = str_replace_all(subjects,pattern='/',replacement = ','),
+                                 subjects = str_split(subjects,',')) 
+
+
+
+#join with matches
+matches = matches %>% left_join(meta_dat_allrecords %>% select(doi,subjects),by='doi')
+  
+#TODO
+#extract most common words or search targeted words within a topic
+#e.g topic 1
+filter(matches,topic_id=='Topic 1') %>% group_by(doi) %>% summarise(subjects_all = unlist(subjects),.groups='drop') %>%
+  count(subjects_all) %>% arrange(-n)
+

@@ -23,6 +23,99 @@ matches = left_join(matches,wordcounts,by=c('doi','topic_id')) %>%
   group_by(topic_id) %>% mutate(rank=row_number()) %>% ungroup() %>%
   mutate(topic_id = paste('Topic',topic_id))
 
+# Attached information of subejct classifications
+#take subject classifications from meta-data afind top keywords/classifications per topic
+load('../data/plos_meta_data.rda')
+
+#remove level1 subject classifications common to all records (e.g biology and life sciences)
+meta_dat_allrecords = meta_dat_allrecords %>% mutate(level_1 = paste0('/',
+                                                                      str_replace_all(subject_level_1,pattern=',',replacement = '/|/'),
+                                                                      '/'))
+meta_dat_allrecords = meta_dat_allrecords %>% mutate(subjects = str_remove_all(subject,level_1), 
+                                                     subjects = str_replace_all(subjects,pattern='/',replacement = ','),
+                                                     subjects = str_split(subjects,',')) 
+
+
+
+#join with matches
+matches = matches %>% left_join(meta_dat_allrecords %>% select(doi,subject_level_1,subjects),by='doi')
+
+#TODO
+#extract most common words or search targeted words within a topic
+subjects.bytopic = matches %>% group_by(doi,topic_id) %>% summarise(subjects_all = unlist(subjects),.groups='drop') %>%
+  count(topic_id,subjects_all) %>% arrange(topic_id,-n)
+
+# #not run:examples of targeted search
+# #animal model
+# subjects.bytopic %>% filter(grepl('animal models|chicken models|mouse models|pig models',fixed=F,ignore.case=T,subjects_all))
+# #clinical trials
+# subjects.bytopic %>% filter(grepl('clinical trial',fixed=F,ignore.case=T,subjects_all))
+# #studies (e.g. cohort studies, animal studies)
+# subjects.bytopic %>% filter(grepl('studies|study',fixed=F,ignore.case=T,subjects_all))
+# #surveys
+# subjects.bytopic %>% filter(grepl('survey',fixed=F,ignore.case=T,subjects_all))
+# #genetics
+# subjects.bytopic %>% filter(grepl('DNA|RNA|protein|genome|genomic|genetic',fixed=F,ignore.case=T,subjects_all))
+# #cell biology
+# subjects.bytopic %>% filter(grepl('cells',fixed=F,ignore.case=T,subjects_all))
+
+
+#add study type to matches
+study.types = matches %>% group_by(doi) %>% summarise(subjects_all = unlist(subjects),.groups='drop') %>%
+  filter(grepl('clinical trial|studies|study|survey|meta-analysis',fixed=F,ignore.case=T,subjects_all)) %>%
+  distinct(doi,subjects_all) %>%
+  rename(study_type = subjects_all)
+
+#add analysis types
+analysis.types = matches %>% group_by(doi) %>% summarise(subjects_all = unlist(subjects),.groups='drop') %>%
+  filter(grepl('analysis|analyses',fixed=F,ignore.case=T,subjects_all)) %>%
+  distinct(doi,subjects_all) %>%
+  rename(analysis_type = subjects_all)
+
+#add animal models
+animal.models = matches %>% group_by(doi) %>% summarise(subjects_all = unlist(subjects),.groups='drop') %>%
+  filter(grepl('animal models|chicken models|mouse models|pig models',fixed=F,ignore.case=T,subjects_all)) %>%
+  distinct(doi,subjects_all) %>%
+  rename(model_type = subjects_all)
+
+#add genetic studies
+genetic.studies = matches %>% group_by(doi) %>% summarise(subjects_all = unlist(subjects),.groups='drop') %>%
+  filter(grepl('DNA|RNA|protein|genome|genomic|genetic',fixed=F,ignore.case=T,subjects_all)) %>%
+  distinct(doi,subjects_all) %>%
+  rename(study_type = subjects_all)
+
+#save
+save(matches,study.types,analysis.types,animal.models,genetic.studies,file='../results/plos.results.10topics.rda')
+
+#examples of boilerplate - spectrum analysis techniques (n = 4173)
+filter(analysis.types,analysis_type=='Spectrum analysis techniques') %>%
+  left_join(matches,by='doi') %>% arrange(topic_id,rank) %>% View()
+
+# #Bioassays and physiological analysis (n = 6838)
+# filter(analysis.types,analysis_type=='Bioassays and physiological analysis') %>% 
+#   left_join(matches,by='doi') %>% arrange(topic_id,rank) %>% View()
+# 
+# #survey research
+# filter(study.types,study_type %in% c('Suverys','Survey research')) %>% 
+#   left_join(matches,by='doi') %>% arrange(topic_id,rank) %>% View()
+# 
+# #animal studies
+# filter(study.types,study_type == 'Animal studies') %>% 
+#   left_join(matches,by='doi') %>% arrange(topic_id,rank) %>% View()
+# 
+# #clinical trials by topic
+# filter(study.types,study_type=='Clinical trials') %>% 
+#   left_join(matches,by='doi')  %>% arrange(topic_id,rank) %>% View()
+
+#within each topic, find highest ranking doi with match to clinical trial
+results.clinicaltrial %>% group_by(topic_id) %>% summarise(n = n(),highest_rank=min(rank),.groups='drop')
+
+#example: genome-wide association studies
+results.gwas = 
+results.gwas %>% group_by(topic_id) %>% summarise(n = n(),highest_rank=min(rank),.groups='drop')
+
+
+#COSINE SIMILARITY CODE
 
 cos.sim <- function(ix,distances.mat) 
 {
@@ -85,32 +178,11 @@ boilerplate.text.plos = boilerplate.dois %>% left_join(matches %>% select(doi,te
   rename('stats_section_2'=text_data,'rank_2'=rank,'words_2'=words) %>%
   select(topic,pair,sim,doi_1,rank_1,words_1,doi_2,rank_2,words_2,stats_section_1,stats_section_2) %>% arrange(topic,-sim)
 
-save(matches,file='../results/plos.results.10topics.rda')
 save(stats_section.sim,ftab.cosine.plos,boilerplate.text.plos,file='../results/plos.cosinesim.10topics.rda')
 
 #save boilerplate text as separate excel file
 write.xlsx(boilerplate.text.plos,file='../results/plos.boilerplate.xlsx')
 
 #################### END COSINE SIMILARITY CODE ###########################
-#take subject classifications from meta-data afind top keywords/classifications per topic
-load('../data/plos_meta_data.rda')
 
-#remove level1 subject classifications common to all records (e.g biology and life sciences)
-meta_dat_allrecords = meta_dat_allrecords %>% mutate(level_1 = paste0('/',
-                                                str_replace_all(subject_level_1,pattern=',',replacement = '/|/'),
-                                                '/'))
-meta_dat_allrecords = meta_dat_allrecords %>% mutate(subjects = str_remove_all(subject,level_1), 
-                                 subjects = str_replace_all(subjects,pattern='/',replacement = ','),
-                                 subjects = str_split(subjects,',')) 
-
-
-
-#join with matches
-matches = matches %>% left_join(meta_dat_allrecords %>% select(doi,subjects),by='doi')
-  
-#TODO
-#extract most common words or search targeted words within a topic
-#e.g topic 1
-filter(matches,topic_id=='Topic 1') %>% group_by(doi) %>% summarise(subjects_all = unlist(subjects),.groups='drop') %>%
-  count(subjects_all) %>% arrange(-n)
 

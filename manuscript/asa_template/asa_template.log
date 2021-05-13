@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.21)  23 APR 2021 14:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.5.12)  13 MAY 2021 12:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **asa_template.tex
 (./asa_template.tex
 LaTeX2e <2020-10-01> patch level 4
-L3 programming layer <2021-02-18>
+L3 programming layer <2021-05-07>
 (c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
 (c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size12.clo
@@ -322,7 +322,7 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
 (c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3back
 end-pdftex.def
-File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2021-05-07 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count278
 \l__pdf_internal_box=\box49
 ) (./asa_template.aux)
@@ -398,85 +398,134 @@ File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 253.
-[5] [6]
-<figures/plos.summary.jpg, id=166, 481.8pt x 602.25pt>
+[5]
+
+Package natbib Warning: Citation `aggarwal2012mining' on page 6 undefined on in
+put line 291.
+
+
+Package natbib Warning: Citation `sutanto2018fine' on page 6 undefined on input
+ line 291.
+
+
+Package natbib Warning: Citation `park2018examining' on page 6 undefined on inp
+ut line 294.
+
+
+Package natbib Warning: Citation `mohotti2018corpus' on page 6 undefined on inp
+ut line 294.
+
+
+Package natbib Warning: Citation `mohotti2019concept' on page 6 undefined on in
+put line 294.
+
+
+Package natbib Warning: Citation `aggarwal2012mining' on page 6 undefined on in
+put line 296.
+
+
+Package natbib Warning: Citation `jain' on page 6 undefined on input line 298.
+
+
+Package natbib Warning: Citation `mohotti2018corpus' on page 6 undefined on inp
+ut line 302.
+
+
+Package natbib Warning: Citation `mohotti2018efficient' on page 6 undefined on 
+input line 302.
+
+[6]
+
+Package natbib Warning: Citation `kim2014algorithms' on page 7 undefined on inp
+ut line 307.
+
+
+Package natbib Warning: Citation `luong2019clustering' on page 7 undefined on i
+nput line 307.
+
+
+Package natbib Warning: Citation `aggarwal2012mining' on page 7 undefined on in
+put line 310.
+
+[7]
+<figures/plos.summary.jpg, id=183, 481.8pt x 602.25pt>
 File: figures/plos.summary.jpg Graphic file (type jpg)
 <use figures/plos.summary.jpg>
-Package pdftex.def Info: figures/plos.summary.jpg  used on input line 318.
+Package pdftex.def Info: figures/plos.summary.jpg  used on input line 390.
 (pdftex.def)             Requested size: 277.3648pt x 346.71378pt.
-[7] [8 <./figures/plos.summary.jpg>]
-<figures/plos.wordclouds.jpg, id=182, 366.61969pt x 598.48593pt>
+[8] [9 <./figures/plos.summary.jpg>]
+<figures/plos.wordclouds.jpg, id=198, 366.61969pt x 598.48593pt>
 File: figures/plos.wordclouds.jpg Graphic file (type jpg)
 <use figures/plos.wordclouds.jpg>
-Package pdftex.def Info: figures/plos.wordclouds.jpg  used on input line 357.
+Package pdftex.def Info: figures/plos.wordclouds.jpg  used on input line 429.
 (pdftex.def)             Requested size: 369.8174pt x 603.74458pt.
-[9] [10 <./figures/plos.wordclouds.JPG>]
+[10] [11 <./figures/plos.wordclouds.JPG>]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 381.
+               Default added (so using `tbp') on input line 453.
 
 
-Overfull \hbox (23.99998pt too wide) in paragraph at lines 385--407
+Overfull \hbox (23.99998pt too wide) in paragraph at lines 457--479
  [][] 
  []
 
-[11]
-<figures/excluded_anzctr_missing.jpg, id=204, 361.35pt x 289.08pt>
+[12]
+<figures/excluded_anzctr_missing.jpg, id=219, 361.35pt x 289.08pt>
 File: figures/excluded_anzctr_missing.jpg Graphic file (type jpg)
 <use figures/excluded_anzctr_missing.jpg>
 Package pdftex.def Info: figures/excluded_anzctr_missing.jpg  used on input lin
-e 446.
+e 518.
 (pdftex.def)             Requested size: 323.58757pt x 258.87276pt.
-<figures/anzctr.wordclouds.jpg, id=205, 420.82219pt x 665.48625pt>
+<figures/anzctr.wordclouds.jpg, id=220, 420.82219pt x 665.48625pt>
 File: figures/anzctr.wordclouds.jpg Graphic file (type jpg)
 <use figures/anzctr.wordclouds.jpg>
-Package pdftex.def Info: figures/anzctr.wordclouds.jpg  used on input line 455.
+Package pdftex.def Info: figures/anzctr.wordclouds.jpg  used on input line 527.
 
 (pdftex.def)             Requested size: 323.58757pt x 511.72533pt.
-[12
+[13
 
 
-] [13 <./figures/excluded_anzctr_missing.jpg>] [14 <./figures/anzctr.wordclouds
+] [14 <./figures/excluded_anzctr_missing.jpg>] [15 <./figures/anzctr.wordclouds
 .JPG>]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 485.
+               Default added (so using `tbp') on input line 557.
 
 
-Overfull \hbox (23.99998pt too wide) in paragraph at lines 489--502
+Overfull \hbox (23.99998pt too wide) in paragraph at lines 561--574
  [][] 
  []
 
-[15]
+[16]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 513.
+               Default added (so using `tbp') on input line 585.
 
-[16
+[17
 
 
-] [17] (./asa_template.bbl [18] [19]
+] [18] (./asa_template.bbl [19] [20]
 Overfull \hbox (162.78514pt too wide) in paragraph at lines 162--167
 \OT1/cmr/bx/n/12 URL: \OT1/cmr/m/it/12 https://gateway.library.qut.edu.au/login
 ?url=https://search.proquest.com/docview/2174217344?accountid=13380 
  []
 
-[20])
+[21])
 
 Package natbib Warning: There were undefined citations.
 
-[21] (./asa_template.aux)
+[22] (./asa_template.aux)
 Package rerunfilecheck Info: File `asa_template.out' has not changed.
-(rerunfilecheck)             Checksum: C2E7F1A6A6CB111DD4A1214756B107C8;1998.
+(rerunfilecheck)             Checksum: 8D053E32BE2E6FA29902E995EA40B4AA;2167.
  ) 
 Here is how much of TeX's memory you used:
- 8864 strings out of 480954
- 132503 string characters out of 5905582
- 429405 words of memory out of 5000000
- 25884 multiletter control sequences out of 15000+600000
+ 8949 strings out of 480806
+ 134634 string characters out of 5903252
+ 433081 words of memory out of 5000000
+ 26115 multiletter control sequences out of 15000+600000
  413110 words of font info for 60 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 71i,11n,74p,446b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,11n,63p,446b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
  <c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen
 /ec/tcrm1200.600pk> <c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-var/fonts/p
 k/ljfour/jknappen/ec/tcrm0700.600pk> <c:/Users/whitenm/AppData/Roaming/TinyTeX/
@@ -485,17 +534,22 @@ Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/Users/
 whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
 2.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmbxti10.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmmi12.pfb><c:/Users/whitenm/AppData/Roaming/TinyT
-eX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/whitenm/AppDat
-a/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/Users
-/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-8.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmti12.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/font
-s/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on asa_template.pdf (21 pages, 733929 bytes).
+nts/type1/public/amsfonts/cm/cmex10.pfb><c:/Users/whitenm/AppData/Roaming/TinyT
+eX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/Users/whitenm/AppDa
+ta/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/User
+s/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+10.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr12.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr8.pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/whitenm/AppData/R
+oaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/Users/wh
+itenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.
+pfb><c:/Users/whitenm/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmtt12.pfb>
+Output written on asa_template.pdf (22 pages, 773070 bytes).
 PDF statistics:
- 341 PDF objects out of 1000 (max. 8388607)
- 299 compressed objects within 3 object streams
- 76 named destinations out of 1000 (max. 500000)
- 125 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 370 PDF objects out of 1000 (max. 8388607)
+ 322 compressed objects within 4 object streams
+ 80 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
 

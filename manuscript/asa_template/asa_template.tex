@@ -278,23 +278,95 @@ being described, for example `between' and `against'.
 
 \subsection{Clustering algorithm}
 
-\emph{Details to come}
+Let \(P \in R^{M \times N}\) denotes the paper content matrix where the
+statistical methods sections of \(N\) papers consist of \(M\) distinct
+terms. Text clustering for identifying common writing themes in these
+papers requires this matrix to represent with a vector space model. Let
+Matrix \(P\) be modeled with the unique terms in the processed sections
+represented with the tf*idf (term frequent * inverse document frequency)
+weighting schema to consider both common and rare terms.
 
-We applied the clustering algorithm to the cleaned dataset, varying the
-number of clusters from 1 to 50. Clustering solutions were assessed
+Text clustering is known to face the curse of dimensionality due to the
+high number of terms in doc\(\times\)term matrix representation
+\citep[\citet{sutanto2018fine}]{aggarwal2012mining}. Therefore
+text-based methods based on distance, density or probability face
+difficulties
+\citep[\citet{mohotti2018corpus},\citet{mohotti2019concept}]{park2018examining}.
+Specifically, the distance difference between near and far points
+becomes negligible in high-dimensional data \citep{aggarwal2012mining}.
+This directly affects the distance-based methods such as
+\textit{k}-means \cite{jain} in accurately identifying the common
+subgroups. In addition, the sparseness of this high dimensional matrix
+representation does not allow to differentiate the user groups based on
+density differences
+\citep[\citet{mohotti2018efficient}]{mohotti2018corpus}.
+
+Non-negative Matrix factorization (NMF) which maps the high-dimensional
+data to a lower-dimensional space has been found to provide an effective
+solution by allowing to form clusters in the lower-dimensional space
+\citep[\citet{luong2019clustering}]{kim2014algorithms}. NMF approximates
+topic vectors in linear manner considering the context of terms.
+
+In traditional NMF \citep{aggarwal2012mining}, the high-dimensional
+matrix \(P \in R^{M \times N}\) is approximated by learning two factor
+matrices \(W \in R^{M \times g}\) and \(H \in R ^{N \times g}\) where
+\(g\) is the number of cluster groups or common topics in the data
+collection, as follows.
+
+\begin{equation}
+\label{eq:2}
+ P \approx WH^{T}
+\end{equation}
+
+The matrix factorization process approximates the lower dimensional
+non-negative factor matrices \(W\) and \(H\) such that they can
+represent high dimensional \(P\) with the least error. The objective
+function in Eq \ref{eq:Eq2} iteratively attempts to update the entries
+in \(W\) and \(H\) to find the optimum values which possess minimum sum
+of square error for all the elements in both of those matrices. NMF uses
+Frobenius norm as its objective function and will find the optimum value
+of \textit{W} and \textit{H} iteratively.
+
+\begin{equation}
+\label{eq:Eq2}
+\min \frac{1}{2}\|P - WH\|= \sum _{i=1}^{M}\sum _{j=1}^{N} \left(  P_{i,j} -\left(WH \right)_{i,j} \right)^{2}
+\end{equation}
+
+Matrix \textit{H} contains the information regarding topic membership of
+each document. Topic membership of each method section in \(P\) is
+obtained considering the maximum coefficient value in \(H\) for a method
+section.
+
+We applied the NMF clustering algorithm to the cleaned dataset, varying
+the number of clusters from 1 to 50. Clustering solutions were assessed
 using silhouette score, within-cluster dispersion and between-cluster
 dispersion.
 
-For each dataset, records assigned to invididual clusters were examined
-for evidence of boilerplate text in two ways. We first reviewed the
-strongest matches to each cluster based on topic scores{[}may not be the
-right word{]}. We also compared similarities in text between pairs of
-records assigned to each cluster. Similarities were determined from
-calculating cosine similarity scores, with comparisons limited to the
-top 500 records per cluster. Higher similarity score represent greater
-overlap in text content between statistical methods sections. Results
-were transformed to lower case for the clustering, but examples are
-given using the original capitalisation.
+\subsection{Within topic analysis}
+
+Results from the clustering algorithm were visualised by word clouds,
+which summarised frequently occurring terms associated with topic
+membership. For both \emph{PLOS ONE} and ANZCTR datasets, we reviewed
+the strongest matches to each cluster based on topic coherence.
+
+Within the \emph{PLOS ONE} dataset, we used the strongest matches to
+investigate evidence of boilerplate text, by comparing text with other
+studies assigned to the same topic. Comparisons were carried out by
+calculating Jaccard similarity scores between studies at the sentence
+level. We chose the Jaccard score as an intuitive measure, which
+summarises the similarity between two sentences by the number of words
+common to each sentence (intersection), divided by the number of words
+that appeared in either the strongest match or the sentence being
+compared. Boilerplate text was defined based on word count (plus or
+minus 3 words) and a Jaccard score of 0.9 or higher.
+
+We also compared similarities in text between pairs of records assigned
+to each cluster. Similarities were determined from calculating cosine
+similarity scores, with comparisons limited to the top 500 records per
+cluster. Higher similarity score represent greater overlap in text
+content between statistical methods sections. Results were transformed
+to lower case for the clustering, but examples are given using the
+original capitalisation.
 
 \subsection{Missing statistical methods sections}
 

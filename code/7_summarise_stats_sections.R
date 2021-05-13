@@ -3,8 +3,9 @@ library(tidyverse)
 library(tidytext)
 library(openxlsx)
 dat = readRDS('data/stats_section_cleaned.rds')
+load('data/plos_meta_data.rda')
 #ten topics, PLOS ONE
-matches = read.csv('manuscript/plos_one_10topics.csv',header=T)
+matches = read.csv('results/plos_one_10topics.csv',header=T)
 matches = left_join(dat,matches,by=c('doi'='DOI')) %>%
   mutate(value = as.numeric(value)) %>%
   distinct(doi,text_heading,.keep_all = T)
@@ -21,9 +22,11 @@ matches = left_join(matches,wordcounts,by=c('doi','topic_id')) %>%
   group_by(topic_id) %>% mutate(rank=row_number()) %>% ungroup() %>%
   mutate(topic_id = paste('Topic',topic_id))
 
+#add volume to wordcounts
+wordcounts = wordcounts %>% left_join(select(meta_dat_allrecords,doi,volume),by='doi')
 
 save(matches,file='manuscript/plos.results.10topics.rda')
-
+save(wordcounts,file='manuscript/wordcount.plos.rda')
 
 #example - topics 3 and 5
 matches %>% filter(topic_id %in% c('Topic 1', 'Topic 3','Topic 5')) %>% ggplot(.,aes(x=rank,y=words)) + 

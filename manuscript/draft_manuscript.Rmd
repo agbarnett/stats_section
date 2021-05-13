@@ -112,9 +112,35 @@ As a final step, common stop words including pronouns, contractions and selected
 
 ## Clustering algorithm
 
-_Details to come_
+\subsection{Clustering algorithm}
 
-Results were transformed to lower case for the clustering, but examples are given using the original capitalisation.
+Let $P \in R^{M \times N}$ denotes the paper content matrix where the  statistical methods sections of $N$ papers consist of $M$ distinct terms. Text clustering for identifying common writing themes in these papers requires this matrix to represent with a vector space model. Let Matrix $P$ be modeled with the unique terms in the processed sections represented with the tf\*idf (term frequent * inverse document frequency) weighting schema to consider both common and rare terms. 
+ 
+Text clustering is known to face the curse of dimensionality due to the high number of terms in doc$\times$term matrix representation [@aggarwal2012mining, @sutanto2018fine]. Therefore text-based methods based on distance, density or probability face difficulties [@park2018examining,@mohotti2018corpus,@mohotti2019concept]. Specifically, the distance difference between near and far points becomes negligible in high-dimensional data [@aggarwal2012mining]. This directly affects the distance-based methods such as \textit{k}-means \cite{jain} in accurately identifying the common subgroups. In addition, the sparseness of this high dimensional matrix representation does not allow to differentiate the user groups based on density differences [@mohotti2018corpus, @mohotti2018efficient]. 
+ 
+Non-negative Matrix factorization (NMF) which maps the high-dimensional data to a lower-dimensional space has been found to provide an effective solution by allowing to form clusters in the lower-dimensional space [@kim2014algorithms,@luong2019clustering]. NMF approximates topic vectors in linear manner considering the context of terms.
+
+In traditional NMF [@aggarwal2012mining], the high-dimensional matrix \( P \in R^{M \times N} \) is approximated by learning two factor matrices \( W \in R^{M \times g} \) and \( H \in R ^{N \times g} \)  where $g$ is the number of cluster groups or common topics in the data collection, as follows.
+
+\begin{equation}
+\label{eq:2}
+ P \approx WH^{T} 
+\end{equation}
+
+The matrix factorization process approximates the lower dimensional non-negative factor matrices $W$ and $H$ such that they can represent high dimensional $P$ with the least error. The objective function in Eq \ref{eq:Eq2} iteratively attempts to update the entries in $W$ and $H$ to find the optimum values which possess minimum sum of square error for all the elements in both of those matrices. NMF uses Frobenius norm as its objective function and will find the optimum value of \textit{W} and \textit{H} iteratively.
+
+\begin{equation}
+\label{eq:Eq2}
+\min \frac{1}{2}\|P - WH\|= \sum _{i=1}^{M}\sum _{j=1}^{N} \left(  P_{i,j} -\left(WH \right)_{i,j} \right)^{2}
+\end{equation}
+
+Matrix \textit{H} contains the information regarding topic membership of each document. Topic membership of each method section in $P$ is obtained considering the maximum coefficient value in $H$ for a method section. 
+
+We applied the NMF clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Clustering solutions were assessed using silhouette score, within-cluster dispersion and between-cluster
+dispersion.
+
+For each dataset, records assigned to invididual clusters were examined for evidence of boilerplate text in two ways. We first reviewed the strongest matches to each cluster based on topic coherence. We also compared similarities in text between pairs of records assigned to each cluster. Similarities were determined from calculating cosine similarity scores, with comparisons limited to the top 500 records per cluster. Higher similarity score represent greater overlap in text content between statistical methods sections. Results were transformed to lower case for the clustering, but examples are given using the original capitalisation.
+
 
 ## Missing statistical methods sections
 
@@ -186,11 +212,11 @@ All papers included Biology and life sciences (n = `r format(n.biology,big.mark=
 (n = `r format(n.earth,big.mark=',')`) and/or Computer and information sciences (n = `r format(n.computer,big.mark=',')`) in their top 3 subject classifications
 (Figure \@ref(fig:plos-n)C).
 
-```{r,fig.width=10,fig.cap="\\label{fig:plot-10-topics}Topic clouds summarising common terms in _PLOS ONE_ statistical methods sections assuming ten clusters"}
+<!-- ```{r,fig.width=10,fig.cap="\\label{fig:plot-10-topics}Topic clouds summarising common terms in _PLOS ONE_ statistical methods sections assuming ten clusters"} -->
 
-include_graphics("figures/plosone.10topics.jpg")
+<!-- include_graphics("figures/plosone.10topics.jpg") -->
 
-```
+<!-- ``` -->
 
 We applied the clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. 
 

@@ -126,10 +126,12 @@ millions of papers that use statistical analysis.
 Two statisticians on this paper (AB and NW) have heard researchers admit
 that they have copied-and-pasted their statistical methods sections from
 other papers, regardless of whether they are appropriate. The aim of
-this paper is to use text-mining methods to estimate the extent that
-researchers are using cut-and-paste or `boilerplate' statistical methods
-sections. Boilerplate text is that ``which can be reused in new contexts
-or applications without significant changes to the original''
+this paper is to use text-mining methods to analyse the content of
+statistical methods sections included in common research outputs.
+Results are then evaluated to estimate the extent that researchers are
+using cut-and-paste or `boilerplate' statistical methods sections.
+Boilerplate text is that ``which can be reused in new contexts or
+applications without significant changes to the original''
 \citep{Wikipedia}. Use of these methods sections indicates that little
 thought has gone into the statistical analysis.
 
@@ -142,21 +144,21 @@ We used two openly available data sources to find statistical methods
 sections: research articles published in \emph{PLOS ONE} and study
 protocols registered on the Australian and New Zealand Clinical Trials
 Registry (ANZCTR). Data sources were chosen as examples of common
-research outputs that include descriptions of statistical methods that
+research outputs that should include descriptions of statistical methods that
 were used, or are planned, for analysing study outcomes.
 
 \subsubsection{Public Library of Science (PLOS ONE)}
 \label{sec:methodsPLOS}
 
 \emph{PLOS ONE} is a large open access journal that publishes original
-research across a wide range of scientific fields. Articles must be in
-English. Article submissions are handled by an academic editor who
-selects peer reviewers based on their self-nominated areas of expertise.
-Submissions do not undergo formal statistical review. Instead, reviewers
-are required to assess submissions against several publication criteria,
-including whether: ``Experiments, statistics, and other analyses are
-performed to a high technical standard and are described in sufficient
-detail'' \citep{PLOS}. All reviewers are asked the question: ``Has the
+research across a wide range of scientific fields. Article submissions
+are handled by an academic editor who selects peer reviewers based on
+their self-nominated areas of expertise. Submissions do not undergo
+formal statistical review. Instead, reviewers are required to assess
+submissions against several publication criteria, including whether:
+``Experiments, statistics, and other analyses are performed to a high
+technical standard and are described in sufficient detail''
+\citep{PLOS}. All reviewers are asked the question: ``Has the
 statistical analysis been performed appropriately and rigorously?'',
 with the possible responses of ``Yes'', ``No'' and ``I don't know''.
 
@@ -173,32 +175,24 @@ research. To find papers with a statistical methods section we used
 targeted API searches followed by article filtering based on section
 headings. The data were downloaded on 3 July 2020.
 
-\emph{Step 1}: Targeted API searches. API searches were completed using
-the R package `rplos' \citep{rplos}. Search queries targeted the
-presence of analysis-related terms anywhere in the article. Search terms
-combined the words ``data'' or ``statistical'' with one of:
+\emph{Step 1: Targeted API searches}. API searches were completed using
+the `rplos' package \citep{rplos}. Search queries targeted analysis-related terms, combining 
+the words ``data'' or ``statistical'' with one of:
 ``analysis'', ``analyses'', ``method'', ``methodology'' or
-``model(l)ing''. Search terms were intended to be broad whilst keeping
-search results to a manageable number for full-text review (see Step 2).
-By allowing terms to appear anywhere in the article, we accounted for
-the possibility of relevant text being placed in different sections, for
-example, in the \emph{Material and Methods} section versus
+``model(l)ing''. We allowed terms to appear anywhere in the article, to allow for the possibility of relevant text being placed in different
+sections, for example, in the \emph{Material and Methods} section versus
 \emph{Results}. Search results were indexed by a unique Digital Object
 Identifier (DOI). Attribute data collected per DOI included journal
 volume and subject classification(s).
 
-\emph{Step 2}: Partial matching on section headings. Full text XML data
-for all search results were downloaded and combined into a single
-dataset, organised by DOI and subsection heading(s). Since \emph{PLOS
-ONE} does not prescribe standardised headings to preface statistical
-methods sections, we performed partial matching on available headings
-against frequently used terms in initial search results: `Statistical
-analysis', `Statistical analyses', `Statistical method', `Statistics',
-`Data analysis' and `Data analyses'. For records that did not pass this
-second stage filter, we selected a random sample of XXX records and
-reviewed where initial search terms appeared in the full-text, to
-estimate the likely proportion of statistical methods sections that were
-missed.
+\emph{Step 2: Partial matching on section headings}. Full text XML data
+were downloaded and combined into a single dataset, organised by DOI and
+subsection heading(s). Since \emph{PLOS ONE} does not prescribe
+standardised headings to preface statistical methods sections, we
+performed partial matching on available headings against frequently used
+terms in initial search results: `Statistical analysis', `Statistical
+analyses', `Statistical method', `Statistics', `Data analysis' and `Data
+analyses'.
 
 \subsubsection{Australia and New Zealand Clinical Trials Registry (ANZCTR)}
 \label{sec:methodsANZCTR}
@@ -241,12 +235,11 @@ in \emph{clinicaltrials.gov}.
 \subsection{Full-text processing}
 \label{sec:methods-cleaning}
 
-We applied the same text cleaning steps to both data sources using
-functions from the `textclean package' \citep{textclean}. Text cleaning
-aimed to standardise notation and statistical terminology, whilst
-minimising changes to article style and formatting. \emph{R} code used
-for data extraction and cleaning is available from
-\url{https://github.com/agbarnett/stats_section}.
+ Text cleaning aimed to standardise notation and
+statistical terminology, whilst minimising changes to article style and
+formatting. Datasets were cleaned using the `textclean package'
+\citep{textclean}. \emph{R} code used for data extraction and cleaning is
+available from \url{https://github.com/agbarnett/stats_section}.
 
 Mathematical notation including Greek letters was converted from Unicode
 characters to plain text. For example, the Unicode character
@@ -264,7 +257,7 @@ descriptions of statistical methods reported across both datasets. An
 initial list was compiled by calculating individual word frequencies and
 identifying relevant terms that appeared at least 100 times. Further
 terms were sourced from index searches of three statistics textbooks
-\citep[\citet{Diggle2013},\citet{Bland2015}]{Dobson2018}. The final list
+\citep{Diggle2013,Bland2015,Dobson2018}. The final list
 is provided in Supplementary File 1. Plurals (e.g., `chi-squares')
 unhyphenated (e.g., `chi square') and combined (e.g.~`chisquare') terms
 were transformed to singular, hyphenated form (e.g., `chi-square').
@@ -288,23 +281,23 @@ weighting schema to consider both common and rare terms.
 
 Text clustering is known to face the curse of dimensionality due to the
 high number of terms in doc\(\times\)term matrix representation
-\citep[\citet{sutanto2018fine}]{aggarwal2012mining}. Therefore
+\citep{sutanto2018fine,aggarwal2012mining}. Therefore
 text-based methods based on distance, density or probability face
 difficulties
-\citep[\citet{mohotti2018corpus},\citet{mohotti2019concept}]{park2018examining}.
+\citep{mohotti2018corpus,mohotti2019concept,park2018examining}.
 Specifically, the distance difference between near and far points
 becomes negligible in high-dimensional data \citep{aggarwal2012mining}.
 This directly affects the distance-based methods such as
-\textit{k}-means \cite{jain} in accurately identifying the common
+\textit{k}-means \citep{jain} in accurately identifying the common
 subgroups. In addition, the sparseness of this high dimensional matrix
 representation does not allow to differentiate the user groups based on
 density differences
-\citep[\citet{mohotti2018efficient}]{mohotti2018corpus}.
+\citep{mohotti2018efficient,mohotti2018corpus}.
 
 Non-negative Matrix factorization (NMF) which maps the high-dimensional
 data to a lower-dimensional space has been found to provide an effective
 solution by allowing to form clusters in the lower-dimensional space
-\citep[\citet{luong2019clustering}]{kim2014algorithms}. NMF approximates
+\citep{luong2019clustering,kim2014algorithms}. NMF approximates
 topic vectors in linear manner considering the context of terms.
 
 In traditional NMF \citep{aggarwal2012mining}, the high-dimensional
@@ -344,29 +337,18 @@ dispersion.
 
 \subsection{Within topic analysis}
 
-Results from the clustering algorithm were visualised by word clouds,
-which summarised frequently occurring terms associated with topic
-membership. For both \emph{PLOS ONE} and ANZCTR datasets, we reviewed
-the strongest matches to each cluster based on topic coherence.
-
-Within the \emph{PLOS ONE} dataset, we used the strongest matches to
-investigate evidence of boilerplate text, by comparing text with other
-studies assigned to the same topic. Comparisons were carried out by
-calculating Jaccard similarity scores between studies at the sentence
-level. We chose the Jaccard score as an intuitive measure, which
-summarises the similarity between two sentences by the number of words
-common to each sentence (intersection), divided by the number of words
-that appeared in either the strongest match or the sentence being
-compared. Boilerplate text was defined based on word count (plus or
-minus 3 words) and a Jaccard score of 0.9 or higher.
-
-We also compared similarities in text between pairs of records assigned
-to each cluster. Similarities were determined from calculating cosine
-similarity scores, with comparisons limited to the top 500 records per
-cluster. Higher similarity score represent greater overlap in text
-content between statistical methods sections. Results were transformed
-to lower case for the clustering, but examples are given using the
-original capitalisation.
+Within the \emph{PLOS ONE} dataset, statistical methods sections with
+high topic coherence scores were used to investigate evidence of
+boilerplate text, compared with other studies assigned to the same
+topic. Comparisons were carried out by calculating Jaccard similarity
+scores between studies at the sentence level. We chose the Jaccard score
+as an intuitive measure, which summarises the similarity between two
+sentences as the number of words common to each sentence (intersection),
+divided by the number of words that appeared in either the strongest
+match or the sentence being compared. Boilerplate text was defined based
+on word count (plus or minus 3 words) and a Jaccard score of 0.9 or
+higher. Results were transformed to lower case for the clustering, but examples
+are given using the original capitalisation.
 
 \subsection{Missing statistical methods sections}
 
@@ -387,11 +369,11 @@ to missing.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{figures/plos.summary} 
+{\centering \includegraphics[width=0.8\linewidth]{figures/plossummary.jpg} 
 
 }
 
-\caption{\label{fig:plos-n}PLOS summary}\label{fig:unnamed-chunk-3}
+\caption{\label{fig:plos-n} A: Search results by PLOS ONE volume; B: word count per statistical methods section included in analysis (n = 111,73); C: subject classifications assigned to full-text records included in analysis}\label{fig:unnamed-chunk-3}
 \end{figure}
 
 API searches returned 131,847 results (DOIs) based on chosen search
@@ -426,7 +408,7 @@ sciences (n = 7,605) and/or Computer and information sciences (n =
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.8\linewidth]{figures/plos.wordclouds} 
+{\centering \includegraphics[width=0.8\linewidth]{figures/ploswordclouds.jpg} 
 
 }
 
@@ -450,32 +432,51 @@ included information on SPSS version numbers and definitions of
 statistical significance.
 
 \begin{landscape}
-\begin{table}[]
+\begin{table}
+
+\caption{\label{tab:plos-example-boilerplate}Example boilerplate text from PLOS ONE dataset. Sentences marked with an asterisk $^{\dagger}$ correspond to the statistical methods section with the strongest match based on topic coherence score.}
 \centering
-\caption{Example boilerplate text from PLOS ONE dataset}
-\label{tab:plos-example-boilerplate}
-\begin{tabular}{p{0.1\linewidth} p{0.9\linewidth}}
+\resizebox{1.15\textwidth}{!}{\begin{tabular}[t]{p{0.05\linewidth} p{0.80\linewidth} p{0.15\linewidth}}
 \hline
-\textbf{Topic} & \textbf{Statistical methods section} \\ \hline
-1 & Student’s t-test was used for statistical analysis. A p value of $<$0.05 was considered statistically significant. \\
-& Statistical analysis was performed using the Students t-test. P values of less than 0.05 were considered significant.\\
+Topic & Statistical methods text & Matching DOIs\\
 \hline
-3 & GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses.\\
- & All statistical analysis was performed using Graphpad Prism software.\\
- \hline
-4 & Significant differences were determined using analysis of variance (ANOVA) followed by Tukey post-hoc tests for multiple comparisons.\\
-& Data are expressed as the mean ± SEM. Statistical analysis was performed using one-way analysis of variance (ANOVA) test, followed by Dunnett’s multiple comparison post hoc test. P values less than 0.05 were considered significant.\\
+1  & $^{\dagger}$Students t-test was used for statistical analysis & 29\\
+ & $^{\dagger}$A p value of less-than 0.05 was considered statistically significant. & 1883\\
+\cline{2-3}
+ & Statistical analysis was performed using the students t-test & 380\\
+  & p values of less-than 0.05 were considered significant. & 1526\\
 \hline
-5 & SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis.\\
-  & The results are presented as the mean ± SEM. Data were analyzed by one-way ANOVA and LSD tests using the SPSS 13.0 software (SPSS Inc., Chicago, IL, USA). The difference was considered statistically significant at P$<$0.05.\\
-  \hline
-6 & All results are expressed as means ± standard deviation (± SD).\\
-& Data are expressed as mean ± Standard error of the mean (SEM). Statistical analysis of the data was performed by the Student’s t-test. A value of P$<$0.05 was considered statistically significant.\\
+3 & $^{\dagger}$GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses. & 1941\\
+\cline{2-3}
+ & All statistical analysis was performed using Graphpad Prism software. & 1312\\
 \hline
-9 & Statistical significance was determined by Students t-tests. $^{*} P<0.05$, $^{**} P = <0.01$, $^{***} P<0.001$.\\
- & Data are presented as the mean ± SD. Statistical analysis was performed using the Students unpaired t-test. Differences were considered statistically significant at $^{*}p<0.05$, $^{**}p<0.01$ and $^{***}p<0.001$.\\
- \hline
-\end{tabular}
+4 & $^{\dagger}$Significant differences were determined using analysis of variance (ANOVA) followed by Tukey post-hoc tests for multiple comparisons. & 2216\\
+\cline{2-3}
+ & Data are expressed as the mean ± SEM & 860\\
+ & Statistical analysis was performed using one-way analysis of variance (ANOVA) test, followed by Dunnett’s multiple comparison post hoc test & 4516\\
+ & P values less than 0.05 were considered significant & 2414\\
+\hline
+5 & $^{\dagger}$SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis. & 441\\
+\cline{2-3}
+ & The results are presented as the mean ± SEM. & 420\\
+ & Data were analyzed by one-way ANOVA and LSD tests using the SPSS 13.0 software (SPSS Inc., Chicago, IL, USA). & 19\\
+ & The difference was considered statistically significant at P$<$0.05. & 2555\\
+\hline
+6 & $^{\dagger}$All results are expressed as means ± standard deviation (± SD). & 102\\
+\cline{2-3}
+ & Data are expressed as mean ± Standard error of the mean (SEM) & 604\\
+ & Statistical analysis of the data was performed by the Student’s t-test & 444\\
+ & A value of P$<$0.05 was considered statistically significant. & 1786\\
+\hline
+9 & $^{\dagger}$Statistical significance was determined by Students t-tests. & 49\\
+ & $^{\dagger}$$^{*} P<0.05$, $^{**} P = <0.01$, $^{***} P<0.001$. & 6\\
+\cline{2-3}
+ & Data are presented as the mean ± SD. & 378\\
+ & Statistical analysis was performed using the Students unpaired t-test. & 752\\
+ & Differences were considered statistically significant at $^{*}p<0.05$, $^{**}p<0.01$ and $^{***}p<0.001$. & 413\\
+
+\hline
+\end{tabular}}
 \end{table}
 \end{landscape}
 
@@ -490,9 +491,9 @@ significance by asterisk: ``\(^{*}p<0.05\), \(^{**}p<0.01\) and
 \citep{Wasserstein2019}.
 
 Group-based hypothesis testing was a recurring theme across topics, with
-text descriptions varying based on method(s) used. One-way analysis of
-variance also featured strongly in topic 4 (n = 10212; 8.8\%), combined
-with common methods for performing post-hoc multiple comparisons.
+text varying based on method(s) used. One-way analysis of
+variance featured strongly in topic 4 (n = 10212; 8.8\%), combined
+with common methods for performing post-hoc multiple comparisons, for example, Tukey's test and Dunnett's test.
 Frequently occurring words in topic 6 (n = 4764; 4.1\%) reflected
 mentions of descriptive statistics for summarising continuous variables,
 for example: ``Data are expressed as means ± standard error of the mean
@@ -503,8 +504,7 @@ example, Student's t-test, Mann Whitney U or one-way analysis of
 variance.
 
 Examples of boilerplate text for selected topics are presented in Table
-\ref{tab:plos-example-boilerplate}. Detailed findings based on cosine
-similarity scores are provided in Supplementary File 2.
+\ref{tab:plos-example-boilerplate}.
 
 \subsection{ANZCTR}
 
@@ -512,67 +512,6 @@ We downloaded 28,008 studies. The numbers of excluded studies are shown
 in Figure \ref{fig:anzctr-missing}. Of the 12,700 included studies,
 9,523 (75\%) had a statistical methods section. The median length of
 sections was 129 words with an inter-quartile range of 71 to 219 words.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{figures/excluded_anzctr_missing} 
-
-}
-
-\caption{\label{fig:anzctr-missing}ANZCTR search results.}\label{fig:unnamed-chunk-7}
-\end{figure}
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{figures/anzctr.wordclouds} 
-
-}
-
-\caption{ANZCTR topic clouds.}\label{fig:unnamed-chunk-8}
-\end{figure}
-
-The clustering algorithm found groups that were purely sample size
-calculations (topic 2, n = 1834; topic 4, n = 909), pilot studies (topic
-5, n = 834), safety/tolerability studies (topic 6, n = 524),
-intervention studies (topic 8, n = 1020) and repeated measures ANOVA
-(topic 10 = 852). Examples of boilerplate text are provided in Table
-\ref{tab:anzctr-example-boilerplate} and Supplementary File 3.
-
-Some methods sections were only one word, including ``ANOVA'',
-``t-test'', ``SPSS'' and even ``SSPS''. There were cases where the exact
-same method section had been re-used in a different study. For example,
-in topic 7 (n = 333), 232 sections stated `descriptive statistics' or
-`descriptive statistics used' with no additional details provided. Other
-instances with expanded descriptions of methods included topic 3 (n =
-1277) outlining descriptive analyses only, and topic 6 (n = 524), for
-hypothesis testing methods, statistical significance and software.
-
-In other cases, text had been slightly modified to account for changes
-in primary and secondary outcomes. Examples of these text changes were
-found in topic 2 (n = 1834) and topic 4 (n = 909); identified instances
-related to sample size calculations for patient recruitment to different
-studies (see Supplementary File 3).
-
-\begin{landscape}
-\begin{table}[]
-\centering
-\caption{Example boilerplate text from ANZCTR dataset}
-\label{tab:anzctr-example-boilerplate}
-\begin{tabular}{p{0.1\linewidth} p{0.9\linewidth}}
-\hline
-\textbf{Topic} & \textbf{Statistical methods section} \\ \hline
-3 & Comparisons between categorical variables will be made either using chi square or Fisher exact test. Continuous data will be compared using the Student’s t-test or Mann-Whitney U test. Two sided p values of less than 0.05 will be considered statistically significant.\\
- &  The Mann-Whitney U, Student t, 1-way ANOVA, and Kruskal-Wallis tests will be used to compare continuous variables where relevant. The Fisher exact and Pearson’s Chi-square test will be used to compare proportions as appropriate. \\ \hline
-5 & Pilot study \\
- &  No formal sample size calculation was performed \\ \hline
-7 & Descriptive statistics \\
- &  Descriptive statistics used \\ \hline
-9 & Linear mixed models will be used to analyse the data. \\ \hline
-10 & Repeated measures of ANOVA \\
- &  Pre-, during, post- and follow-up variables will be subjected to mixed methods and repeated measures analyses to determine significant changes over (group and) time. \\ \hline
-\end{tabular}
-\end{table}
-\end{landscape}
 
 We examined if four study characteristics were associated with a missing
 statistics section. The odds ratios and 95\% credible intervals are in
@@ -597,6 +536,74 @@ Target sample size (per doubling) & 0.90 & (0.88, 0.92)\\
 \hline
 \end{tabular}
 \end{table}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/excluded_anzctr_missing} 
+
+}
+
+\caption{\label{fig:anzctr-missing}ANZCTR search results.}\label{fig:unnamed-chunk-8}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/anzctrwordclouds} 
+
+}
+
+\caption{ANZCTR topic clouds.}\label{fig:unnamed-chunk-9}
+\end{figure}
+
+The clustering algorithm found groups that were purely sample size
+calculations (topic 2, n = 1834; topic 4, n = 909), pilot studies (topic
+5, n = 834), safety/tolerability studies (topic 6, n = 524),
+intervention studies (topic 8, n = 1020) and repeated measures ANOVA
+(topic 10 = 852). Examples of boilerplate text are provided in Table
+\ref{tab:anzctr-example-boilerplate} and Supplementary File 3.
+
+Some methods sections were only one word, including ``ANOVA'',
+``t-test'', ``SPSS'' and even ``SSPS''. There were cases where the exact
+same method section had been re-used in a different study. For example,
+in topic 7 (n = 333), 232 sections stated `descriptive statistics' or
+`descriptive statistics used' with no additional details provided. Other
+instances with expanded descriptions of methods included topic 3 (n =
+1277) outlining descriptive analyses only, and topic 6 (n = 524), for
+hypothesis testing methods, statistical significance and software.
+
+In other cases, text had been slightly modified to account for changes
+in primary and secondary outcomes. Examples of these text changes were
+found in topic 2 (n = 1834) and topic 4 (n = 909); identified instances
+related to sample size calculations for patient recruitment to different
+studies (see Supplementary File 3).
+
+Targeted searches for the term `statistician' revealed
+instances across all topics where no methods were specified. Instead,
+all analyses were the responsibility of an appointed statistician, for
+example, ``A statistician employed by hospital was used'' and ``Pilot
+study at this point will use a statistician professionally to determine
+sample size calculations as required''.
+
+\begin{landscape}
+\begin{table}[]
+\centering
+\caption{Example boilerplate text from ANZCTR dataset}
+\label{tab:anzctr-example-boilerplate}
+\begin{tabular}{p{0.1\linewidth} p{0.9\linewidth}}
+\hline
+\textbf{Topic} & \textbf{Statistical methods section} \\ \hline
+3 & Comparisons between categorical variables will be made either using chi square or Fisher exact test. Continuous data will be compared using the Student’s t-test or Mann-Whitney U test. Two sided p values of less than 0.05 will be considered statistically significant.\\
+ &  The Mann-Whitney U, Student t, 1-way ANOVA, and Kruskal-Wallis tests will be used to compare continuous variables where relevant. The Fisher exact and Pearson’s Chi-square test will be used to compare proportions as appropriate. \\ \hline
+5 & Pilot study \\
+ &  No formal sample size calculation was performed \\ \hline
+7 & Descriptive statistics \\
+ &  Descriptive statistics used \\ \hline
+9 & Linear mixed models will be used to analyse the data. \\ \hline
+10 & Repeated measures of ANOVA \\
+ &  Pre-, during, post- and follow-up variables will be subjected to mixed methods and repeated measures analyses to determine significant changes over (group and) time. \\ \hline
+\end{tabular}
+\end{table}
+\end{landscape}
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}

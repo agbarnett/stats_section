@@ -36,6 +36,7 @@ library(ggpubr)
 library(knitr)
 library(flextable)
 library(tidytext)
+library(openxlsx)
 
 g.theme = theme_bw()+theme(legend.position = 'top',legend.direction = 'horizontal')
 ```
@@ -56,7 +57,7 @@ More detailed guideance is given by the SAMPL and EQUATOR guidelines [@Lang2013;
 The awareness and use of these guidelines could be improved. There were 256 Google Scholar citations to the SAMPL paper (as at 15 March 2021) which is a good citation statistic for most papers, but is low considering the millions of papers that use statistical analysis.
 
 Two statisticians on this paper (AB and NW) have heard researchers admit that they have copied-and-pasted their statistical methods sections from other papers, regardless of whether they are appropriate. 
-The aim of this paper is to use text-mining methods to estimate the extent that researchers are using cut-and-paste or 'boilerplate' statistical methods sections.
+The aim of this paper is to use text-mining methods to analyse the content of statistical methods sections included in common research outputs. Results are then evaluated to estimate the extent that researchers are using cut-and-paste or 'boilerplate' statistical methods sections.
 Boilerplate text is that "which can be reused in new contexts or applications without significant changes to the original" [@Wikipedia].
 Use of these methods sections indicates that little thought has gone into the statistical analysis.
 
@@ -70,15 +71,18 @@ We used two openly available data sources to find statistical methods sections: 
 \subsubsection{Public Library of Science (PLOS ONE)}
 \label{sec:methodsPLOS}
 
-_PLOS ONE_ is a large open access journal that publishes original research across a wide range of scientific fields. Articles must be in English. Article submissions are handled by an academic editor who selects peer reviewers based on their self-nominated areas of expertise. Submissions do not undergo formal statistical review. Instead, reviewers are required to assess submissions against several publication criteria, including whether: “Experiments, statistics, and other analyses are performed to a high technical standard and are described in sufficient detail” [@PLOS]. All reviewers are asked the question: "Has the statistical analysis been performed appropriately and rigorously?", with the possible responses of "Yes", "No" and "I don't know".
+_PLOS ONE_ is a large open access journal that publishes original research across a wide range of scientific fields. Article submissions are handled by an academic editor who selects peer reviewers based on their self-nominated areas of expertise. Submissions do not undergo formal statistical review. Instead, reviewers are required to assess submissions against several publication criteria, including whether: “Experiments, statistics, and other analyses are performed to a high technical standard and are described in sufficient detail” [@PLOS]. All reviewers are asked the question: "Has the statistical analysis been performed appropriately and rigorously?", with the possible responses of "Yes", "No" and "I don't know".
 
 Authors are encouraged to follow published reporting guidelines such as EQUATOR, to ensure that chosen statistical methods are appropriate for the study design, and adequate details are provided to enable independent replication of results. 
 
 All _PLOS ONE_ articles are freely accessible via the PLOS Application Programming Interface (API). This enabled us to conduct searches of full-text articles and analyse data on articles' text content and general attributes such as publication date and field(s) of research. To find papers with a statistical methods section we used targeted API searches followed by article filtering based on section headings. The data were downloaded on 3 July 2020.
 
-_Step 1_: Targeted API searches. API searches were completed using the R package ‘rplos’ [@rplos]. Search queries targeted the presence of analysis-related terms anywhere in the article. Search terms combined the words “data” or “statistical” with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Search terms were intended to be broad whilst keeping search results to a manageable number for full-text review (see Step 2). By allowing terms to appear anywhere in the article, we accounted for the possibility of relevant text being placed in different sections, for example, in the _Material and Methods_ section versus _Results_. Search results were indexed by a unique Digital Object Identifier (DOI). Attribute data collected per DOI included journal volume and subject classification(s).
+_Step 1_: Targeted API searches. API searches were completed using the R package ‘rplos’ [@rplos]. Search queries targeted the presence of analysis-related terms anywhere in the article. Search terms combined the words “data” or “statistical” with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. By allowing terms to appear anywhere in the article, we accounted for the possibility of relevant text being placed in different sections, for example, in the _Material and Methods_ section versus _Results_. Search results were indexed by a unique Digital Object Identifier (DOI). Attribute data collected per DOI included journal volume and subject classification(s).
 
-_Step 2_: Partial matching on section headings. Full text XML data for all search results were downloaded and combined into a single dataset, organised by DOI and subsection heading(s). Since _PLOS ONE_ does not prescribe standardised headings to preface statistical methods sections, we performed partial matching on available headings against frequently used terms in initial search results: ‘Statistical analysis’, ‘Statistical analyses’, ‘Statistical method’, ‘Statistics’, ‘Data analysis’ and ‘Data analyses’. For records that did not pass this second stage filter, we selected a random sample of XXX records and reviewed where initial search terms appeared in the full-text, to estimate the likely proportion of statistical methods sections that were missed.
+_Step 2_: Partial matching on section headings. Full text XML data were downloaded and combined into a single dataset, organised by DOI and subsection heading(s). Since _PLOS ONE_ does not prescribe standardised headings to preface statistical methods sections, we performed partial matching on available headings against frequently used terms in initial search results: ‘Statistical analysis’, ‘Statistical analyses’, ‘Statistical method’, ‘Statistics’, ‘Data analysis’ and ‘Data analyses’. 
+
+
+<!-- For records that did not pass this second stage filter, we selected a random sample of XXX records and reviewed where initial search terms appeared in the full-text, to estimate the likely proportion of statistical methods sections that were missed. -->
 
 \subsubsection{Australia and New Zealand Clinical Trials Registry (ANZCTR)}
 \label{sec:methodsANZCTR}
@@ -98,7 +102,7 @@ Some studies were first registered on the alternative trial database _clinicaltr
 \subsection{Full-text processing}
 \label{sec:methods-cleaning}
 
-We applied the same text cleaning steps to both data sources using functions from the `textclean package' [@textclean]. 
+Both datasets were cleaned using functions from the `textclean package' [@textclean]. 
 Text cleaning aimed to standardise notation and statistical terminology, whilst minimising changes to article style and formatting. _R_ code used for data extraction and cleaning is available from https://github.com/agbarnett/stats_section.
 
 Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode character corresponding to $\theta$ (<U+03B8>) was replaced with ‘theta’. Common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were similarly converted into plain text. General formatting was removed, this included carriage returns, punctuation marks, in-text references (e.g. "[42]") centred equations, and other non-ASCII characters. Text contained inside brackets was retained to maximise content for analysis, with brackets removed.
@@ -146,15 +150,11 @@ dispersion.
 
 \subsection{Within topic analysis}
 
-Results from the clustering algorithm were visualised by word clouds, which summarised frequently occurring terms associated with topic membership. For both _PLOS ONE_ and ANZCTR datasets, we reviewed the strongest matches to each cluster based on topic coherence. 
+<!-- Clustering results were visualised by word clouds that summarised frequently occurring terms associated with membership to different topics.  -->
 
-Within the _PLOS ONE_ dataset, we used the strongest matches to investigate evidence of boilerplate text, by comparing text with other studies assigned to the same topic. Comparisons were carried out by calculating Jaccard similarity scores between studies at the sentence level. We chose the Jaccard score as an intuitive measure, which summarises the similarity between two sentences by the number of words common to each sentence (intersection), divided by the number of words that appeared in either the strongest match or the sentence being compared. Boilerplate text was defined based on word count (plus or minus 3 words) and a Jaccard score of 0.9 or higher.
+Within the _PLOS ONE_ dataset, statistical methods sections with high topic coherence scores were used to investigate evidence of boilerplate text, compared with other studies assigned to the same topic. Comparisons were carried out by calculating Jaccard similarity scores between studies at the sentence level. We chose the Jaccard score as an intuitive measure, which summarises the similarity between two sentences by the number of words common to each sentence (intersection), divided by the number of words that appeared in either the strongest match or the sentence being compared. Boilerplate text was defined based on word count (plus or minus 3 words) and a Jaccard score of 0.9 or higher.
 
-
-
-We also compared similarities in text between pairs of records assigned to each cluster. Similarities were determined from calculating cosine similarity scores, with comparisons limited to the top 500 records per cluster. Higher similarity score represent greater overlap in text content between statistical methods sections. Results were transformed to lower case for the clustering, but examples are given using the original capitalisation.
-
-
+Results were transformed to lower case for the clustering, but examples are given using the original capitalisation.
 
 \subsection{Missing statistical methods sections}
 
@@ -244,35 +244,46 @@ ftab.plos = matches %>%
 
 Topics related to statistical software differentiated between Prism GraphPad (topic 3: n = `r filter(ftab.plos,topic_id=='Topic 3') %>% pull(DOIs)`; `r filter(ftab.plos,topic_id=='Topic 3') %>% pull(perc)`%) and SPSS (topic 5: n = `r filter(ftab.plos,topic_id=='Topic 5') %>% pull(DOIs)`; `r filter(ftab.plos,topic_id=='Topic 5') %>% pull(perc)`%) . Manual review of results showed that nine out of the ten top matching DOIs for topic 3 stated the use of Prism GraphPad, but did not specify which statistical methods were used. Top matching sections for topic 5 included information on SPSS version numbers and definitions of statistical significance.
 
-\begin{landscape}
-\begin{table}[]
-\centering
-\caption{Example boilerplate text from PLOS ONE dataset}
-\label{tab:plos-example-boilerplate}
-\begin{tabular}{p{0.1\linewidth} p{0.9\linewidth}}
-\hline
-\textbf{Topic} & \textbf{Statistical methods section} \\ \hline
-1 & Student’s t-test was used for statistical analysis. A p value of $<$0.05 was considered statistically significant. \\
-& Statistical analysis was performed using the Students t-test. P values of less than 0.05 were considered significant.\\
-\hline
-3 & GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses.\\
- & All statistical analysis was performed using Graphpad Prism software.\\
- \hline
-4 & Significant differences were determined using analysis of variance (ANOVA) followed by Tukey post-hoc tests for multiple comparisons.\\
-& Data are expressed as the mean ± SEM. Statistical analysis was performed using one-way analysis of variance (ANOVA) test, followed by Dunnett’s multiple comparison post hoc test. P values less than 0.05 were considered significant.\\
-\hline
-5 & SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis.\\
-  & The results are presented as the mean ± SEM. Data were analyzed by one-way ANOVA and LSD tests using the SPSS 13.0 software (SPSS Inc., Chicago, IL, USA). The difference was considered statistically significant at P$<$0.05.\\
-  \hline
-6 & All results are expressed as means ± standard deviation (± SD).\\
-& Data are expressed as mean ± Standard error of the mean (SEM). Statistical analysis of the data was performed by the Student’s t-test. A value of P$<$0.05 was considered statistically significant.\\
-\hline
-9 & Statistical significance was determined by Students t-tests. $^{*} P<0.05$, $^{**} P = <0.01$, $^{***} P<0.001$.\\
- & Data are presented as the mean ± SD. Statistical analysis was performed using the Students unpaired t-test. Differences were considered statistically significant at $^{*}p<0.05$, $^{**}p<0.01$ and $^{***}p<0.001$.\\
- \hline
-\end{tabular}
-\end{table}
-\end{landscape}
+<!-- \begin{landscape} -->
+<!-- \begin{table}[] -->
+<!-- \centering -->
+<!-- \caption{Example boilerplate text from PLOS ONE dataset} -->
+<!-- \label{tab:plos-example-boilerplate} -->
+<!-- \begin{tabular}{p{0.1\linewidth} p{0.9\linewidth}} -->
+<!-- \hline -->
+<!-- \textbf{Topic} & \textbf{Statistical methods section} \\ \hline -->
+<!-- 1 & Student’s t-test was used for statistical analysis. A p value of $<$0.05 was considered statistically significant. \\ -->
+<!-- & Statistical analysis was performed using the Students t-test. P values of less than 0.05 were considered significant.\\ -->
+<!-- \hline -->
+<!-- 3 & GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses.\\ -->
+<!--  & All statistical analysis was performed using Graphpad Prism software.\\ -->
+<!--  \hline -->
+<!-- 4 & Significant differences were determined using analysis of variance (ANOVA) followed by Tukey post-hoc tests for multiple comparisons.\\ -->
+<!-- & Data are expressed as the mean ± SEM. Statistical analysis was performed using one-way analysis of variance (ANOVA) test, followed by Dunnett’s multiple comparison post hoc test. P values less than 0.05 were considered significant.\\ -->
+<!-- \hline -->
+<!-- 5 & SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis.\\ -->
+<!--   & The results are presented as the mean ± SEM. Data were analyzed by one-way ANOVA and LSD tests using the SPSS 13.0 software (SPSS Inc., Chicago, IL, USA). The difference was considered statistically significant at P$<$0.05.\\ -->
+<!--   \hline -->
+<!-- 6 & All results are expressed as means ± standard deviation (± SD).\\ -->
+<!-- & Data are expressed as mean ± Standard error of the mean (SEM). Statistical analysis of the data was performed by the Student’s t-test. A value of P$<$0.05 was considered statistically significant.\\ -->
+<!-- \hline -->
+<!-- 9 & Statistical significance was determined by Students t-tests. $^{*} P<0.05$, $^{**} P = <0.01$, $^{***} P<0.001$.\\ -->
+<!--  & Data are presented as the mean ± SD. Statistical analysis was performed using the Students unpaired t-test. Differences were considered statistically significant at $^{*}p<0.05$, $^{**}p<0.01$ and $^{***}p<0.001$.\\ -->
+<!--  \hline -->
+<!-- \end{tabular} -->
+<!-- \end{table} -->
+<!-- \end{landscape} -->
+
+
+
+```{r}
+jaccard.matches = read.xlsx('../../results/plos.jaccard_matches.xlsx')
+ftab = jaccard.matches %>% mutate(Topic = paste('Topic',topic)) %>%
+  select(Topic,sentences,matches) %>%  arrange(Topic,-matches) %>%
+  rename('Statistical methods text' = sentences,
+         'Number of matching studies' = matches)
+knitr::kable(ftab,format = "latex", caption='Example boilerplate text from PLOS ONE dataset')
+```
 
 Definitions of statistical significance featured strongly in topic 1 (n = `r filter(ftab.plos,topic_id=='Topic 1') %>% pull(DOIs)`; `r filter(ftab.plos,topic_id=='Topic 1') %>% pull(perc)`%) and topic 9 (n = `r filter(ftab.plos,topic_id=='Topic 9') %>% pull(DOIs)`; `r filter(ftab.plos,topic_id=='Topic 9') %>% pull(perc)`%), combined with text describing hypothesis testing for comparing differences between two groups. Topic 1 reflected applications of Student's t-test assuming a 5% level of statistical significance. Topic 9 referenced similar methods combined with multiple thresholds for declaring statistical significance by asterisk: ``$^{*}p<0.05$, $^{**}p<0.01$ and $^{***}p<0.001$'', a practice that has been criticised [@Wasserstein2019].
 
@@ -280,7 +291,7 @@ Group-based hypothesis testing was a recurring theme across topics, with text de
 
 <!-- Remaining topics reflected applications of meta-analysis (Topic 7: n = 5,165), regression modelling (Topic 2: n = 19,478) and larger sections that reported data processing and statistical methods within the same section (Topic 8: n = 38,183). -->
 
-Examples of boilerplate text for selected topics are presented in Table \ref{tab:plos-example-boilerplate}. Detailed findings based on cosine similarity scores are provided in Supplementary File 2.
+Examples of boilerplate text for selected topics are presented in Table \ref{tab:plos-example-boilerplate}. 
 
 
 
@@ -288,6 +299,27 @@ Examples of boilerplate text for selected topics are presented in Table \ref{tab
 
 
 We downloaded 28,008 studies. The numbers of excluded studies are shown in Figure \ref{fig:anzctr-missing}. Of the 12,700 included studies, 9,523 (75%) had a statistical methods section. The median length of sections was 129 words with an inter-quartile range of 71 to 219 words.
+
+
+
+We examined if four study characteristics were associated with a missing statistics section. The odds ratios and 95% credible intervals are in Table \ref{tab:anzctr-missing-odds}. Observational studies were less likely to have a missing methods section compared with interventional studies. Missing sections became less likely over time. Studies with more funders and a larger target sample size were less likely to have a missing methods section.  
+
+
+\begin{table}[]
+\centering
+\caption{Regression results for factors associated with missing statistical methods sections in ANZCTR}
+\label{tab:anzctr-missing-odds}
+\begin{tabular}{lcc}
+\hline
+Variable & Odds ratio & 95$\%$ CI \\
+\hline
+Study type $=$ Observational & 0.78 & (0.69, 0.89) \\
+Date (per year) & 0.90 & (0.88, 0.91) \\
+Number of funders & 0.80 & (0.74, 0.86) \\
+Target sample size (per doubling) & 0.90 & (0.88, 0.92)\\
+\hline
+\end{tabular}
+\end{table}
 
 
 ```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="\\label{fig:anzctr-missing}ANZCTR search results."}
@@ -309,6 +341,7 @@ Some methods sections were only one word, including "ANOVA", "t-test", "SPSS" an
 
 In other cases, text had been slightly modified to account for changes in primary and secondary outcomes. Examples of these text changes were found in topic 2 (n = 1834) and topic 4 (n = 909); identified instances related to sample size calculations for patient recruitment to different studies (see Supplementary File 3).
 
+Finally, targeted searches for the term 'statistician' revealed instances across all topics where no methods were specified. Instead, all analyses were the responsibility of an appointed statistician, for example, "A statistician employed by hospital was used" and ``Pilot study at this point will use a statistician professionally to determine sample size calculations as required''.
 
 \begin{landscape}
 \begin{table}[]
@@ -338,25 +371,6 @@ In other cases, text had been slightly modified to account for changes in primar
 <!-- #  -->
 <!-- # "Shapiro Wilk test was used as normality test. Continuous variables were compared using Student t-test and Mann-Whitney U test when the data were not normally distributed. Categorical variables were compared using Pearson’s chi-squared test and Fisher’s exact test. Paired data were analyzed using Paired t-test and Wilcoxon signed rank test when data were not normally distributed." -->
 
-
-We examined if four study characteristics were associated with a missing statistics section. The odds ratios and 95% credible intervals are in Table \ref{tab:anzctr-missing-odds}. Observational studies were less likely to have a missing methods section compared with interventional studies. Missing sections became less likely over time. Studies with more funders and a larger target sample size were less likely to have a missing methods section.  
-
-
-\begin{table}[]
-\centering
-\caption{Regression results for factors associated with missing statistical methods sections in ANZCTR}
-\label{tab:anzctr-missing-odds}
-\begin{tabular}{lcc}
-\hline
-Variable & Odds ratio & 95$\%$ CI \\
-\hline
-Study type $=$ Observational & 0.78 & (0.69, 0.89) \\
-Date (per year) & 0.90 & (0.88, 0.91) \\
-Number of funders & 0.80 & (0.74, 0.86) \\
-Target sample size (per doubling) & 0.90 & (0.88, 0.92)\\
-\hline
-\end{tabular}
-\end{table}
 
 # Discussion
 

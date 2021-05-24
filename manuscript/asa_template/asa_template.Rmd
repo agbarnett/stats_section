@@ -75,14 +75,15 @@ _PLOS ONE_ is a large open access journal that publishes original research acros
 
 Authors are encouraged to follow published reporting guidelines such as EQUATOR, to ensure that chosen statistical methods are appropriate for the study design, and adequate details are provided to enable independent replication of results. 
 
-All _PLOS ONE_ articles are freely accessible via the PLOS Application Programming Interface (API). This enabled us to conduct searches of full-text articles and analyse data on articles' text content and general attributes such as publication date and field(s) of research. To find papers with a statistical methods section we used targeted API searches followed by article filtering based on section headings. The data were downloaded on 3 July 2020.
+All _PLOS ONE_ articles are freely accessible via the PLOS Application Programming Interface (API). This enabled us to conduct searches of full-text articles and analyse data on articles' text content and general attributes such as publication date and field(s) of research. Statistical methods sections were extracted using a two-step approach:
 
-_Step 1_: Targeted API searches. API searches were completed using the R package ‘rplos’ [@rplos]. Search queries targeted the presence of analysis-related terms anywhere in the article. Search terms combined the words “data” or “statistical” with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. By allowing terms to appear anywhere in the article, we accounted for the possibility of relevant text being placed in different sections, for example, in the _Material and Methods_ section versus _Results_. Search results were indexed by a unique Digital Object Identifier (DOI). Attribute data collected per DOI included journal volume and subject classification(s).
+_Step 1_: Targeted API searches were completed using the R package ‘rplos’ [@rplos]. Search queries targeted analysis-related terms, combining the words “data” or “statistical” with one of: “analysis”, “analyses”, “method”, “methodology” or “model(l)ing”. Terms could appear anywhere within the main body of the article, to account for the placement of relevant text in different sections, for example, in the _Material and Methods_ section versus _Results_. Search results were indexed by a unique Digital Object Identifier (DOI). Attribute data collected per DOI included journal volume and subject classification(s).
 
-_Step 2_: Partial matching on section headings. Full text XML data were downloaded and combined into a single dataset, organised by DOI and subsection heading(s). Since _PLOS ONE_ does not prescribe standardised headings to preface statistical methods sections, we performed partial matching on available headings against frequently used terms in initial search results: ‘Statistical analysis’, ‘Statistical analyses’, ‘Statistical method’, ‘Statistics’, ‘Data analysis’ and ‘Data analyses’. 
+_Step 2_: _PLOS ONE_ does not prescribe standardised headings to preface statistical methods sections. To address this, we performed partial matching on available headings against frequently used terms in initial search results: ‘Statistical analysis’, ‘Statistical analyses’, ‘Statistical method’, ‘Statistics’, ‘Data analysis’ and ‘Data analyses’. 
 
+<!-- Full-text XML data were combined into a single dataset organised by DOI and subsection heading(s).  -->
 
-<!-- For records that did not pass this second stage filter, we selected a random sample of XXX records and reviewed where initial search terms appeared in the full-text, to estimate the likely proportion of statistical methods sections that were missed. -->
+Data included in our analysis were downloaded on 3 July 2020. For records that did not pass Step 2, we reviewed where initial search terms appeared in the full-text, to evaluate the likely proportion of statistical methods sections that were missed.
 
 \subsubsection{Australia and New Zealand Clinical Trials Registry (ANZCTR)}
 \label{sec:methodsANZCTR}
@@ -99,53 +100,46 @@ We used all the text available in the "Statistical methods" section. We also col
 Studies prior to 2013 were excluded as the statistical methods section appeared to be introduced in 2013.
 Some studies were first registered on the alternative trial database _clinicaltrials.gov_ and then also posted to ANZCTR. We excluded these studies because they almost all had no completed statistical methods section as this section is not included in _clinicaltrials.gov_.
 
+The statistical methods section for the ANZCTR data was missing for some studies and we examined if there were particular studies where this section was more likely to be missing. 
+We used four independent variables of date, study type (observational or interventional), number of funders and target sample size. 
+We used a logistic regression model fitted using a Bayesian paradigm. A small number of sections were labelled as "Not applicable", "Nil" or "None" and we changed these to missing. 
+
+
 \subsection{Full-text processing}
 \label{sec:methods-cleaning}
 
-Both datasets were cleaned using functions from the `textclean package' [@textclean]. 
+<!-- Datasets were cleaned using functions from the `textclean package' [@textclean].  -->
+
 Text cleaning aimed to standardise notation and statistical terminology, whilst minimising changes to article style and formatting. _R_ code used for data extraction and cleaning is available from https://github.com/agbarnett/stats_section.
 
-Mathematical notation including Greek letters was converted from Unicode characters to plain text. For example, the Unicode character corresponding to $\theta$ (<U+03B8>) was replaced with ‘theta’. Common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were similarly converted into plain text. General formatting was removed, this included carriage returns, punctuation marks, in-text references (e.g. "[42]") centred equations, and other non-ASCII characters. Text contained inside brackets was retained to maximise content for analysis, with brackets removed.
+Mathematical notation was converted from Unicode characters to plain text. For example, the Unicode character corresponding to $\theta$ (<U+03B8>) was replaced with ‘theta’. Common symbols outside of Unicode blocks including ‘%’ (percent) and ‘<’ (‘less-than’) were similarly converted into plain text. General formatting was removed, including carriage returns, punctuation marks, in-text references (e.g. "[42]") centred equations, and other non-ASCII characters. Text contained inside brackets was retained to maximise content for analysis, with brackets removed. Common stop words including pronouns, contractions and selected prepositions were removed. We retained selected stop words that, if excluded, may have changed the context of statistical methods being described, for example ‘between’ and ‘against’.
 
-We compiled an extensive list of statistical terms to standardise descriptions of statistical methods reported across both datasets. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of three statistics textbooks [@Dobson2018,@Diggle2013,@Bland2015]. The final list is provided in Supplementary File 1. Plurals (e.g., ‘chi-squares’) unhyphenated (e.g., ‘chi square’) and combined (e.g. ‘chisquare’) terms were transformed to singular, hyphenated form (e.g., ‘chi-square’). Common statistical tests were also hyphenated (e.g., ‘hosmer lemeshow’ to ‘hosmer-lemeshow’).
-
-As a final step, common stop words including pronouns, contractions and selected prepositions were removed. We retained selected stop words that, if excluded, may have changed the context of statistical methods being described, for example ‘between’ and ‘against’.
-
-<!-- Questions: -->
-
-<!-- * Reference updates to stats reporting guidelines; e.g see: -->
-
-<!-- - https://everyone.plos.org/2019/09/26/new-plos-one-statistical-reporting-guidelines/. -->
-<!-- - https://web.archive.org/web/20190607174803/https://journals.plos.org/plosone/s/submission-guidelines -->
-<!-- - https://web.archive.org/web/20150507175314/https://journals.plos.org/plosone/s/submission-guidelines -->
-
+We compiled an extensive list of statistical terms to standardise reported descriptions of statistical methods. An initial list was compiled by calculating individual word frequencies and identifying relevant terms that appeared at least 100 times. Further terms were sourced from index searches of three statistics textbooks [@Dobson2018,@Diggle2013,@Bland2015]. Plurals (e.g., ‘chi-squares’) unhyphenated (e.g., ‘chi square’) and combined (e.g. ‘chisquare’) terms were transformed to singular, hyphenated form (e.g., ‘chi-square’). Common statistical tests were also hyphenated (e.g., ‘hosmer lemeshow’ to ‘hosmer-lemeshow’). The final list is provided in Supplementary File 1. 
 
 \subsection{Clustering algorithm}
 
-Let $P \in R^{M \times N}$ denotes the paper content matrix where the  statistical methods sections of $N$ papers consist of $M$ distinct terms. Text clustering for identifying common writing themes in these papers requires this matrix to represent with a vector space model. Let Matrix $P$ be modeled with the unique terms in the processed sections represented with the tf\*idf (term frequent * inverse document frequency) weighting schema to consider both common and rare terms. 
- 
-Text clustering is known to face the curse of dimensionality due to the high number of terms in doc$\times$term matrix representation [@aggarwal2012mining, @sutanto2018fine]. Therefore text-based methods based on distance, density or probability face difficulties [@park2018examining,@mohotti2018corpus,@mohotti2019concept]. Specifically, the distance difference between near and far points becomes negligible in high-dimensional data [@aggarwal2012mining]. This directly affects the distance-based methods such as \textit{k}-means \cite{jain} in accurately identifying the common subgroups. In addition, the sparseness of this high dimensional matrix representation does not allow to differentiate the user groups based on density differences [@mohotti2018corpus, @mohotti2018efficient]. 
- 
-Non-negative Matrix factorization (NMF) which maps the high-dimensional data to a lower-dimensional space has been found to provide an effective solution by allowing to form clusters in the lower-dimensional space [@kim2014algorithms,@luong2019clustering]. NMF approximates topic vectors in linear manner considering the context of terms.
+Text from statistical methods sections was analysed using Non-Negative Matrix Factorization (NMF). NMF is an established approach for topic modelling, and provides an effective solution for text-based clustering when dealing with high-dimensional data [@kim2014algorithms,@luong2019clustering]. In this section, we outline key details of NMF and its strengths compared with other text-based clustering methods.
 
-In traditional NMF [@aggarwal2012mining], the high-dimensional matrix \( P \in R^{M \times N} \) is approximated by learning two factor matrices \( W \in R^{M \times g} \) and \( H \in R ^{N \times g} \)  where $g$ is the number of cluster groups or common topics in the data collection, as follows.
+For $N$ studies, let $P \in R^{M \times N}$ denote a content matrix, representing text from statistical methods sections as $M$ unique terms. Text clustering algorithms for identifying common topics across studies requires $P$ to be represented with a vector space model. In our case, unique terms in $P$ are modelled using the tf\*idf (term frequency $\times$ inverse document frequency) weighting schema, to account for the relative importance of common and rare terms. 
+ 
+A common problem facing text clustering algorithms is the curse of dimensionality due to the high number of terms in the doc$\times$term matrix representation [@aggarwal2012mining, @sutanto2018fine]. Applying text-based methods based on distance, density or probability therefore face difficulties in high-dimensional settings [@park2018examining,@mohotti2018corpus,@mohotti2019concept]. Specifically, distances between near and far points becomes negligible [@aggarwal2012mining]. This behaviour directly affects the performance of distance-based clustering methods such as \textit{k}-means [@jain] in accurately identifying subgroups (topics) present in the data. Furthermore, sparseness associated with high-dimensional matrix representations does not allow for differentiation between topics based on density differences [@mohotti2018corpus, @mohotti2018efficient]. 
 
+To address these limitations, NMF deals with high-dimensional data by mapping it to a lower-dimensional space. This mapping this achieved by approximating $P$ with two factor matrices: \( W \in R^{M \times g} \) and \( H \in R ^{N \times g} \) [@aggarwal2012mining]. The number of subgroups of common topic inferred from the data is represented by $g$, leading to the approximation:
 \begin{equation}
-\label{eq:2}
- P \approx WH^{T}
+\label{eq:approxPNMF}
+ P \approx WH^{T}.
 \end{equation}
 
-The matrix factorization process approximates the lower dimensional non-negative factor matrices $W$ and $H$ such that they can represent high dimensional $P$ with the least error. The objective function in Eq \ref{eq:Eq2} iteratively attempts to update the entries in $W$ and $H$ to find the optimum values which possess minimum sum of square error for all the elements in both of those matrices. NMF uses Frobenius norm as its objective function and will find the optimum value of \textit{W} and \textit{H} iteratively.
+The matrix factorization process approximates the lower dimensional non-negative factor matrices $W$ and $H$ such that they can represent high dimensional $P$ with the least error. Estimation of $W$ and $H$ is achieved by optimising an objective function; for NMB, the Fronbeius norm is used, equivalent to minimising the sum of squares for all elements of $P$:
 
 \begin{equation}
-\label{eq:Eq2}
+\label{eq:NMFobjectivefn}
 \min \frac{1}{2}\|P - WH\|= \sum _{i=1}^{M}\sum _{j=1}^{N} \left(  P_{i,j} -\left(WH \right)_{i,j} \right)^{2}
 \end{equation}
 
-Matrix \textit{H} contains the information regarding topic membership of each document. Topic membership of each method section in $P$ is obtained considering the maximum coefficient value in $H$ for a method section. 
+Following estimation, \textit{H} contains the information regarding topic membership for all studies. In our case, topic membership $(1,\ldots,g)$ for a statistical methods section is inferred from the maximum coefficient value in the corresponding row of $H$.
 
-We applied the NMF clustering algorithm to the cleaned dataset, varying the number of clusters from 1 to 50. Clustering solutions were assessed using silhouette score, within-cluster dispersion and between-cluster
-dispersion.
+For our two datasets, we applied NMF varying $g$ from 1 to 50. Clustering solutions were assessed using silhouette score, within-cluster dispersion and between-cluster dispersion.
 
 
 \subsection{Within topic analysis}
@@ -156,16 +150,15 @@ Within the _PLOS ONE_ dataset, statistical methods sections with high topic cohe
 
 Results were transformed to lower case for the clustering, but examples are given using the original capitalisation.
 
-\subsection{Missing statistical methods sections}
+<!-- \subsection{Missing statistical methods sections} -->
 
-The statistical methods section for the ANZCTR data was missing for some studies and we examined if there were particular studies where this section was more likely to be missing. 
-We used four independent variables of date, study type (observational or interventional), number of funders and target sample size. 
-We used a logistic regression model fitted using a Bayesian paradigm. A small number of sections were labelled as "Not applicable", "Nil" or "None" and we changed these to missing. 
 
 
 # Results
 
-## _PLOS ONE_
+## Included studies
+
+### PLOS ONE
 
 ```{r}
 load('../../results/total.records.plos.rda')
@@ -186,7 +179,7 @@ n.extremes = wordcounts %>% summarise(morethan500 = sum(words>500),lessthan50=su
 
 ```{r, echo=FALSE, fig.align='center', out.width="60%",fig.cap="\\label{fig:plos-n}PLOS summary"}
 
-knitr::include_graphics("figures/plos.summary.jpg")
+knitr::include_graphics("figures/plos_summary.jpg")
 ```
 
 <!-- ![\label{fig:plos-n}A: Search results by _PLOS ONE_ volume; B: word count per statistical methods section included in analysis (n = 111,73); C: subject classifications assigned to full-text records included in analysis](figures/plos.summary.jpg) -->
@@ -208,14 +201,16 @@ n.computer = to_plot %>% filter(subject_level_name=='Computer and information sc
 ```
 
 
-API searches returned `r format(n.api,big.mark=',')` results (DOIs) based on chosen search terms. After partial matching, `r format(n.include,big.mark=',')` (`r perc.include`%) statistical methods sections were identified. In the final sample, 95,518 (85%) DOIs returned an exact match against common section headings: 64,133 for 'statistical analysis', 13,380 for 'statistical analyses' and 13,627 for 'data analysis'. For our random sample of DOIs that did not meet the partial matching criteria, initial search terms appeared in Introduction (number), Results (number) only.  xxx appeared in the Methods section without a section heading and xxx had a non-standard section heading. [TODO].
+Searching with the _PLOS ONE_ API returned `r format(n.api,big.mark=',')` results (DOIs) based on chosen search terms (\autoref{fig:plos-flowchart}). After partial matching, `r format(n.include,big.mark=',')` (`r perc.include`%) statistical methods sections were identified. In the final sample, 95,518 (85%) DOIs returned an exact match against common section headings: 64,133 for 'statistical analysis', 13,380 for 'statistical analyses' and 13,627 for 'data analysis'. For our random sample of DOIs that did not meet the partial matching criteria, initial search terms appeared in Introduction (number), Results (number) only.  xxx appeared in the Methods section without a section heading and xxx had a non-standard section heading. [TODO].
 
 Search results varied by journal volume (Figure \ref{fig:plos-n}A). The total number of API search results peaked at volumes 8 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`) and 9 (n = `r format(total.records[[2]] %>% filter(volume==8) %>% pull(API),big.mark=',')`) in years 2013 and 2014. This trend aligned with the total number of papers published in _PLOS ONE_ over the same period. The percentage of records that included a statistical methods section by volume based on our proposed matching criteria varied between `r round(min.perc.stats[['percentage']])`% (volume `r min.perc.stats[['volume']]`) and `r round(max.perc.stats[['percentage']])`% (volume `r max.perc.stats[['volume']]`).
 
-Statistical methods sections had a median length of `r n.words[['med']]` words and inter-quartile range of `r n.words[['q1']]` to `r n.words[['q3']]` words (Figure \ref{fig:plos-n}B). `r format(n.extremes[['morethan500']],big.mark=',')` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r format(n.extremes[['lessthan50']],big.mark=',')` articles (`r p.extremes[['lessthan50']]`%) had sections with 50 words or less, equal to the length of this paragraph.
-
 All DOIs included Biology and life sciences (n = `r format(n.biology,big.mark=',')`), Earth sciences
-(n = `r format(n.earth,big.mark=',')`) and/or Computer and information sciences (n = `r format(n.computer,big.mark=',')`) in their top 3 subject classifications (Figure \ref{fig:plos-n}C).
+(n = `r format(n.earth,big.mark=',')`) and/or Computer and information sciences (n = `r format(n.computer,big.mark=',')`) in their top 3 subject classifications (Figure \ref{fig:plos-n}B).
+
+Statistical methods sections had a median length of `r n.words[['med']]` words and inter-quartile range of `r n.words[['q1']]` to `r n.words[['q3']]` words. `r format(n.extremes[['morethan500']],big.mark=',')` articles (`r p.extremes[['morethan500']]`%) had a statistical methods section of 500 words or more. `r format(n.extremes[['lessthan50']],big.mark=',')` articles (`r p.extremes[['lessthan50']]`%) had statistical methods sections with 50 words or less, equal to the length of this paragraph.
+
+
 
 
 <!-- Increasing the number of clusters decreased cluster quality based on global goodness-of-fit measures (Supplementary Figure 1), with average silhouette score and within-cluster dispersion leveling off around 20 clusters. This indicated that the data comprised one large, heterogeneous cluster and multiple smaller clusters. -->
@@ -223,7 +218,7 @@ All DOIs included Biology and life sciences (n = `r format(n.biology,big.mark=',
 
 ```{r, echo=FALSE,fig.align='center', out.width="80%",fig.cap="\\label{fig:plos-clouds}Topic clouds for ten clusters for PLOS ONE"}
 
-knitr::include_graphics("figures/plos.wordclouds.jpg")
+knitr::include_graphics("figures/ploswordclouds.jpg")
 
 ```
 
@@ -330,7 +325,7 @@ knitr::include_graphics("figures/excluded_anzctr_missing.jpg")
 
 ```{r, echo=FALSE, fig.align='center', out.width="70%", fig.cap="ANZCTR topic clouds."}
 
-knitr::include_graphics("figures/anzctr.wordclouds.jpg")
+knitr::include_graphics("figures/anzctrwordclouds.jpg")
 
 ```
 

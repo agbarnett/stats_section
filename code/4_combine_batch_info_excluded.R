@@ -32,4 +32,4 @@ for (b in batch){
 }
 
 #save(stats_section,file='data/stats_section_info.rda')
-save(stats_section_excluded,file='data/stats_section_excluded_plos.rda')
+save(stats_section_excluded,file='../data/stats_section_excluded_plos.rda')

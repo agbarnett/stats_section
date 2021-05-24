@@ -5,7 +5,6 @@ library(tidyverse)
 prefix = c('data','statistical')
 suffix = c('analysis','analyses','method','methodology','modelling')
 search_terms = apply(expand.grid(prefix,suffix),1,paste,collapse=' ')
-search_terms = str_c(search_terms,collapse='|')
 
 load('../data/plos_meta_data.rda')
 stats_sections = readRDS('../data/stats_section_cleaned.rds')

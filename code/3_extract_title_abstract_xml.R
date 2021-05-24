@@ -5,17 +5,16 @@ library(XML)
 library(tidyverse)
 
 #plos full text - loop over batches
-dat.title.abstract = list()
-dat.subject.class = list()
 
-for (batch.number in 2:5){
+
+for (batch.number in 1:5){
 meta_dat = readRDS(paste0('./data/plos_meta_',batch.number,'.RDS'))
 doi_list = meta_dat %>% pull(doi)
 
 dat.batch_titleabs = list()
 dat.batch_subjects = list()
 
-for(i in 1:length(doi_list)){ 
+for(i in 1:length(doi_list)){
   #extract xml of full text. if no xml available, skip to the next doi
   full_text <- tryCatch(
     plos_fulltext(doi_list[i]),
@@ -46,9 +45,9 @@ for(i in 1:length(doi_list)){
   
   #level 1 classification (e..g biology and life sciences)
   #use as.characters() to force blank cells
-  subjects[['level1']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subject",xmlValue)))
-  subjects[['level2']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subject",xmlValue)))
-  subjects[['level3']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subj-group/subject",xmlValue)))
+  subjects[['level1']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subject",xmlValue))) %>% str_c(.,collapse = ';')
+  subjects[['level2']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subject",xmlValue))) %>% str_c(.,collapse = ';')
+  subjects[['level3']] = unlist(as.character(sapply(node_info.subjects,xpathSApply,"./subj-group/subj-group/subject",xmlValue))) %>% str_c(.,collapse = ';')
     
   if (!is.null(title_abstract[['title']]) & !is.null(title_abstract[['abstract']])){
     dat.batch_titleabs[[i]] = bind_cols(title_abstract) %>% add_column(doi=doi_list[i],.before = 1) %>% mutate_if(is.factor,as.character)
@@ -56,9 +55,12 @@ for(i in 1:length(doi_list)){
   
   if (!is.null(subjects[['level1']])){ #must have level 1 subject classification at a minimum
     dat.batch_subjects[[i]] = bind_cols(subjects) %>% distinct() %>% 
-      arrange(level1,level2,level3) %>% 
       mutate_at(c("level1","level2","level3"),function(z) str_remove_all(z,'list\\(\\)')) %>% 
       add_column(doi=doi_list[i],.before = 1) %>% mutate_if(is.factor,as.character)
+    #collapse level 3 by ';', then create one line for levels 1-3
+    dat.batch_subjects[[i]] = dat.batch_subjects[[i]] %>% 
+      mutate(classifications = paste(level1,level2,level3,sep='/')) %>% select(doi,classifications) 
+    
   }
   
 }
@@ -67,6 +69,14 @@ dat.title.abstract[[batch.number]] = bind_rows(dat.batch_titleabs)
 dat.subject.class[[batch.number]] = bind_rows(dat.batch_subjects)
 }
 
-dat.title.abstract = bind_rows(dat.title.abstract)
-dat.subject.class = bind_rows(dat.subject.class)
-save(list(title_abstract = dat.title.abstract,subjects = dat.subject.class),file='./data/title_abstract_subjects_plos.rda')
+
+dat.title.abstract = bind_rows(dat.batch)
+dat.subject.class = bind_rows(dat.batch_subjects)
+
+#save
+save(dat.title.abstract,file=paste0('./data/title_abstract_plos_batch.',batch.number,'.rda'))
+save(dat.subject.class,file=paste0('./data/subjects.',batch.number,'.rda'))
+
+}
+
+

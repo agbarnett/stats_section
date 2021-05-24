@@ -3,7 +3,7 @@
 library(tidyverse)
 library(ggalluvial)
 #load meta data for all records found
-load('./data/plos_meta_data.rda')
+load('data/plos_meta_data.rda')
 
 g.theme = theme_bw() + theme(legend.title = element_blank(),legend.position = 'top',
                              legend.direction = 'horizontal',axis.text = element_text(size=12),
@@ -14,7 +14,7 @@ n_api = meta_dat_allrecords %>% distinct(doi,.keep_all = F) %>% nrow()
 
 
 #load final stats_section
-load('./data/stats_section_info.rda')
+load('data/stats_section_info.rda')
 
 #bind_rows
 stats_section = bind_rows(stats_section)

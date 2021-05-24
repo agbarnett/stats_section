@@ -2,26 +2,42 @@
 library(tidyverse)
 library(tidytext)
 library(openxlsx)
-
-dat = readRDS('../data/stats_section_cleaned.rds')
+dat = readRDS('data/stats_section_cleaned.rds')
+load('data/plos_meta_data.rda')
 #ten topics, PLOS ONE
-matches = read.csv('../results/plos_one_10topics.csv',header=T)
-
+matches = read.csv('results/plos_one_10topics.csv',header=T)
 matches = left_join(dat,matches,by=c('doi'='DOI')) %>%
   mutate(value = as.numeric(value)) %>%
   distinct(doi,text_heading,.keep_all = T)
 
-tidy_matches = matches %>%
+ tidy_matches = matches %>%
    unnest_tokens(word,text_data_clean)
  
 wordcounts <- tidy_matches %>%
    group_by(topic_id,doi) %>%
-   summarise(words = n(),.groups='drop')
+   summarise(words = n(),.groups='drop') 
  
 matches = left_join(matches,wordcounts,by=c('doi','topic_id')) %>%
   arrange(topic_id,-value) %>%
   group_by(topic_id) %>% mutate(rank=row_number()) %>% ungroup() %>%
   mutate(topic_id = paste('Topic',topic_id))
+
+#add volume to wordcounts
+wordcounts = wordcounts %>% left_join(select(meta_dat_allrecords,doi,volume),by='doi')
+
+save(matches,file='manuscript/plos.results.10topics.rda')
+save(wordcounts,file='manuscript/wordcount.plos.rda')
+
+#example - topics 3 and 5
+matches %>% filter(topic_id %in% c('Topic 1', 'Topic 3','Topic 5')) %>% ggplot(.,aes(x=rank,y=words)) + 
+  geom_point(alpha=0.1)+ geom_smooth(method='loess',se=T,colour='blue')+ facet_wrap(~topic_id,scales = 'free') + 
+  scale_x_continuous('Rank (1 = strongest topic match)')+scale_y_continuous('Word count (cleaned text)',breaks=seq(0,1500,100))+theme_minimal()
+
+
+#example - topics 1 and 9
+matches %>% filter(topic_id %in% c('Topic 1','Topic 9')) %>% ggplot(.,aes(x=rank,y=words)) + 
+  geom_point(alpha=0.1)+ geom_smooth(method='loess',se=T,colour='blue')+ facet_wrap(~topic_id,scales='free') + 
+  scale_x_continuous('Rank (1 = strongest topic match)')+scale_y_continuous('Word count (cleaned text)')+theme_minimal()
 
 
 cos.sim <- function(ix,distances.mat) 
@@ -31,7 +47,7 @@ cos.sim <- function(ix,distances.mat)
   return( sum(A*B)/sqrt(sum(A^2)*sum(B^2)) )
 } 
 
-distances = tidy_matches %>% left_join(.,matches %>% select(doi,rank),by='doi') %>% filter(rank<=500) %>% arrange(rank)
+distances = tidy_matches %>% left_join(.,matches %>% select(doi,rank),by='doi') %>% filter(rank<=100)
 
 calc_dist_mat <- function(indata=distances,topicNumber){
  to_stat = indata %>% filter(topic_id==topicNumber) %>%
@@ -44,7 +60,7 @@ calc_dist_mat <- function(indata=distances,topicNumber){
   
   #calc cos similarity
   n <- ncol(distances.mat) 
-  cmb <- expand.grid(i=1:n, j=1:n) %>% filter(i<j)
+  cmb <- expand.grid(i=1:n, j=1:n) #%>% filter(i<j)
 
   cos.sim.vec <- apply(cmb,1,function(x) cos.sim(x,distances.mat))
   
@@ -53,45 +69,54 @@ calc_dist_mat <- function(indata=distances,topicNumber){
   return(list(to_plot=to_plot,doi.list=distances.doi))
 }
 
+#example with hierarchical clustering
+test = calc_dist_mat(topicNumber=9)
+
+cdistr = as.dist(1-matrix(test$to_plot[,3],100,100))
+hcr <- hclust(cdistr, "ward.D")
+cdistc = as.dist(1-t(matrix(test$to_plot[,3],100,100)))
+hcc <- hclust(cdistc, "ward.D")
+heatmap(1-matrix(test$to_plot[,3],100,100), Rowv=as.dendrogram(hcr), Colv=as.dendrogram(hcc))
+
+
+clustering <- cutree(hcr, 10)
+
+plot(hcr, main = "Hierarchical clustering of DOIS within topic",
+     ylab = "", xlab = "", yaxt = "n")
+
+rect.hclust(hcr, 10, border = "red")
+
+boilerplate.text = test$doi.list[clustering==2]
+matches %>% filter(doi %in% boilerplate.text) %>% View()
+
 stats_section.sim = lapply(1:10, function(tt)calc_dist_mat(topicNumber=tt))
-#summarise for table
-stats_section.sim.top500 = lapply(stats_section.sim,function(x) x$to_plot) %>% bind_rows(.,.id='topic')
-stats_section.doi.top500 = lapply(stats_section.sim,function(x) x$doi.list) 
+save(stats_section.sim,file='manuscript/plos.cosinesim.10topics.rda')
 
-ftab.cosine.plos = stats_section.sim.top500 %>% group_by(topic) %>% summarise(Median=median(sim),Q1=quantile(sim,.25),Q3=quantile(sim,.75),
-                                                                              pgt80=sum(sim>0.8),pgt90=sum(sim>0.9),peq1=sum(sim==1)) %>% arrange(as.numeric(topic),.groups='drop') %>%
-  mutate_if(is.numeric,function(x) round(x,2))
+#n-grams
+tidy_matches = matches %>%
+  unnest_tokens(word,text_data_clean,token='ngrams',n=2)
 
-ftab.cosine.plos = mutate(ftab.cosine.plos,'Median (IQR)' = paste0(Median,' (',Q1,' to ',Q3,')')) %>%
-  select(topic,'Median (IQR)',pgt80,pgt90,peq1) %>%
-  rename('Similarity > 0.8'=pgt80,'Similarity > 0.9' = pgt90, 'Similarity = 1' = peq1) 
+#compare words frequencies between topics
+freq.counts = tidy_matches %>% group_by(topic_id) %>%
+  count(word,sort=T) %>%
+  mutate(freq=n/sum(n))
 
-#boilerplate text, pairwise
-boilerplate = lapply(1:10,function(x) stats_section.sim.top500 %>% filter(topic==x,sim>0.5) %>% mutate(pair = row_number(),
-                                                                               doi_1 = stats_section.doi.top500[[x]][i],
-                                                                               doi_2 = stats_section.doi.top500[[x]][j]) %>% select(topic,pair,sim,doi_1,doi_2))
-  
+frequency <- freq.counts %>% 
+  select(topic_id, word, freq) %>% 
+  spread(topic_id, freq) 
+ggplot(frequency,aes(`Topic 1`,`Topic 9`)) + 
+  geom_jitter(alpha = 0.1) +
+  geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5)+
+  geom_abline(colour='red')
 
-boilerplate.dois = bind_rows(boilerplate) ##%>% gather(variable,doi,-topic,-pair,-sim) %>% arrange(topic,-sim,pair)
+#split text_data_clean into sentence as alternative for boilerplate text
 
-#join to text
-boilerplate.text.plos = boilerplate.dois %>% left_join(matches %>% select(doi,text_data,rank,words),by=c('doi_1'='doi')) %>%
-  rename('stats_section_1'=text_data,'rank_1'=rank,'words_1'=words) %>%
-  left_join(matches %>% select(doi,text_data,rank,words),by=c('doi_2'='doi')) %>%
-  rename('stats_section_2'=text_data,'rank_2'=rank,'words_2'=words) %>%
-  select(topic,pair,sim,doi_1,rank_1,words_1,doi_2,rank_2,words_2,stats_section_1,stats_section_2) %>% arrange(topic,-sim)
+dat.sentences = lapply(1:nrow(matches), function(i) str_split(matches[i,]$text_data_clean,"\\. ",simplify=F) %>% unlist() %>% 
+  tibble(text_data_clean_s=.) %>% add_column(doi = matches[i,] %>% pull(doi)))
 
-save(matches,file='../results/plos.results.10topics.rda')
-save(stats_section.sim,ftab.cosine.plos,boilerplate.text.plos,file='../results/plos.cosinesim.10topics.rda')
-
-#save boilerplate text as separate excel file
-write.xlsx(boilerplate.text.plos,file='../results/plos.boilerplate.xlsx')
+matches.bysentence = dat.sentences %>% bind_rows() %>% left_join(.,matches %>% select(doi,topic_id,rank),by='doi')
 
 
-# #get total matches by topic, assume sim score>0.8
-# check.dois  = boilerplate.text.plos %>% filter(sim>0.8) %>% count(topic,doi) %>% arrange(topic,-n)
-# 
-# check.dois %>% group_by(topic) %>% slice(1)
-# 
-# top.matches = boilerplate.text.plos %>% filter(rank==1) %>% distinct(topic,doi)
-# 
+#example sentence
+test_str = 'student t-test was used for statistical analysis'
+matches.bysentence %>% filter(topic_id=='Topic 1',grepl(test_str,text_data_clean_s))

@@ -1,5 +1,9 @@
 \begin{thebibliography}{xx}
 
+\harvarditem{Aggarwal \harvardand\ Zhai}{2012}{aggarwal2012mining}
+Aggarwal, C.~C. \harvardand\ Zhai, C.  \harvardyearleft 2012\harvardyearright ,
+  {\em Mining text data}, Springer Science \& Business Media.
+
 \harvarditem[Allison et~al.]{Allison, Brown, George \harvardand\
   Kaiser}{2016}{Allison2016}
 Allison, D.~B., Brown, A.~W., George, B.~J. \harvardand\ Kaiser, K.~A.
@@ -94,6 +98,12 @@ Ioannidis, J. P.~A., Greenland, S., Hlatky, M.~A., Khoury, M.~J., Macleod,
   design, conduct, and analysis', {\em The Lancet} {\bf 383}(9912),~166--175.
 \newline\harvardurl{https://doi.org/10.1016/s0140-6736(13)62227-8}
 
+\harvarditem[Kim et~al.]{Kim, He \harvardand\ Park}{2014}{kim2014algorithms}
+Kim, J., He, Y. \harvardand\ Park, H.  \harvardyearleft 2014\harvardyearright ,
+  `Algorithms for nonnegative matrix and tensor factorizations: a unified view
+  based on block coordinate descent framework', {\em Journal of Global
+  Optimization} {\bf 58}(2),~285--319.
+
 \harvarditem[King et~al.]{King, Pullmann, Lyon, Dorsey \harvardand\
   Lewis}{2019}{King2019}
 King, K.~M., Pullmann, M.~D., Lyon, A.~R., Dorsey, S. \harvardand\ Lewis, C.~C.
@@ -117,6 +127,13 @@ Leek, J., McShane, B.~B., Gelman, A., Colquhoun, D., Nuijten, M.~B.
   ways to fix statistics', {\em Nature} {\bf 551}(7682),~557--559.
 \newline\harvardurl{https://doi.org/10.1038/d41586-017-07522-z}
 
+\harvarditem{Luong \harvardand\ Nayak}{2019}{luong2019clustering}
+Luong, K. \harvardand\ Nayak, R.  \harvardyearleft 2019\harvardyearright ,
+  Clustering multi-view data using non-negative matrix factorization and
+  manifold learning for effective understanding: A survey paper, {\em in}
+  `Linking and Mining Heterogeneous and Multi-view Data', Springer,
+  pp.~201--227.
+
 \harvarditem[McShane et~al.]{McShane, Gal, Gelman, Robert \harvardand\
   Tackett}{2019}{McShane2019}
 McShane, B.~B., Gal, D., Gelman, A., Robert, C. \harvardand\ Tackett, J.~L.
@@ -124,16 +141,45 @@ McShane, B.~B., Gal, D., Gelman, A., Robert, C. \harvardand\ Tackett, J.~L.
   {\em The American Statistician} {\bf 73}(sup1),~235--245.
 \newline\harvardurl{https://doi.org/10.1080/00031305.2018.1527253}
 
+\harvarditem[Mohotti et~al.]{Mohotti, Lukas \harvardand\
+  Nayak}{2019}{mohotti2019concept}
+Mohotti, W.~A., Lukas, D.~C. \harvardand\ Nayak, R.  \harvardyearleft
+  2019\harvardyearright , Concept mining in online forums using
+  self-corpus-based augmented text clustering, {\em in} `Pacific Rim
+  International Conference on Artificial Intelligence', Springer, pp.~397--402.
+
+\harvarditem{Mohotti \harvardand\ Nayak}{2018{\em a}}{mohotti2018corpus}
+Mohotti, W.~A. \harvardand\ Nayak, R.  \harvardyearleft 2018{\em
+  a}\harvardyearright , Corpus-based augmented media posts with density-based
+  clustering for community detection, {\em in} `2018 IEEE 30th International
+  Conference on Tools with Artificial Intelligence (ICTAI)', IEEE,
+  pp.~379--386.
+
+\harvarditem{Mohotti \harvardand\ Nayak}{2018{\em b}}{mohotti2018efficient}
+Mohotti, W.~A. \harvardand\ Nayak, R.  \harvardyearleft 2018{\em
+  b}\harvardyearright , An efficient ranking-centered density-based document
+  clustering method, {\em in} `Pacific-Asia Conference on Knowledge Discovery
+  and Data Mining', Springer, pp.~439--451.
+
+\harvarditem[Park et~al.]{Park, Conway \harvardand\
+  Chen}{2018}{park2018examining}
+Park, A., Conway, M. \harvardand\ Chen, A.~T.  \harvardyearleft
+  2018\harvardyearright , `Examining thematic similarity, difference, and
+  membership in three online mental health communities from reddit: a text
+  mining and visualization approach', {\em Computers in human behavior} {\bf
+  78},~98--112.
+
 \harvarditem{{PLOS}}{2021}{PLOS}
 {PLOS}  \harvardyearleft 2021\harvardyearright , Plos one: accelerating the
   publication of peer-reviewed science, Technical report.
 \newline\harvardurl{https://journals.plos.org/plosone/s/criteria-for-publication}
 
-\harvarditem{Rinker}{2018}{textclean}
-Rinker, T.~W.  \harvardyearleft 2018\harvardyearright , {\em {textclean}: Text
-  Cleaning Tools}, Buffalo, New York.
-\newblock version 0.9.3.
-\newline\harvardurl{https://github.com/trinker/textclean}
+\harvarditem[Rue et~al.]{Rue, Martino \harvardand\ Chopin}{2009}{INLA}
+Rue, H., Martino, S. \harvardand\ Chopin, N.  \harvardyearleft
+  2009\harvardyearright , `Approximate {Bayesian} inference for latent
+  {Gaussian} models using integrated nested {Laplace} approximations (with
+  discussion).', {\em Journal of the Royal Statistical Society B} {\bf
+  71},~319--392.
 
 \harvarditem[Serghiou et~al.]{Serghiou, Contopoulos-Ioannidis, Boyack, Riedel,
   Wallach \harvardand\ Ioannidis}{2021}{Serghiou2021}
@@ -149,6 +195,11 @@ Stark, P.~B. \harvardand\ Saltelli, A.  \harvardyearleft 2018\harvardyearright
   , `Cargo-cult statistics and scientific crisis', {\em Significance} {\bf
   15}(4),~40--43.
 \newline\harvardurl{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.1740-9713.2018.01174.x}
+
+\harvarditem{Sutanto \harvardand\ Nayak}{2018}{sutanto2018fine}
+Sutanto, T. \harvardand\ Nayak, R.  \harvardyearleft 2018\harvardyearright ,
+  `Fine-grained document clustering via ranking and its application to social
+  media analytics', {\em Social Network Analysis and Mining} {\bf 8}(1),~29.
 
 \harvarditem[Wasserstein et~al.]{Wasserstein, Schirm \harvardand\
   Lazar}{2019}{Wasserstein2019}

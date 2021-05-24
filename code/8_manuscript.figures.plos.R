@@ -39,8 +39,8 @@ g3 = ggplot(plot.subjects,aes(x=subject_level_name,y=value/10000,fill=`Top 3 sub
   geom_bar(stat='identity',colour='black',width=0.75)+scale_y_continuous('Total records (x 10,000)',breaks=seq(0,12,1))+
   xlab('')+coord_flip()+scale_fill_manual(values = c('grey75','grey15'))+ theme(legend.position = 'bottom',legend.direction = 'horizontal')
 #save
-jpeg('../manuscript/asa_template/figures/plos.summary.jpg',width=480,height=600,quality=100)
-ggarrange(g1,g2,g3,nrow=3,labels=LETTERS[1:3])
+jpeg('../manuscript/asa_template/figures/plos_summary.jpg',width=480,height=600,quality=100)
+ggarrange(g1,g3,nrow=2,labels=LETTERS[1:2])
 dev.off()
 
 #FIGURE: PLOS 10 topics, summarise topic values

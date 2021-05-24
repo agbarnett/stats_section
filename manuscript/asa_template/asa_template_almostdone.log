@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2021.5.13)  24 MAY 2021 18:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2021.5.13)  24 MAY 2021 18:19
 entering extended mode
-**./asa_template.tex
-(asa_template.tex
+**./asa_template_almostdone.tex
+(asa_template_almostdone.tex
 LaTeX2e <2018-04-01> patch level 5
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
@@ -409,8 +409,8 @@ Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-(asa_template.aux)
-\openout1 = `asa_template.aux'.
+No file asa_template_almostdone.aux.
+\openout1 = `asa_template_almostdone.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
 LaTeX Font Info:    ... okay on input line 32.
@@ -426,7 +426,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
 LaTeX Font Info:    ... okay on input line 32.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 32.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 32.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 32.
@@ -473,12 +473,11 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 32.
 LaTeX Info: Redefining \pageref on input line 32.
 LaTeX Info: Redefining \nameref on input line 32.
-
-(asa_template.out) (asa_template.out)
 \@outlinefile=\write4
-\openout4 = `asa_template.out'.
+\openout4 = `asa_template_almostdone.out'.
 
- [1
+
+[1
 Non-PDF special ignored!
 <special> header=psfrag.pro
 
@@ -486,63 +485,242 @@ Non-PDF special ignored!
 
 Package natbib Warning: Citation `2008' on page 2 undefined on input line 90.
 
-[2] [3] [4] [5]
+
+Package natbib Warning: Citation `Leek2017' on page 2 undefined on input line 9
+0.
+
+
+Package natbib Warning: Citation `Stark2018' on page 2 undefined on input line 
+93.
+
+
+Package natbib Warning: Citation `Altman1994' on page 2 undefined on input line
+ 97.
+
+
+Package natbib Warning: Citation `King2019' on page 2 undefined on input line 9
+7.
+
+
+Package natbib Warning: Citation `Altman1994' on page 2 undefined on input line
+ 98.
+
+
+Package natbib Warning: Citation `Brown2018' on page 2 undefined on input line 
+98.
+
+
+Package natbib Warning: Citation `Stark2018' on page 2 undefined on input line 
+100.
+
+
+Package natbib Warning: Citation `Allison2016' on page 2 undefined on input lin
+e 102.
+
+
+Package natbib Warning: Citation `Ernst2017' on page 2 undefined on input line 
+104.
+
+
+Package natbib Warning: Citation `Zhou2018' on page 2 undefined on input line 1
+04.
+
+
+Package natbib Warning: Citation `Hardwicke2020' on page 2 undefined on input l
+ine 108.
+
+
+Package natbib Warning: Citation `Goodman1998' on page 2 undefined on input lin
+e 109.
+
+
+Package natbib Warning: Citation `ICMJE2019' on page 2 undefined on input line 
+116.
+
+
+Package natbib Warning: Citation `Lang2013' on page 2 undefined on input line 1
+18.
+
+
+Package natbib Warning: Citation `Altman2016' on page 2 undefined on input line
+ 118.
+
+
+Package natbib Warning: Citation `Wikipedia' on page 2 undefined on input line 
+135.
+
+[2]
+
+Package natbib Warning: Citation `PLOS' on page 3 undefined on input line 161.
+
+[3]
+
+Package natbib Warning: Citation `rplos' on page 4 undefined on input line 178.
+
+
+
+Package natbib Warning: Citation `ANZCTR' on page 4 undefined on input line 209
+.
+
+
+Package natbib Warning: Citation `ANZCTR' on page 4 undefined on input line 216
+.
+
+[4]
+
+Package natbib Warning: Citation `INLA' on page 5 undefined on input line 242.
+
 LaTeX Font Info:    Try loading font information for OML+cmr on input line 258.
 
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omlcmr.fd"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omlcmr.fd"
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 258.
+ [5]
+
+Package natbib Warning: Citation `Dobson2018' on page 6 undefined on input line
+ 275.
+
+
+Package natbib Warning: Citation `Diggle2013' on page 6 undefined on input line
+ 275.
+
+
+Package natbib Warning: Citation `Bland2015' on page 6 undefined on input line 
+275.
+
+
+Package natbib Warning: Citation `kim2014algorithms' on page 6 undefined on inp
+ut line 288.
+
+
+Package natbib Warning: Citation `luong2019clustering' on page 6 undefined on i
+nput line 288.
+
+
+Package natbib Warning: Citation `aggarwal2012mining' on page 6 undefined on in
+put line 303.
+
+
+Package natbib Warning: Citation `sutanto2018fine' on page 6 undefined on input
+ line 303.
+
+
+Package natbib Warning: Citation `park2018examining' on page 6 undefined on inp
+ut line 306.
+
+
+Package natbib Warning: Citation `mohotti2018corpus' on page 6 undefined on inp
+ut line 306.
+
+
+Package natbib Warning: Citation `mohotti2019concept' on page 6 undefined on in
+put line 306.
+
+
+Package natbib Warning: Citation `aggarwal2012mining' on page 6 undefined on in
+put line 308.
+
+
+Package natbib Warning: Citation `jain' on page 6 undefined on input line 310.
+
+
+Package natbib Warning: Citation `mohotti2018corpus' on page 6 undefined on inp
+ut line 314.
+
+
+Package natbib Warning: Citation `mohotti2018efficient' on page 6 undefined on 
+input line 314.
 
 [6]
 
-Package natbib Warning: Citation `jain' on page 7 undefined on input line 310.
+Package natbib Warning: Citation `aggarwal2012mining' on page 7 undefined on in
+put line 319.
 
 [7]
-<figures/excluded_plosone.jpg, id=205, 361.35pt x 289.08pt>
+<figures/excluded_plosone.jpg, id=61, 361.35pt x 289.08pt>
 File: figures/excluded_plosone.jpg Graphic file (type jpg)
 <use figures/excluded_plosone.jpg>
 Package pdftex.def Info: figures/excluded_plosone.jpg  used on input line 370.
 (pdftex.def)             Requested size: 226.51483pt x 181.21269pt.
-<figures/excluded_anzctr_missing.jpg, id=206, 361.35pt x 289.08pt>
+<figures/excluded_anzctr_missing.jpg, id=62, 361.35pt x 289.08pt>
 File: figures/excluded_anzctr_missing.jpg Graphic file (type jpg)
 <use figures/excluded_anzctr_missing.jpg>
 Package pdftex.def Info: figures/excluded_anzctr_missing.jpg  used on input lin
 e 370.
 (pdftex.def)             Requested size: 226.51483pt x 181.21269pt.
-<figures/plos_summary.jpg, id=207, 481.8pt x 602.25pt>
+<figures/plos_summary.jpg, id=63, 481.8pt x 602.25pt>
 File: figures/plos_summary.jpg Graphic file (type jpg)
 <use figures/plos_summary.jpg>
 Package pdftex.def Info: figures/plos_summary.jpg  used on input line 379.
 (pdftex.def)             Requested size: 277.3648pt x 346.71378pt.
- [8 <./figures/excluded_plosone.jpg> <./figures/excluded_anzctr_missing.jpg>] [
-9 <./figures/plos_summary.jpg>]
-<figures/ploswordclouds.jpg, id=222, 366.61969pt x 598.48593pt>
+
+
+LaTeX Warning: Reference `fig:consort-diagrams' on page 8 undefined on input li
+ne 387.
+
+
+LaTeX Warning: Reference `fig:plos-n' on page 8 undefined on input line 393.
+
+
+LaTeX Warning: Reference `fig:plos-n' on page 8 undefined on input line 402.
+
+[8 <./figures/excluded_plosone.jpg> <./figures/excluded_anzctr_missing.jpg>]
+[9 <./figures/plos_summary.jpg>]
+<figures/ploswordclouds.jpg, id=78, 366.61969pt x 598.48593pt>
 File: figures/ploswordclouds.jpg Graphic file (type jpg)
 <use figures/ploswordclouds.jpg>
 Package pdftex.def Info: figures/ploswordclouds.jpg  used on input line 417.
 (pdftex.def)             Requested size: 369.8174pt x 603.74458pt.
- [10] [11 <./figures/ploswordclouds.jpg>]
-[12]
+
+
+LaTeX Warning: Reference `fig:plos-clouds' on page 10 undefined on input line 4
+24.
+
+
+LaTeX Warning: Reference `tab:plos-example-boilerplate' on page 10 undefined on
+ input line 431.
+
+[10] [11 <./figures/ploswordclouds.jpg>]
 Overfull \hbox (2.07108pt too wide) in paragraph at lines 448--449
 []\OT1/cmr/m/n/12 Matching
  []
 
-[13]
+[12]
+
+LaTeX Warning: Reference `tab:plos-example-boilerplate' on page 13 undefined on
+ input line 475.
+
+
+Package natbib Warning: Citation `Wasserstein2019' on page 13 undefined on inpu
+t line 478.
+
+
+LaTeX Warning: Reference `fig:consort-diagrams' on page 13 undefined on input l
+ine 494.
+
+
+LaTeX Warning: Reference `tab:anzctr-missing-odds' on page 13 undefined on inpu
+t line 500.
+
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 506.
 
-<figures/anzctrwordclouds.jpg, id=250, 420.82219pt x 665.48625pt>
+<figures/anzctrwordclouds.jpg, id=93, 420.82219pt x 665.48625pt>
 File: figures/anzctrwordclouds.jpg Graphic file (type jpg)
 <use figures/anzctrwordclouds.jpg>
 Package pdftex.def Info: figures/anzctrwordclouds.jpg  used on input line 524.
 (pdftex.def)             Requested size: 323.58757pt x 511.72533pt.
-[14
+
+LaTeX Warning: Reference `tab:anzctr-example-boilerplate' on page 13 undefined 
+on input line 536.
+
+[13
 
 
-] [15 <./figures/anzctrwordclouds.jpg>] [16]
+] [14 <./figures/anzctrwordclouds.jpg>] [15]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 562.
@@ -552,37 +730,79 @@ Overfull \hbox (23.99998pt too wide) in paragraph at lines 566--579
  [][] 
  []
 
-[17] [18
+[16]
+
+Package natbib Warning: Citation `Altman1994' on page 17 undefined on input lin
+e 589.
 
 
-] (asa_template.bbl [19] [20] [21] [22]
-Overfull \hbox (162.78514pt too wide) in paragraph at lines 213--218
-\OT1/cmr/bx/n/12 URL: \OT1/cmr/m/it/12 https://gateway.library.qut.edu.au/login
-?url=https://search.proquest.com/docview/2174217344?accountid=13380 
- []
+Package natbib Warning: Citation `McShane2019' on page 17 undefined on input li
+ne 598.
 
-)
+
+Package natbib Warning: Citation `Goodman2008' on page 17 undefined on input li
+ne 599.
+
+
+Package natbib Warning: Citation `Hardwicke2020' on page 17 undefined on input 
+line 606.
+
+
+Package natbib Warning: Citation `Weissgerber2018' on page 17 undefined on inpu
+t line 610.
+
+
+Package natbib Warning: Citation `Serghiou2021' on page 17 undefined on input l
+ine 622.
+
+
+Package natbib Warning: Citation `Stark2018' on page 17 undefined on input line
+ 628.
+
+
+Package natbib Warning: Citation `Ioannidis2014' on page 17 undefined on input 
+line 634.
+
+[17
+
+
+]
+No file asa_template_almostdone.bbl.
 
 Package natbib Warning: There were undefined citations.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 660.
-[23]
+[18]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 660.
- (asa_template.aux)
+ (asa_template_almostdone.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 660.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 660.
-Package rerunfilecheck Info: File `asa_template.out' has not changed.
-(rerunfilecheck)             Checksum: ACB8ED74A2EAF50B98B8DCF84B9BD2AF;846.
+
+
+Package rerunfilecheck Warning: File `asa_template_almostdone.out' has changed.
+
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `asa_template_almostdone.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  ACB8ED74A2EAF50B98B8DCF84B9BD2AF;846.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 660.
  ) 
 Here is how much of TeX's memory you used:
- 6859 strings out of 492966
- 99703 string characters out of 3135718
- 190416 words of memory out of 3000000
- 10570 multiletter control sequences out of 15000+200000
+ 6690 strings out of 492966
+ 96385 string characters out of 3135718
+ 187345 words of memory out of 3000000
+ 10450 multiletter control sequences out of 15000+200000
  12624 words of font info for 45 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 28i,11n,30p,315b,479s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 28i,11n,30p,326b,352s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKT
@@ -598,9 +818,9 @@ iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files/MiKTeX 2.
 9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Program Files/MiKTeX 2.9/fonts/
 type1/public/cm-super/sfrm0700.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pub
 lic/cm-super/sfrm1000.pfb>
-Output written on asa_template.pdf (23 pages, 870425 bytes).
+Output written on asa_template_almostdone.pdf (18 pages, 825554 bytes).
 PDF statistics:
- 390 PDF objects out of 1000 (max. 8388607)
- 87 named destinations out of 1000 (max. 500000)
- 130 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 187 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 500000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -174,6 +174,13 @@ Park, A., Conway, M. \harvardand\ Chen, A.~T.  \harvardyearleft
   publication of peer-reviewed science, Technical report.
 \newline\harvardurl{https://journals.plos.org/plosone/s/criteria-for-publication}
 
+\harvarditem[Rue et~al.]{Rue, Martino \harvardand\ Chopin}{2009}{INLA}
+Rue, H., Martino, S. \harvardand\ Chopin, N.  \harvardyearleft
+  2009\harvardyearright , `Approximate {Bayesian} inference for latent
+  {Gaussian} models using integrated nested {Laplace} approximations (with
+  discussion).', {\em Journal of the Royal Statistical Society B} {\bf
+  71},~319--392.
+
 \harvarditem[Serghiou et~al.]{Serghiou, Contopoulos-Ioannidis, Boyack, Riedel,
   Wallach \harvardand\ Ioannidis}{2021}{Serghiou2021}
 Serghiou, S., Contopoulos-Ioannidis, D.~G., Boyack, K.~W., Riedel, N., Wallach,

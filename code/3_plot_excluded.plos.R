@@ -32,10 +32,10 @@ make_diagram_plos = function(){
   plotmat(M, name=labels, pos=pos, box.type = 'rect', box.size=sizes, box.prop = props, curve = 0, arr.pos=0.85)
   shape::Arrows(x0=0.29, x1=0.45, y0=0.55, y1=0.55, arr.width=0.2, arr.length=0.22, arr.type='triangle')
   # heading
-  text(0.5, 0.95, "PLOS ONE", font=2)
+  #text(0.5, 0.95, "PLOS ONE", font=2)
 }
 
 # export
-jpeg('figures/excluded_plosone.jpg', width=5, height=4, units='in', res=300)
+jpeg('manuscript/asa_template/figures/excluded_plosone.jpg', width=5, height=4, units='in', res=300)
 make_diagram_plos()
 dev.off()

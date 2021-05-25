@@ -23,7 +23,7 @@ matches = left_join(matches,wordcounts,by=c('number','topic_id')) %>%
   group_by(topic_id) %>% mutate(rank=row_number()) %>% ungroup() %>%
   mutate(topic_id = paste('Topic',topic_id))
 
-
+save(matches,file='../results/anzctr.results.10topics.rda')
 cos.sim <- function(ix,distances.mat) 
 {
   A = distances.mat[,ix[1]]
@@ -84,7 +84,6 @@ boilerplate.text.anzctr = boilerplate.numbers %>% left_join(matches %>% select(n
   mutate(topic=as.numeric(topic)) %>%
   arrange(topic,-sim)
 
-save(matches,file='../results/anzctr.results.10topics.rda')
 save(stats_section.sim,ftab.cosine.anzctr,boilerplate.text.anzctr,file='../results/anzctr.cosinesim.10topics.rda')
 matches %>% filter(grepl('stati(.*)ti(.*)ian',text_data_clean))
 #save boilerplate text as separate excel file
@@ -93,5 +92,4 @@ top_matches = matches %>% group_by(topic_id) %>% filter(rank==1)
 
 #which value is the most frequently occuring?
 frequent_matches = matches %>% group_by(topic_id) %>% count(value) %>% filter(n==max(n))
-
 write.xlsx(top_matches,file='results/anzctr.boilerplate.xlsx')

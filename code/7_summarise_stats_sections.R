@@ -116,6 +116,36 @@ dat.sentences = lapply(1:nrow(matches), function(i) str_split(matches[i,]$text_d
 
 matches.bysentence = dat.sentences %>% bind_rows() %>% left_join(.,matches %>% select(doi,topic_id,rank),by='doi')
 
+#starting at rank=1 within each topic (e.g. topic 1 as starting point)
+target_s = matches.bysentence %>% filter(topic_id=='Topic 3',rank==1) %>% pull(text_data_clean_s)
+compare_s_all = matches.bysentence %>% filter(topic_id=='Topic 3',rank!=1) %>% 
+  mutate(rowid = row_number())
+
+compare_s = filter(compare_s_all,rank>1) 
+
+
+calculate_jaccard_index = function(target_sentence,compare_sentences){
+words_target = target_sentence %>% str_split(.,pattern=' ') %>% unlist()#test sentence
+
+jaccard.index = matrix(0,nrow(compare_sentences),2)
+for (x in 1:nrow(compare_sentences)){
+words_compare =  compare_sentences[x,'text_data_clean_s'] %>% str_split(.,pattern=' ') %>% unlist()
+intersection_ab = length(intersect(words_target,words_compare))
+union_ab = length(words_target)+length(words_compare) - intersection_ab
+jaccard.index[x,1] = intersection_ab/union_ab
+words_abs.diff = abs(length(words_target)-length(words_compare))
+jaccard.index[x,2] = words_abs.diff
+}
+colnames(jaccard.index) = c('jaccard.index','diff.words')
+jaccard.index = data.frame(jaccard.index) %>% add_column(doi = compare_sentences[['doi']],rowid = compare_sentences[['rowid']],.before = 'jaccard.index')
+return(jaccard.index)
+}
+
+test_jaccard = lapply(target_s,function(s) calculate_jaccard_index(target_sentence = s,compare_sentences = compare_s)) 
+names(test_jaccard) = target_s
+
+test_result = bind_rows(test_jaccard,.id='target_sentence') %>% filter(jaccard.index>=0.9,diff.words<=3)
+test_result
 
 #example sentence
 test_str = 'student t-test was used for statistical analysis'

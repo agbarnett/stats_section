@@ -88,5 +88,10 @@ save(matches,file='../results/anzctr.results.10topics.rda')
 save(stats_section.sim,ftab.cosine.anzctr,boilerplate.text.anzctr,file='../results/anzctr.cosinesim.10topics.rda')
 matches %>% filter(grepl('stati(.*)ti(.*)ian',text_data_clean))
 #save boilerplate text as separate excel file
-write.xlsx(boilerplate.text.anzctr,file='../results/anzctr.boilerplate.xlsx')
+#save top ranking numbers as separate exclude
+top_matches = matches %>% group_by(topic_id) %>% filter(rank==1)
 
+#which value is the most frequently occuring?
+frequent_matches = matches %>% group_by(topic_id) %>% count(value) %>% filter(n==max(n))
+
+write.xlsx(top_matches,file='results/anzctr.boilerplate.xlsx')

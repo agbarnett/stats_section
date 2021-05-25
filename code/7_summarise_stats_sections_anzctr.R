@@ -86,7 +86,7 @@ boilerplate.text.anzctr = boilerplate.numbers %>% left_join(matches %>% select(n
 
 save(matches,file='../results/anzctr.results.10topics.rda')
 save(stats_section.sim,ftab.cosine.anzctr,boilerplate.text.anzctr,file='../results/anzctr.cosinesim.10topics.rda')
-
+matches %>% filter(grepl('stati(.*)ti(.*)ian',text_data_clean))
 #save boilerplate text as separate excel file
 write.xlsx(boilerplate.text.anzctr,file='../results/anzctr.boilerplate.xlsx')
 

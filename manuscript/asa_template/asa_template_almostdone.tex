@@ -39,18 +39,20 @@
 
 \if0\blind
 {
-  \title{\bf An observational study of papers published in \emph{PLOS ONE} and
-studies posted to a trial registry.}
+  \title{\bf ``A p-value of $<$ 0.05 was considered statistically significant'': a content analysis of published statistical methods sections}
 
   \author{
-        Nicole White \thanks{The authors gratefully acknowledge computational resources and services
+        Nicole M White \thanks{The authors gratefully acknowledge computational resources and services
 used in this work provided by the eResearch Office, Queensland
 University of Technology, Brisbane, Australia.} \\
-    School of Public Health and Social Work, QUT\\
+    \small{Australian Centre for Health Services Innovation and Centre for Healthcare Transformation} \\
+\small{School of Public Health and Social Work, Queensland University of Technology} \\
      and \\     Thiru Balasubramaniam, Richi Nayak \\
-    To add\\
-     and \\     Adrian Barnett \\
-    School of Public Health and Social Work, QUT\\
+    \small{Centre for Data Science and School of Computer Science} \\
+\small{Queensland University of Technology} \\
+     and \\     Adrian G Barnett \\
+    \small{Australian Centre for Health Services Innovation and Centre for Healthcare Transformation} \\
+\small{School of Public Health and Social Work, Queensland University of Technology} \\
       }
   \maketitle
 } \fi
@@ -61,8 +63,7 @@ University of Technology, Brisbane, Australia.} \\
   \bigskip
   \bigskip
   \begin{center}
-    {\LARGE\bf An observational study of papers published in \emph{PLOS ONE} and
-studies posted to a trial registry.}
+    {\LARGE\bf ``A p-value of $<$ 0.05 was considered statistically significant'': a textual analysis of published statistical methods sections}
   \end{center}
   \medskip
 } \fi
@@ -122,13 +123,13 @@ Google Scholar citations to the SAMPL paper (as at 15 March 2021) which
 is a good citation statistic for most papers, but is low considering the
 millions of papers that use statistical analysis.
 
-A potential contributor to poor statistical reporting is the temptation for researchers to replicate
+A potential contributor to poor statistical reporting is the temptation for researchers to re-use
 descriptions of statistical methods, in an effort to make their papers resemble those of their peers 
 and increase perceived chances of publication  \citep{Diong2018}. Two statisticians on this paper 
 (AB and NW) have heard researchers admit
 that they have copied-and-pasted their statistical methods sections from
 other papers, regardless of whether they are appropriate. For this paper, we applied a text-based 
-clustering method to analyse the content of statistical methods sections included in common scientific research outputs.
+clustering method to analyse the content of published statistical methods sections.
 Clustering results are then evaluated to estimate the extent that researchers are
 using cut-and-paste or `boilerplate' statistical methods sections.
 Boilerplate text is that ``which can be reused in new contexts or
@@ -151,10 +152,12 @@ were used, or are planned, for analysing study outcomes.
 \subsubsection{Public Library of Science (PLOS ONE)}
 \label{sec:methodsPLOS}
 
-\emph{PLOS ONE} is a large open access journal that publishes original
+\emph{PLOS ONE} is a open access mega-journal that publishes original
 research across a wide range of scientific fields. Article submissions
 are handled by an academic editor who selects peer reviewers based on
-their self-nominated areas of expertise. Submissions do not undergo
+their self-nominated areas of expertise. Currently there are 324 academic editors out of 9,648 (3\%) 
+with the keywords of "statistics (mathematics)" or "statistical methods" in their expertise list (web search on 25-May-2021,
+ https://journals.plos.org/plosone/static/editorial-board). Submissions do not undergo
 formal statistical review. Instead, reviewers are required to assess
 submissions against several publication criteria, including whether:
 ``Experiments, statistics, and other analyses are performed to a high
@@ -192,7 +195,7 @@ partial matching on available headings against frequently used terms in
 initial search results: `Statistical analysis', `Statistical analyses',
 `Statistical method', `Statistics', `Data analysis' and `Data analyses'.
 
-Data included in our analysis were downloaded on 3 July 2020. For
+Data were downloaded on 3 July 2020. For
 records that did not pass Step 2, we reviewed where initial search terms
 appeared in the full-text, to determine the proportion of
 statistical methods sections that were missed under our chosen approach.
@@ -236,14 +239,14 @@ no completed statistical methods section as this section is not included
 in \emph{clinicaltrials.gov}.
 
 Statistical methods sections were missing for some studies downloaded
-from ANZCTR, including a small number of sections labelled as ``Not
-applicable'', ``Nil'' or ``None''. We therefore examined if there were
-particular studies where this section was more likely to be missing.
+from ANZCTR, including sections labelled as ``Not
+applicable'', ``Nil'' or ``None''. We examined if there were
+particular studies where the statistical methods section was more likely to be missing.
 Analysis considered a logistic regression model estimated in the
 Bayesian framework {[}\citet{INLA}; www.r-inla.org{]}, with missing
-statistical methods section (yes/no) as the dependent variable. Date,
+statistical methods section (yes/no) as the dependent variable. The independent variables were date,
 study type (observational or interventional), number of funders and
-target sample size were used as independent variables. Results were
+target sample size. Results were
 reported as odds ratios with 95\% credible intervals (CI).
 
 \subsection{Full-text processing}
@@ -273,7 +276,7 @@ reported descriptions of statistical methods. An initial list was
 compiled by calculating individual word frequencies and identifying
 relevant terms that appeared at least 100 times. Further terms were
 sourced from index searches of three statistics textbooks
-\citep[\citet{Diggle2013},\citet{Bland2015}]{Dobson2018}. Plurals (e.g.,
+\citep{Diggle2013,Bland2015,Dobson2018}. Plurals (e.g.,
 `chi-squares') unhyphenated (e.g., `chi square') and combined
 (e.g.~`chisquare') terms were transformed to singular, hyphenated form
 (e.g., `chi-square'). Common statistical tests were also hyphenated
@@ -290,11 +293,10 @@ when dealing with high-dimensional data
 we outline key details of NMF and its strengths compared with other
 text-based clustering methods.
 
-For \(N\) studies, let \(P \in R^{M \times N}\) denote a content matrix,
-representing text from statistical methods sections as \(M\) unique
+For \(N\) studies, let \(P \in R^{M \times N}\) denote a content matrix of text from statistical methods sections as \(M\) unique
 terms. Text clustering algorithms for identifying common topics across
 studies requires \(P\) to be represented with a vector space model. In
-our case, unique terms in \(P\) are modelled using the tf*idf (term
+our case, unique terms in \(P\) are modelled using the tf-idf (term
 frequency \(\times\) inverse document frequency) weighting schema, to
 account for the relative importance of common and rare terms.
 
@@ -308,7 +310,7 @@ difficulties in high-dimensional settings
 Specifically, distances between near and far points becomes negligible
 \citep{aggarwal2012mining}. This behaviour directly affects the
 performance of distance-based clustering methods such as
-\textit{k}-means \citep{jain} in accurately identifying subgroups
+\textit{k}-means \citep{jain2010} in accurately identifying subgroups
 (topics) present in the data. Furthermore, sparseness associated with
 high-dimensional matrix representations does not allow for
 differentiation between topics based on density differences
@@ -338,7 +340,7 @@ topic membership for all studies. In our case, topic membership
 \((1,\ldots,g)\) for a statistical methods section is inferred from the
 maximum coefficient value in the corresponding row of \(H\), also known
 as the topic coherence score. For our two datasets, we applied NMF with
-\(g=10\).
+\(g=10\) topics.
 
 \subsection{Content analysis}
 
@@ -360,13 +362,20 @@ number of words that appeared in either sentence (union). Instances of
 boilerplate text were defined by a Jaccard index of 0.9 or higher and a
 difference in word count of plus or minus three words.
 
-\hypertarget{results}{%
-\section{Results}\label{results}}
+\clearpage
 
-\hypertarget{plos-one}{%
-\subsection{PLOS ONE}\label{plos-one}}
+\section{Results}\label{results}
 
-\begin{figure}
+\subsection{PLOS ONE}\label{plos-one}
+
+API searches returned 131,847 papers (DOIs)
+(\autoref{fig:consort-diagrams}). After partial matching, 111,731 (85\%)
+statistical methods sections were identified. In the final sample,
+95,518 (85\%) DOIs returned an exact match against common section
+headings: 64,133 for `statistical analysis', 13,380 for `statistical
+analyses' and 13,627 for `data analysis'.
+
+\begin{figure}[htbp]
 
 {\centering \includegraphics[width=0.49\linewidth]{figures/excluded_plosone} \includegraphics[width=0.49\linewidth]{figures/excluded_anzctr_missing} 
 
@@ -375,7 +384,7 @@ difference in word count of plus or minus three words.
 \caption{\label{fig:consort-diagrams}Search results for PLOS ONE (left) and ANZCTR (right).}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htbp]
 
 {\centering \includegraphics[width=0.6\linewidth]{figures/plos_summary} 
 
@@ -384,21 +393,14 @@ difference in word count of plus or minus three words.
 \caption{\label{fig:plos-n} A: Search results by PLOS ONE volume; B: Subject classifications assigned to full-text recorded included in the analysis}
 \end{figure}
 
-API searches returned 131,847 results (DOIs)
-(\autoref{fig:consort-diagrams}). After partial matching, 111,731 (85\%)
-statistical methods sections were identified. In the final sample,
-95,518 (85\%) DOIs returned an exact match against common section
-headings: 64,133 for `statistical analysis', 13,380 for `statistical
-analyses' and 13,627 for `data analysis'.
-
 Search results varied by journal volume (Figure \ref{fig:plos-n}A). The
 total number of API search results peaked at volumes 8 (n = 19,045) and
 9 (n = 19,045) in years 2013 and 2014. This trend aligned with the total
 number of papers published in \emph{PLOS ONE} over the same period. The
 percentage of records that included a statistical methods section varied between 64\%
-(volume 2) and 86\% (volume 9). All DOIs included Biology and life
-sciences (n = 107,584), Earth sciences (n = 7,605) and/or Computer and
-information sciences (n = 5,190) in their top 3 subject classifications
+(volume 2) and 86\% (volume 9). All DOIs included ``Biology and life
+sciences'' (n = 107,584), ``Earth sciences'' (n = 7,605) and/or ``Computer and
+information sciences'' (n = 5,190) in their top 3 subject classifications
 (Figure \ref{fig:plos-n}B).
 
 Statistical methods sections had a median length of 127 words and
@@ -407,8 +409,8 @@ statistical methods section of 500 words or more. 19,461 articles (17\%)
 had statistical methods sections with 50 words or less, equal to the
 length of this paragraph.
 
-For studies excluded based on section headings (n = 20,116), 2,136 DOIs included search terms as part of the Materials and Methods section. For studies without a matching Materials and Methods section,
- search terms oftern featured in the Introdction (n = 728) and Results and/or Discussion (n = 981) sections. 4,010 DOIs included at least 1 heading that included the terms ``analysis'' or ``analyses'' without direct reference to statistical method(s) (e.g. Microarray analysis).
+For studies excluded based on section headings (n = 20,116), analysis-related search terms for 2,136 DOIs appeared in the general text of the Materials and Methods section. For studies without a matching Materials and Methods section,
+ search terms oftern appeared in the Introduction (n = 728) and Results and/or Discussion (n = 981) sections. 4,010 DOIs included at least 1 section heading that contained the terms ``analysis'' or ``analyses'' without direct reference to statistical method(s) (e.g. Microarray analysis).
 
 \begin{figure}
 
@@ -416,49 +418,49 @@ For studies excluded based on section headings (n = 20,116), 2,136 DOIs included
 
 }
 
-\caption{\label{fig:plos-clouds}Topic clouds for ten clusters for PLOS ONE}\label{fig:unnamed-chunk-6}
+\caption{\label{fig:plos-clouds}Word clouds for ten topics for statistical methods sections published in PLOS ONE}\label{fig:unnamed-chunk-6}
 \end{figure}
 
-The topic clouds for ten clusters are in Figure \ref{fig:plos-clouds}.
+The word clouds for ten topics are in Figure \ref{fig:plos-clouds}.
 Frequently occurring words reflected the use of statistical software
 (topics 3 and 5), descriptive statistics (topic 6), group based
 hypothesis testing (topics 1 and 4) and definitions of statistical
 significance (topics 1 and 9). Topics related to
 regression (topic 2) and meta-analysis (topic 7) were also identified.
-Examples of boilerplate text for selected topics are presented in Table
+Examples of boilerplate text for selected topics are in Table
 \ref{tab:plos-example-boilerplate}.
 
 Topics related to statistical software differentiated between Prism
-GraphPad (topic 3: n = 9974; 8.6\%) and SPSS (topic 5: n = 9648; 8.3\%).
+GraphPad (topic 3: n = 9974) and SPSS (topic 5: n = 9648).
 Within topic 3, the sentence ``GraphPad Prism (Graphpad Software, San
-Diego, CA) was used for all analyses'' was matched in 1,941 studies based on our definition of boilerplate text.
+Diego, CA) was used for all analyses'' was matched in 1,941 papers based on our definition of boilerplate text.
 Similarly, for topic 5, ``SPSS software version
-17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis'' returned matches for 441 studies.
+17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis'' returned matches for 441 papers.
 
 \begin{landscape}
 \begin{table}
 
-\caption{\label{tab:plos-example-boilerplate}Example boilerplate text from PLOS ONE datase (sentence level). Statistical methods text corresponds to the DOI with the highest topic coherence score within a topic}
+\caption{\label{tab:plos-example-boilerplate}Example boilerplate text from PLOS ONE papers (sentence level). The number of matching to each sentence was based on a Jaccard score of 0.9 or higher and a difference in word count of $\pm$ 3 words}
 \centering
 \begin{tabular}[t]{p{0.1\textwidth}p{0.9\textwidth}p{0.1\textwidth}}
 \hline
-Topic & Statistical methods text & Matching DOIs\\
+Topic & Statistical methods text & Matching papers\\
 \hline
-Topic 1 & $^{\dagger}$Students t-test was used for statistical analysis. & 29\\
+Topic 1 & Students t-test was used for statistical analysis. & 29\\
 \cline{2-3}
- & $^{\dagger}$A p value of $<$ 0.05 was considered statistically significant. & 1883\\
+ & A p value of $<$ 0.05 was considered statistically significant. & 1883\\
 \hline
-Topic 3 & $^{\dagger}$GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses. & 1941\\
+Topic 3 & GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses. & 1941\\
 \hline
-Topic 4 & $^{\dagger}$Significant differences were determined using analysis of variance (ANOVA) followed by tukey post-hoc tests for multiple comparisons. & 2216\\
+Topic 4 & Significant differences were determined using analysis of variance (ANOVA) followed by tukey post-hoc tests for multiple comparisons. & 2216\\
 \hline
-Topic 5 & $^{\dagger}$SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis. & 441\\
+Topic 5 & SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis. & 441\\
 \hline
-Topic 6 & $^{\dagger}$All results are expressed as means $\pm$ standard deviation ($\pm$ SD). & 102\\
+Topic 6 & All results are expressed as means $\pm$ standard deviation ($\pm$ SD). & 102\\
 \hline
-Topic 9 & $^{\dagger}$Statistical significance was determined by Students t-tests. & 49\\
+Topic 9 & Statistical significance was determined by Students t-tests. & 49\\
 \cline{2-3}
-& $^{\dagger}$ $^*$p $<$ 0.05, $^{**}$p $<$ 0.01, $^{***}$p $<$ 0.001. & 6\\
+&  $^*$p $<$ 0.05, $^{**}$p $<$ 0.01, $^{***}$p $<$ 0.001. & 6\\
 \hline
 \end{tabular}
 \end{table}
@@ -466,7 +468,7 @@ Topic 9 & $^{\dagger}$Statistical significance was determined by Students t-test
 
 
 Definitions of statistical significance featured strongly in topic 1 (n
-= 3784; 3.2\%) and topic 9 (n = 6195; 5.3\%). Topic 1 reflected
+= 3784) and topic 9 (n = 6195). Topic 1 reflected
 applications of two-tailed and unpaired Student's t-tests, however,
 instances of boilerplate text emphasised the 5\% level of statistical
 significance (Table \ref{tab:plos-example-boilerplate}). In contrast, Topic 9
@@ -476,12 +478,12 @@ practice that has been criticised \citep{Wasserstein2019}.
 
 Group-based hypothesis testing was a recurring theme across topics, with
 text descriptions varying based on method(s) used. One-way analysis of
-variance also featured strongly in topic 4 (n = 10212; 8.8\%), combined
+variance also featured strongly in topic 4 (n = 10212), combined
 with common methods for performing post-hoc multiple comparisons. Based
 on the Jaccard index, 1 in 5 studies were matched to the sentence
 ``Significant differences were determined using analysis of variance
 (ANOVA) followed by Tukey post-hoc tests for multiple comparisons''.
-Frequently occurring words in topic 6 (n = 4764; 4.1\%) reflected
+Frequently occurring words in topic 6 (n = 4764) reflected
 mentions of descriptive statistics for summarising continuous variables,
 namely means with standard deviations or standard errors.
 
@@ -493,7 +495,7 @@ in Figure \ref{fig:consort-diagrams}. Of the 12,700 included studies,
 sections was 129 words with an inter-quartile range of 71 to 219 words.
 
 Odds ratios and 95\% credible intervals for study characteristics
-included in the logistic regression model are presented in Table
+associated with missing statistical methods sections are in Table
 \ref{tab:anzctr-missing-odds}. Observational studies were less likely to
 have a missing statistical methods section compared with interventional
 studies. Missing sections became less likely over time. Studies with
@@ -522,10 +524,10 @@ Target sample size (per doubling) & 0.90 & (0.88, 0.92)\\
 
 }
 
-\caption{ANZCTR topic clouds.}\label{fig:unnamed-chunk-9}
+\caption{Word clouds for ten topics for statistical methods sections published in ANZCTR}\label{fig:unnamed-chunk-9}
 \end{figure}
 
-The clustering algorithm found groups that were purely sample size
+The text clustering algorithm found topics that were purely sample size
 calculations (topic 2, n = 1834), pilot studies (topic 5, n = 834),
 safety/tolerability studies (topic 6, n = 524), intervention studies
 (topic 8, n = 1020) and repeated measures ANOVA (topic 10 = 852).
@@ -539,18 +541,16 @@ in topic 7 (n = 333), 232 sections stated `descriptive statistics' or
 `descriptive statistics used' with no additional details provided. Other
 instances with expanded descriptions of methods included topic 3 (n =
 1277) outlining descriptive analyses only, and topic 6 (n = 524), for
-hypothesis testing methods, statistical significance and software.
-
+hypothesis testing methods, statistical significance and software. 
 In other cases, text had been slightly modified to account for changes
 in primary and secondary outcomes. Examples of these text changes were
-found in topic 2 (n = 1834) and topic 4 (n = 909); identified instances
+found in topics 2 and 4; identified instances
 related to sample size calculations for patient recruitment to different
 studies.
 
-Since studies included in this dataset outlined planned analyses, we
+Since studies in this dataset described planned analyses, we
 hypothesised that some studies did not specify statistical methods because
-they had yet to consult with a statistician. Targeted searches for the
-term ``statistician'' across all topics returned xx matching records,
+they had yet to consult with a statistician. Targeted searches for ``statistician'' across all topics returned 1,277 matching studies,
 with examples including ``A statistician employed by hospital was used''
 and ``Pilot study at this point will use a statistician professionally
 to determine sample size calculations as required''.

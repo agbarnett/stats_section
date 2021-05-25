@@ -6,6 +6,7 @@ library(tidyverse)
 
 #plos full text - loop over batches
 
+
 for (batch.number in 1:5){
 meta_dat = readRDS(paste0('./data/plos_meta_',batch.number,'.RDS'))
 doi_list = meta_dat %>% pull(doi)
@@ -63,6 +64,11 @@ for(i in 1:length(doi_list)){
   }
   
 }
+
+dat.title.abstract[[batch.number]] = bind_rows(dat.batch_titleabs)
+dat.subject.class[[batch.number]] = bind_rows(dat.batch_subjects)
+}
+
 
 dat.title.abstract = bind_rows(dat.batch)
 dat.subject.class = bind_rows(dat.batch_subjects)

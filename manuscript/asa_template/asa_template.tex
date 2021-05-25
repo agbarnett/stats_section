@@ -40,13 +40,14 @@
 
 \if0\blind
 {
-  \title{\bf An observational study of papers published in \emph{PLOS ONE} and
-studies posted to a trial registry.}
+  \title{\bf An observational study of papers published in \emph{PLOS
+ONE} and studies posted to a trial registry.}
 
   \author{
-        Nicole White \thanks{The authors gratefully acknowledge computational resources and services
-used in this work provided by the eResearch Office, Queensland
-University of Technology, Brisbane, Australia.} \\
+        Nicole White \thanks{The authors gratefully acknowledge
+computational resources and services used in this work provided by the
+eResearch Office, Queensland University of Technology, Brisbane,
+Australia.} \\
     School of Public Health and Social Work, QUT\\
      and \\     Thiru Balasubramaniam, Richi Nayak \\
     To add\\
@@ -62,8 +63,8 @@ University of Technology, Brisbane, Australia.} \\
   \bigskip
   \bigskip
   \begin{center}
-    {\LARGE\bf An observational study of papers published in \emph{PLOS ONE} and
-studies posted to a trial registry.}
+    {\LARGE\bf An observational study of papers published in \emph{PLOS
+ONE} and studies posted to a trial registry.}
   \end{center}
   \medskip
 } \fi
@@ -371,7 +372,7 @@ difference in word count of plus or minus three words.
 
 }
 
-\caption{\label{fig:consort-diagrams}Search results for PLOS ONE (left) and ANZCTR (right).}
+\caption{\label{fig:consort-diagrams}Search results for PLOS ONE (left) and ANZCTR (right).}\label{fig:unnamed-chunk-3}
 \end{figure}
 
 \begin{figure}
@@ -380,7 +381,7 @@ difference in word count of plus or minus three words.
 
 }
 
-\caption{\label{fig:plos-n} A: Search results by PLOS ONE volume; B: Subject classifications assigned to full-text recorded included in the analysis}
+\caption{\label{fig:plos-n}PLOS summary}\label{fig:unnamed-chunk-4}
 \end{figure}
 
 API searches returned 131,847 results (DOIs)
@@ -438,35 +439,62 @@ Similar phrasing was identified for topic 5: ``SPSS software version
 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis'', with
 similar text found in 441 studies.
 
-\begin{landscape}
 \begin{table}
 
-\caption{\label{tab:plos-example-boilerplate}Example boilerplate text from PLOS ONE datase (sentence level). Statistical methods text corresponds to the DOI with the highest topic coherence score within a topic}
+\caption{\label{tab:unnamed-chunk-8}Example boilerplate text from PLOS ONE dataset}
 \centering
-\begin{tabular}[t]{p{0.1\textwidth}p{0.9\textwidth}p{0.1\textwidth}}
+\begin{tabular}[t]{l|l|r}
 \hline
 Topic & Statistical methods text & Matching DOIs\\
 \hline
-Topic 1 & Students t-test was used for statistical analysis. & 29\\
-\cline{2-3}
- & A p value of $<$ 0.05 was considered statistically significant. & 1883\\
+Topic 1 & students t-test was used for statistical analysis & 29\\
 \hline
-Topic 3 & GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses. & 1941\\
+Topic 1 & a p value of less-than 0.05 was considered statistically significant. & 1883\\
 \hline
-Topic 4 & Significant differences were determined using analysis of variance (ANOVA) followed by tukey post-hoc tests for multiple comparisons. & 2216\\
+Topic 1 & statistical analysis was performed using the students t-test & 380\\
 \hline
-Topic 5 & SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis. & 441\\
+Topic 1 & p values of less-than 0.05 were considered significant. & 1526\\
 \hline
-Topic 6 & All results are expressed as means $\pm$ standard deviation ($\pm$ SD). & 102\\
+Topic 3 & graphpad prism graphpad software san diego ca was used for all analyses. & 1941\\
 \hline
-Topic 9 & Statistical significance was determined by Students t-tests. & 49\\
-\cline{2-3}
-& $^*$p $<$ 0.05, $^{**}$p $<$ 0.01, $^{***}$p $<$ 0.001. & 6\\
+Topic 3 & all statistical analysis was performed using graphpad prism software. & 1312\\
+\hline
+Topic 4 & significant differences were determined using analysis of variance anova followed by tukey post-hoc tests for multiple comparisons. & 2216\\
+\hline
+Topic 4 & data are expressed as the mean plus-or-minus sem & 860\\
+\hline
+Topic 4 & statistical analysis was performed using one-way analysis of variance anova test followed by dunnetts multiple comparison post hoc test & 4516\\
+\hline
+Topic 4 & p values less-than 0.05 were considered significant. & 2414\\
+\hline
+Topic 5 & spss software version 17.0 spss chicago il usa was used for statistical analysis. & 441\\
+\hline
+Topic 5 & the results are presented as the mean plus-or-minus sem & 420\\
+\hline
+Topic 5 & data were analyzed by one-way anova and lsd tests using the spss 13.0 software spss inc chicago il usa & 19\\
+\hline
+Topic 5 & the difference was considered statistically significant at p less-than 0.05. & 2555\\
+\hline
+Topic 6 & all results are expressed as means plus-or-minus standard deviation plus-or-minus sd. & 102\\
+\hline
+Topic 6 & data are expressed as mean plus-or-minus standard error of the mean sem & 604\\
+\hline
+Topic 6 & statistical analysis of the data was performed by the students t-test & 444\\
+\hline
+Topic 6 & a value of p less-than 0.05 was considered statistically significant. & 1786\\
+\hline
+Topic 9 & statistical significance was determined by students t-tests & 49\\
+\hline
+Topic 9 & p less-than 0.05 p equal-to less-than 0.01 p less-than 0.001. & 6\\
+\hline
+Topic 9 & data are presented as the mean plus-or-minus sd & 378\\
+\hline
+Topic 9 & statistical analysis was performed using the students unpaired t-test & 752\\
+\hline
+Topic 9 & differences were considered statistically significant at p less-than 0.05 p less-than 0.01 and p less-than 0.001. & 413\\
 \hline
 \end{tabular}
 \end{table}
-\end{landscape}
-
 
 Definitions of statistical significance featured strongly in topic 1 (n
 = 3784; 3.2\%) and topic 9 (n = 6195; 5.3\%). Topic 1 reflected
@@ -474,7 +502,7 @@ applications of two-tailed and unpaired Student's t-tests, however,
 instances of boilerplate text emphasised the 5\% level of statistical
 significance (\ref{tab:plos-example-boilerplate}). In contrast, Topic 9
 focused on multiple thresholds for declaring statistical significance by
-asterisk: ``\(^{*}p<0.05\), \(^{**}p<0.01\) and \(^{***}p<0.001\)'', a
+asterisk: ``\(^{*}p<0.05\), \(^{**}p<0.01\) and \(^{***}p<0.001\)'\,', a
 practice that has been criticised \citep{Wasserstein2019}.
 
 Group-based hypothesis testing was a recurring theme across topics, with
@@ -483,7 +511,7 @@ variance also featured strongly in topic 4 (n = 10212; 8.8\%), combined
 with common methods for performing post-hoc multiple comparisons. Based
 on the Jaccard index, 1 in 5 studies were matched to the sentence
 ``Significant differences were determined using analysis of variance
-(ANOVA) follwo by Tukey post-hoc tests for multiple comparisons''.
+(ANOVA) follwo by Tukey post-hoc tests for multiple comparisons'\,'.
 Frequently occurring words in topic 6 (n = 4764; 4.1\%) reflected
 mentions of descriptive statistics for summarising continuous variables,
 namely means with standard deviations or standard errors.
@@ -556,7 +584,7 @@ they had yet to consult with a statistician. Targeted searches for the
 term ``statistician'' across all topics returned xx matching records,
 with examples including ``A statistician employed by hospital was used''
 and ``Pilot study at this point will use a statistician professionally
-to determine sample size calculations as required''.
+to determine sample size calculations as required'\,'.
 
 \begin{landscape}
 \begin{table}[]

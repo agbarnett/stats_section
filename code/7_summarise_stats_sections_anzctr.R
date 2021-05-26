@@ -4,6 +4,12 @@ library(tidytext)
 library(openxlsx)
 
 dat = readRDS('../data/stats_section_anzctr_cleaned.rds')
+#UPDATE: replace text_data_clean with version sent to Thiru and Richi. Did not save updated .rds at the time //TODO save as combined .rds file
+ad = read.table('../stats_section_cleaned_anzctr_check.txt',sep='\t',header=T)
+
+dat = left_join(dat %>% select(-text_data_clean),ad,by='number')
+
+
 #ten topics, PLOS ONE
 matches = read.csv('../results/anzctr_10topics.csv',header=T)
 

@@ -143,8 +143,6 @@ stats_section = stats_section %>% mutate(text_data_clean = replace_curly_quote(t
 stats_section$text_data_clean = strip(stats_section$text_data_clean,char.keep = c("~~",".","-"),apostrophe.remove=T,digit.remove=F)
 
 
-
-
 #4. make common statistical terms and methods consistent
 #for each hyphenated term, create combined and unique plural terms
 #plurals includes entries from stat_terms_model eg regressions to regression

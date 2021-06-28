@@ -83,22 +83,26 @@ The text of your abstract. 200 or fewer words.
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-An ideal statistical analysis will use appropriate methods to create
+An ideal statistical analysis will use appropriate methods to draw
 insights from the data and inform the research questions. Unfortunately
-many current statistical analyses are far from ideal, with many
-researchers using the wrong methods, misinterpreting the results, or
+many current statistical analyses are far from ideal, with 
+researchers often using the wrong methods, misinterpreting the results, or
 failing to adequately check their assumptions \citep{2008, Leek2017}.
 Some researchers take a ``mechanistic'' approach to statistics, copying
 the few methods they know regardless of their appropriateness, and then
-going through the motions of the analysis \citep{Stark2018}. 
+going through the motions of the analysis \citep{Stark2018}. Acceptance of methodological illiteracy in favour of 
+research quantitiy and perceived novelty is at odds
+with principles of scientific inquiry, yet continues to pervade published scientific research \citep{VanCalster2021}. 
+This paradox has been exemplified during the COVID-19 pandemic, which has led to unprecendented levels of published research of largely 
+poor quality due to biases in conduct and reporting \citep{Glasziou2020,Wynants2020}.
 
 Many researchers lack adequate training in research methods, and
 statistics is something they do with trepidation and even ignorance
 \citep{Altman1994, King2019}. However, using the wrong statistical
 methods can cause real harm \citep{Altman1994, Brown2018} and bad
 statistical practices are being to used abet weak science
-\citep{Stark2018}. Statistical mistakes are a key source of waste in
-research and partly explain the current reproducibility crisis in
+\citep{Stark2018}. Statistical mistakes are a key source of research waste and are contributing to 
+the current reproducibility crisis in
 science \citep{Allison2016}. Even when the correct methods are used,
 many researchers fail to describe them adequately, making it difficult
 to reproduce the results \citep{Ernst2017, Zhou2018}. Poor statistical
@@ -116,7 +120,7 @@ to the original data to judge its appropriateness for the study and to
 verify the reported results'' \citep{ICMJE2019}. More detailed guideance
 is given by the SAMPL and EQUATOR guidelines
 \citep{Lang2013, Altman2016} with the latter covering all apsects of the
-paper. Both of these guidelines were led by Doug Altman, who spoke often
+paper tailored to different study designs. Both of these guidelines were led by Doug Altman, who spoke often
 and for many years about the need for better statistical reporting. The
 awareness and use of these guidelines could be improved. There were 256
 Google Scholar citations to the SAMPL paper (as at 15 March 2021) which
@@ -125,10 +129,12 @@ millions of papers that use statistical analysis.
 
 A potential contributor to poor statistical reporting is the temptation for researchers to re-use
 descriptions of statistical methods, in an effort to make their papers resemble those of their peers 
-and increase perceived chances of publication  \citep{Diong2018}. Two statisticians on this paper 
+and increase perceived chances of publication  \citep{Diong2018}. As descriptions become more common, rebuke by 
+reviewers and journal editors can be difficult, as their past use may be argued by researchers as offering precedent for the 
+conduct of analysis within their discipline \citep{Altman2002}. Two statisticians on this paper 
 (AB and NW) have heard researchers admit
 that they have copied-and-pasted their statistical methods sections from
-other papers, regardless of whether they are appropriate. For this paper, we applied a text-based 
+other papers, regardless of whether they are appropriate. To investigate the extent of this practice, we applied a text-based 
 clustering method to analyse the content of published statistical methods sections.
 Clustering results are then evaluated to estimate the extent that researchers are
 using cut-and-paste or `boilerplate' statistical methods sections.
@@ -143,62 +149,11 @@ thought has gone into the statistical analysis.
 \subsection{Data sources}
 
 We used two openly available data sources to find statistical methods
-sections: research articles published in \emph{PLOS ONE} and study
+sections: study
 protocols registered on the Australian and New Zealand Clinical Trials
-Registry (ANZCTR). Data sources were chosen as examples of common
+Registry (ANZCTR) and research articles published in \emph{PLOS ONE}. Data sources were chosen as examples of common
 research outputs that include descriptions of statistical methods that
-were used, or are planned, for analysing study outcomes.
-
-\subsubsection{Public Library of Science (PLOS ONE)}
-\label{sec:methodsPLOS}
-
-\emph{PLOS ONE} is a open access mega-journal that publishes original
-research across a wide range of scientific fields. Article submissions
-are handled by an academic editor who selects peer reviewers based on
-their self-nominated areas of expertise. Currently there are 324 academic editors out of 9,648 (3\%) 
-with the keywords of "statistics (mathematics)" or "statistical methods" in their expertise list (web search on 25-May-2021,
- https://journals.plos.org/plosone/static/editorial-board). Submissions do not undergo
-formal statistical review. Instead, reviewers are required to assess
-submissions against several publication criteria, including whether:
-``Experiments, statistics, and other analyses are performed to a high
-technical standard and are described in sufficient detail''
-\citep{PLOS}. All reviewers are asked the question: ``Has the
-statistical analysis been performed appropriately and rigorously?'',
-with the possible responses of ``Yes'', ``No'' and ``I don't know''.
-
-Authors are encouraged to follow published reporting guidelines such as
-EQUATOR, to ensure that chosen statistical methods are appropriate for
-the study design, and adequate details are provided to enable
-independent replication of results.
-
-All \emph{PLOS ONE} articles are freely accessible via the PLOS
-Application Programming Interface (API). This enabled us to conduct
-searches of full-text articles and analyse data on articles' text
-content and general attributes such as publication date and field(s) of
-research. Statistical methods sections were extracted using a two-step
-approach:
-
-\emph{Step 1}: Targeted API searches were completed using the R package
-`rplos' \citep{rplos}. Search queries targeted analysis-related terms,
-combining the words ``data'' or ``statistical'' with one of:
-``analysis'', ``analyses'', ``method'', ``methodology'' or
-``model(l)ing''. Terms could appear anywhere within the main body of the
-article, to account for the placement of relevant text in different
-sections, for example, in the \emph{Material and Methods} section versus
-\emph{Results}. Search results were indexed by a unique Digital Object
-Identifier (DOI). Attribute data collected per DOI included journal
-volume and subject classification(s).
-
-\emph{Step 2}: \emph{PLOS ONE} does not prescribe standardised headings
-to preface statistical methods sections. To address this, we performed
-partial matching on available headings against frequently used terms in
-initial search results: `Statistical analysis', `Statistical analyses',
-`Statistical method', `Statistics', `Data analysis' and `Data analyses'.
-
-Data were downloaded on 3 July 2020. For
-records that did not pass Step 2, we reviewed where initial search terms
-appeared in the full-text, to determine the proportion of
-statistical methods sections that were missed under our chosen approach.
+were planned or used for analysing study outcomes.
 
 \subsubsection{Australia and New Zealand Clinical Trials Registry (ANZCTR)}
 \label{sec:methodsANZCTR}
@@ -215,20 +170,20 @@ intervention(s) being evaluated, study design and outcomes. The
 information provided must be in English. Studies are not peer reviewed.
 
 For the statistical methods section, researchers are asked to provide a
-``brief description'' of the sample size calculations, statistical
+brief description of all sample size calculations, statistical
 methods and planned analyses, although this section is not compulsory
 \citep{ANZCTR}. Studies are reviewed by ANZCTR staff for completeness of
 key information, which does not include the completeness of the
 statistical methods sections.
 
 All studies available on ANZCTR were downloaded on 1 February 2020 in
-XML format. We used all the text available in the ``Statistical
+XML format. For our analysis, we used all text available in the ``Statistical
 methods'' section. We also collated basic information about the study
 including the study type (interventional or observational), submission
 date, number of funders and target sample size. These variables were
 chosen as we believed they might influence the completeness of the
-statistical methods section, because we expected larger studies and
-those with funding to be more complete, and we also were interested in
+statistical methods section. For example, we hypothesised that larger studies and
+those with funding to be more complete. We were also interested in
 changes over time.
 
 Studies prior to 2013 were excluded as the statistical methods section
@@ -249,6 +204,59 @@ study type (observational or interventional), number of funders and
 target sample size. Results were
 reported as odds ratios with 95\% credible intervals (CI).
 
+
+\subsubsection{Public Library of Science (PLOS ONE)}
+\label{sec:methodsPLOS}
+
+\emph{PLOS ONE} is a open access mega-journal that publishes original
+research across a wide range of scientific fields. Article submissions
+are handled by an academic editor who selects peer reviewers based on
+their self-nominated area(s) of expertise. Currently there are 324 academic editors out of 9,648 (3\%) 
+with the keywords of "statistics (mathematics)" or "statistical methods" in their expertise list (web search on 25-May-2021,
+ https://journals.plos.org/plosone/static/editorial-board). Submissions do not undergo
+formal statistical review. Instead, reviewers are required to assess
+submissions against several publication criteria, including whether:
+``Experiments, statistics, and other analyses are performed to a high
+technical standard and are described in sufficient detail''
+\citep{PLOS}. All reviewers are asked the question: ``Has the
+statistical analysis been performed appropriately and rigorously?'',
+with the possible responses of ``Yes'', ``No'' and ``I don't know''.
+
+Authors are encouraged to follow published reporting guidelines such as
+EQUATOR, to ensure that chosen statistical methods are appropriate for
+the study design, and adequate details are provided to enable
+independent replication of results.
+
+All \emph{PLOS ONE} articles are freely accessible via the PLOS
+Application Programming Interface (API). This enabled us to conduct
+searches of full-text articles and analyse data on articles' text
+content and general attributes such as publication date and field(s) of
+research. Since \emph{PLOS ONE} does not prescribe a set article format, we applied a two-step
+approach to identify statistical methods sections:
+
+\emph{Step 1}: Targeted API searches were completed using the R package
+`rplos' \citep{rplos}. Search queries targeted analysis-related terms,
+combining the words ``data'' or ``statistical'' with one of:
+``analysis'', ``analyses'', ``method'', ``methodology'' or
+``model(l)ing''. Terms could appear anywhere within the main body of the
+article, to account for the placement of relevant text in different
+sections, for example, in the \emph{Material and Methods} section versus
+\emph{Results}. Search results were indexed by a unique Digital Object
+Identifier (DOI). Attribute data collected per DOI included journal
+volume and subject classification(s).
+
+\emph{Step 2}: \emph{PLOS ONE} does not use standardised headings
+to preface statistical methods sections. To address this, we performed
+partial matching on available headings against frequently used terms in
+initial search results: `Statistical analysis', `Statistical analyses',
+`Statistical method', `Statistics', `Data analysis' and `Data analyses'.
+
+Data were downloaded on 3 July 2020. For
+records that did not pass Step 2, we reviewed where initial search terms
+appeared in the full-text, to estimate the proportion of
+statistical methods sections that were missed under our chosen approach.
+
+
 \subsection{Full-text processing}
 \label{sec:methods-cleaning}
 
@@ -264,8 +272,8 @@ outside of Unicode blocks including `\%' (percent) and `\textless{}'
 (`less-than') were similarly converted into plain text. General
 formatting was removed, including carriage returns, punctuation marks,
 in-text references (e.g.~``{[}42{]}'') centred equations, and other
-non-ASCII characters. Text contained inside brackets was retained to
-maximise content for analysis, with brackets removed. Common stop words
+non-ASCII characters. Bracketed text was retained with brackets removed to
+maximise content for analysis. Common stop words
 including pronouns, contractions and selected prepositions were removed.
 We retained selected stop words that, if excluded, may have changed the
 context of statistical methods being described, for example `between'
@@ -277,8 +285,8 @@ compiled by calculating individual word frequencies and identifying
 relevant terms that appeared at least 100 times. Further terms were
 sourced from index searches of three statistics textbooks
 \citep{Diggle2013,Bland2015,Dobson2018}. Plurals (e.g.,
-`chi-squares') unhyphenated (e.g., `chi square') and combined
-(e.g.~`chisquare') terms were transformed to singular, hyphenated form
+`chi-squares') unhyphenated terms (e.g., `chi square') and combined terms
+(e.g.~`chisquare') were transformed to singular, hyphenated form
 (e.g., `chi-square'). Common statistical tests were also hyphenated
 (e.g., `hosmer lemeshow' to `hosmer-lemeshow'). The final list is
 provided in Supplementary File 1.
@@ -289,11 +297,12 @@ Text from statistical methods sections was analysed using Non-Negative
 Matrix Factorization (NMF). NMF is an established approach for topic
 modelling, and provides an effective solution for text-based clustering
 when dealing with high-dimensional data
-\citep[\citet{luong2019clustering}]{kim2014algorithms}. In this section,
-we outline key details of NMF and its strengths compared with other
-text-based clustering methods.
+\citep[\citet{luong2019clustering}]{kim2014algorithms}.
+%In this section,
+%we outline key details of NMF and its strengths compared with other
+%text-based clustering methods.
 
-For \(N\) studies, let \(P \in R^{M \times N}\) denote a content matrix of text from statistical methods sections as \(M\) unique
+For \(N\) studies, let \(P \in R^{M \times N}\) denote a content matrix of text from statistical methods sections, comprising of \(M\) unique
 terms. Text clustering algorithms for identifying common topics across
 studies requires \(P\) to be represented with a vector space model. In
 our case, unique terms in \(P\) are modelled using the tf-idf (term
@@ -320,7 +329,7 @@ To address these limitations, NMF deals with high-dimensional data by
 mapping it to a lower-dimensional space. This mapping this achieved by
 approximating \(P\) with two factor matrices: \(W \in R^{M \times g}\)
 and \(H \in R ^{N \times g}\) \citep{aggarwal2012mining}, such that
-\(P \approx WH^{T}\). The number of subgroups of common topic inferred
+\(P \approx WH^{T}\). The number of subgroups of common topics inferred
 from the data is given by \(g\).
 
 The matrix factorization process approximates the lower dimensional
@@ -344,14 +353,11 @@ as the topic coherence score. For our two datasets, we applied NMF with
 
 \subsection{Content analysis}
 
-Clustering results were visualised by word clouds to summarise
-frequently occurring terms associated with topic membership. Whilst
-these results were useful for inferring common themes across statistical
-methods sections, they did not indicate evidence of boilerplate text
-beyond the use of common terms. Follow up analysis therefore considered
-similarities in text between sections assigned to the same topic.
+Results were visualised by word clouds to summarise
+frequently occurring terms associated with topic membership. Follow up analysis considered 
+similarities in text between statistical methods sections assign to the same topic.
 
-We used the Jaccard similarity index to compare the statistical methods
+The Jaccard similarity index was used to compare the statistical methods
 section with the highest topic coherence score with all other sections
 assigned to the same topic. Indices were calculated at the sentence
 level, to account for instances of boilerplate text within larger
@@ -366,6 +372,109 @@ difference in word count of plus or minus three words.
 
 \section{Results}\label{results}
 
+\subsection{ANZCTR}
+
+We downloaded 28,008 studies. The numbers of excluded studies are shown
+in Figure \ref{fig:consort-diagrams}. Of the 12,700 included studies,
+9,523 (75\%) had a statistical methods section. The median length of
+sections was 129 words with an inter-quartile range of 71 to 219 words.
+
+\begin{figure}[htbp]
+
+{\centering \includegraphics[width=0.49\linewidth]{figures/excluded_anzctr_missing}  \includegraphics[width=0.49\linewidth]{figures/excluded_plosone}
+
+}
+
+\caption{\label{fig:consort-diagrams}Search results for ANZCTR (left) and PLOS ONE (right).}
+\end{figure}
+
+
+Odds ratios and 95\% credible intervals for study characteristics
+associated with missing statistical methods sections are in Table
+\ref{tab:anzctr-missing-odds}. Observational studies were less likely to
+have a missing statistical methods section compared with interventional
+studies. Missing sections became less likely over time. Studies with
+more funders and a larger target sample size were less likely to have a
+missing statistical methods section.
+
+\begin{table}[]
+\centering
+\caption{Logistic regression results for study characteristics associated with missing statistical methods sections in ANZCTR}
+\label{tab:anzctr-missing-odds}
+\begin{tabular}{lcc}
+\hline
+Variable & Odds ratio & 95$\%$ CI \\
+\hline
+Study type $=$ Observational & 0.78 & (0.69, 0.89) \\
+Date (per year) & 0.90 & (0.88, 0.91) \\
+Number of funders & 0.80 & (0.74, 0.86) \\
+Target sample size (per doubling) & 0.90 & (0.88, 0.92)\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/anzctrwordclouds} 
+
+}
+
+\caption{Word clouds for ten topics for statistical methods sections published in ANZCTR}\label{fig:anzctr-wordclouds}
+\end{figure}
+
+Figure \ref{fig:anzctr-wordclouds} shows word clouds for the ten topics identified by the NMF algorithm. 
+Frequent words related to the largest topic (topic 2, n = 1834) reflected descriptions of sample size calculations
+ and represented 19$\%$ of studies analysed. Other topics indicated pilot studies (topic 5, n = 834),
+safety/tolerability studies (topic 6, n = 524), descriptive statistics (topic 7, n = 333),
+intervention studies (topic 8, n = 1020) and repeated measures ANOVA (topic 10 = 852). A review of word counts by topic 
+identified statistical methods sections that were only one word, including ``ANOVA'',
+``t-test'', ``SPSS'' and even ``SSPS''. 
+
+
+There were cases where the exact
+same method section had been re-used in a different study. For example,
+in topic 7 (n = 333), 232 sections stated `descriptive statistics' or
+`descriptive statistics used' with no additional details provided. Other
+instances with expanded descriptions of methods included topic 3 (n =
+1277) outlining descriptive analyses only, and topic 6 (n = 524), for
+hypothesis testing methods, statistical significance and software. 
+In other cases, text had been slightly modified to account for changes
+in primary and secondary outcomes. Examples of these text changes were
+found in topics 2 and 4; identified instances
+related to sample size calculations for patient recruitment to different
+studies.
+
+Examples of boilerplate text are provided in Table
+\ref{tab:anzctr-example-boilerplate}.
+
+Since studies in this dataset described planned analyses, we
+hypothesised that some studies did not specify statistical methods because
+they had yet to consult with a statistician. Targeted searches for ``statistician'' across all topics returned 1,277 matching studies,
+with examples including ``A statistician employed by hospital was used''
+and ``Pilot study at this point will use a statistician professionally
+to determine sample size calculations as required''.
+
+\begin{landscape}
+\begin{table}[]
+\centering
+\caption{Example boilerplate text from ANZCTR dataset}
+\label{tab:anzctr-example-boilerplate}
+\begin{tabular}{p{0.1\linewidth} p{0.9\linewidth}}
+\hline
+\textbf{Topic} & \textbf{Statistical methods section} \\ \hline
+3 & Comparisons between categorical variables will be made either using chi square or Fisher exact test. Continuous data will be compared using the Student’s t-test or Mann-Whitney U test. Two sided p values of less than 0.05 will be considered statistically significant.\\
+ &  The Mann-Whitney U, Student t, 1-way ANOVA, and Kruskal-Wallis tests will be used to compare continuous variables where relevant. The Fisher exact and Pearson’s Chi-square test will be used to compare proportions as appropriate. \\ \hline
+5 & Pilot study \\
+ &  No formal sample size calculation was performed \\ \hline
+7 & Descriptive statistics \\
+ &  Descriptive statistics used \\ \hline
+9 & Linear mixed models will be used to analyse the data. \\ \hline
+10 & Repeated measures of ANOVA \\
+ &  Pre-, during, post- and follow-up variables will be subjected to mixed methods and repeated measures analyses to determine significant changes over (group and) time. \\ \hline
+\end{tabular}
+\end{table}
+\end{landscape}
+
 \subsection{PLOS ONE}\label{plos-one}
 
 API searches returned 131,847 papers (DOIs)
@@ -375,14 +484,7 @@ statistical methods sections were identified. In the final sample,
 headings: 64,133 for `statistical analysis', 13,380 for `statistical
 analyses' and 13,627 for `data analysis'.
 
-\begin{figure}[htbp]
 
-{\centering \includegraphics[width=0.49\linewidth]{figures/excluded_plosone} \includegraphics[width=0.49\linewidth]{figures/excluded_anzctr_missing} 
-
-}
-
-\caption{\label{fig:consort-diagrams}Search results for PLOS ONE (left) and ANZCTR (right).}
-\end{figure}
 
 \begin{figure}[htbp]
 
@@ -486,95 +588,6 @@ on the Jaccard index, 1 in 5 studies were matched to the sentence
 Frequently occurring words in topic 6 (n = 4764) reflected
 mentions of descriptive statistics for summarising continuous variables,
 namely means with standard deviations or standard errors.
-
-\subsection{ANZCTR}
-
-We downloaded 28,008 studies. The numbers of excluded studies are shown
-in Figure \ref{fig:consort-diagrams}. Of the 12,700 included studies,
-9,523 (75\%) had a statistical methods section. The median length of
-sections was 129 words with an inter-quartile range of 71 to 219 words.
-
-Odds ratios and 95\% credible intervals for study characteristics
-associated with missing statistical methods sections are in Table
-\ref{tab:anzctr-missing-odds}. Observational studies were less likely to
-have a missing statistical methods section compared with interventional
-studies. Missing sections became less likely over time. Studies with
-more funders and a larger target sample size were less likely to have a
-missing statistical methods section.
-
-\begin{table}[]
-\centering
-\caption{Logistic regression results for study characteristics associated with missing statistical methods sections in ANZCTR}
-\label{tab:anzctr-missing-odds}
-\begin{tabular}{lcc}
-\hline
-Variable & Odds ratio & 95$\%$ CI \\
-\hline
-Study type $=$ Observational & 0.78 & (0.69, 0.89) \\
-Date (per year) & 0.90 & (0.88, 0.91) \\
-Number of funders & 0.80 & (0.74, 0.86) \\
-Target sample size (per doubling) & 0.90 & (0.88, 0.92)\\
-\hline
-\end{tabular}
-\end{table}
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{figures/anzctrwordclouds} 
-
-}
-
-\caption{Word clouds for ten topics for statistical methods sections published in ANZCTR}\label{fig:unnamed-chunk-9}
-\end{figure}
-
-The text clustering algorithm found topics that were purely sample size
-calculations (topic 2, n = 1834), pilot studies (topic 5, n = 834),
-safety/tolerability studies (topic 6, n = 524), intervention studies
-(topic 8, n = 1020) and repeated measures ANOVA (topic 10 = 852).
-Examples of boilerplate text are provided in Table
-\ref{tab:anzctr-example-boilerplate} .
-
-Some methods sections were only one word, including ``ANOVA'',
-``t-test'', ``SPSS'' and even ``SSPS''. There were cases where the exact
-same method section had been re-used in a different study. For example,
-in topic 7 (n = 333), 232 sections stated `descriptive statistics' or
-`descriptive statistics used' with no additional details provided. Other
-instances with expanded descriptions of methods included topic 3 (n =
-1277) outlining descriptive analyses only, and topic 6 (n = 524), for
-hypothesis testing methods, statistical significance and software. 
-In other cases, text had been slightly modified to account for changes
-in primary and secondary outcomes. Examples of these text changes were
-found in topics 2 and 4; identified instances
-related to sample size calculations for patient recruitment to different
-studies.
-
-Since studies in this dataset described planned analyses, we
-hypothesised that some studies did not specify statistical methods because
-they had yet to consult with a statistician. Targeted searches for ``statistician'' across all topics returned 1,277 matching studies,
-with examples including ``A statistician employed by hospital was used''
-and ``Pilot study at this point will use a statistician professionally
-to determine sample size calculations as required''.
-
-\begin{landscape}
-\begin{table}[]
-\centering
-\caption{Example boilerplate text from ANZCTR dataset}
-\label{tab:anzctr-example-boilerplate}
-\begin{tabular}{p{0.1\linewidth} p{0.9\linewidth}}
-\hline
-\textbf{Topic} & \textbf{Statistical methods section} \\ \hline
-3 & Comparisons between categorical variables will be made either using chi square or Fisher exact test. Continuous data will be compared using the Student’s t-test or Mann-Whitney U test. Two sided p values of less than 0.05 will be considered statistically significant.\\
- &  The Mann-Whitney U, Student t, 1-way ANOVA, and Kruskal-Wallis tests will be used to compare continuous variables where relevant. The Fisher exact and Pearson’s Chi-square test will be used to compare proportions as appropriate. \\ \hline
-5 & Pilot study \\
- &  No formal sample size calculation was performed \\ \hline
-7 & Descriptive statistics \\
- &  Descriptive statistics used \\ \hline
-9 & Linear mixed models will be used to analyse the data. \\ \hline
-10 & Repeated measures of ANOVA \\
- &  Pre-, during, post- and follow-up variables will be subjected to mixed methods and repeated measures analyses to determine significant changes over (group and) time. \\ \hline
-\end{tabular}
-\end{table}
-\end{landscape}
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}

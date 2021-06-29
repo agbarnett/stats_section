@@ -231,7 +231,7 @@ All \emph{PLOS ONE} articles are freely accessible via the PLOS
 Application Programming Interface (API). This enabled us to conduct
 searches of full-text articles and analyse data on articles' text
 content and general attributes such as publication date and field(s) of
-research. Since \emph{PLOS ONE} does not prescribe a set article format, we applied a two-step
+research. We applied a two-step
 approach to identify statistical methods sections:
 
 \emph{Step 1}: Targeted API searches were completed using the R package
@@ -249,13 +249,7 @@ volume and subject classification(s).
 to preface statistical methods sections. To address this, we performed
 partial matching on available headings against frequently used terms in
 initial search results: `Statistical analysis', `Statistical analyses',
-`Statistical method', `Statistics', `Data analysis' and `Data analyses'.
-
-Data were downloaded on 3 July 2020. For
-records that did not pass Step 2, we reviewed where initial search terms
-appeared in the full-text, to estimate the proportion of
-statistical methods sections that were missed under our chosen approach.
-
+`Statistical method', `Statistics', `Data analysis' and `Data analyses'. Data were downloaded on 3 July 2020.
 
 \subsection{Full-text processing}
 \label{sec:methods-cleaning}
@@ -423,8 +417,7 @@ Target sample size (per doubling) & 0.90 & (0.88, 0.92)\\
 \end{figure}
 
 Figure \ref{fig:anzctr-wordclouds} shows word clouds for the ten topics identified by the NMF algorithm. 
-Frequent words related to the largest topic (topic 2, n = 1834) reflected descriptions of sample size calculations
- and represented 19$\%$ of studies analysed. Other topics indicated pilot studies (topic 5, n = 834),
+Words related to the largest topic (topic 2, n = 1,834) reflected descriptions of sample size calculations, for example, ``sample'',``power'' and ``80'' (i.e. $80\%$ power) . Other topics indicated pilot studies (topic 5, n = 834),
 safety/tolerability studies (topic 6, n = 524), descriptive statistics (topic 7, n = 333),
 intervention studies (topic 8, n = 1020) and repeated measures ANOVA (topic 10 = 852). A review of word counts by topic 
 identified statistical methods sections that were only one word, including ``ANOVA'',
@@ -497,8 +490,7 @@ analyses' and 13,627 for `data analysis'.
 
 Search results varied by journal volume (Figure \ref{fig:plos-n}A). The
 total number of API search results peaked at volumes 8 (n = 19,045) and
-9 (n = 19,045) in years 2013 and 2014. This trend aligned with the total
-number of papers published in \emph{PLOS ONE} over the same period. The
+9 (n = 19,045) in years 2013 and 2014.  The
 percentage of records that included a statistical methods section varied between 64\%
 (volume 2) and 86\% (volume 9). All DOIs included ``Biology and life
 sciences'' (n = 107,584), ``Earth sciences'' (n = 7,605) and/or ``Computer and
@@ -511,8 +503,8 @@ statistical methods section of 500 words or more. 19,461 articles (17\%)
 had statistical methods sections with 50 words or less, equal to the
 length of this paragraph.
 
-For studies excluded based on section headings (n = 20,116), analysis-related search terms for 2,136 DOIs appeared in the general text of the Materials and Methods section. For studies without a matching Materials and Methods section,
- search terms oftern appeared in the Introduction (n = 728) and Results and/or Discussion (n = 981) sections. 4,010 DOIs included at least 1 section heading that contained the terms ``analysis'' or ``analyses'' without direct reference to statistical method(s) (e.g. Microarray analysis).
+%For studies excluded based on section headings (n = 20,116), analysis-related search terms for 2,136 DOIs appeared in the general text of the Materials and Methods section. In other cases,
+ %search terms oftern appeared in the Introduction (n = 728) and Results and/or Discussion (n = 981) sections. 4,010 DOIs included at least 1 section heading that contained the terms ``analysis'' or ``analyses'' without direct reference to statistical method(s) (e.g. Microarray analysis).
 
 \begin{figure}
 
@@ -520,7 +512,7 @@ For studies excluded based on section headings (n = 20,116), analysis-related se
 
 }
 
-\caption{\label{fig:plos-clouds}Word clouds for ten topics for statistical methods sections published in PLOS ONE}\label{fig:unnamed-chunk-6}
+\caption{\label{fig:plos-clouds}Word clouds for ten topics for statistical methods sections published in PLOS ONE}\label{fig:plos-clouds}
 \end{figure}
 
 The word clouds for ten topics are in Figure \ref{fig:plos-clouds}.

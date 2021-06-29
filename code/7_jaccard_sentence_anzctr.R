@@ -10,19 +10,23 @@ library(openxlsx)
 
 ## data
 ## a) get the example data
-load('data/processed_examples_anzctr.RData') # from 7_example_sentences.R
+#load('data/processed_examples_anzctr.RData') # from 7_example_sentences.R
 ## b) get all the data
-load(file='data/anzctr.results.10topics.rda')
+load(file='results/anzctr.results.10topics.rda')
 # data management 
 matches = ungroup(matches) %>%
   mutate(topic_num = as.numeric(str_remove(topic_id, pattern='Topic '))) # topic number
 
 # split examples into sentences
+# take top ranking result for each topic
+examples <- matches %>% filter(rank==1) %>% select(topic_num,number,words,text_data_clean) %>%
+  rename(topic=topic_num,example = text_data_clean)
+
 examples_in_sentences = NULL
 for (t in 1:nrow(examples)){
   # get the example and split into sentences
   to_compare = examples[t, ]
-  example_sentences = str_split(to_compare$example, pattern='\\. ')[[1]]
+  example_sentences = str_split(to_compare$example, pattern='\\.\\s+')[[1]]
   f = data.frame(topic=to_compare$topic, sentences = example_sentences)
   examples_in_sentences = bind_rows(examples_in_sentences, f)
 }  
@@ -69,6 +73,8 @@ almost_exact = filter(results,
   tally() %>%
   ungroup()
 
+
+
 # merge with original data
 to_export = full_join(examples_in_sentences, almost_exact, by='row') %>%
   select(row, topic, sentences, n) %>%
@@ -82,4 +88,4 @@ writeDataTable(wb, sheet = 1, x = to_export,
                colNames = TRUE, rowNames = FALSE,
                tableStyle = "TableStyleLight9")
 setColWidths(wb, sheet = 1, cols = 1:4, widths = c(5,5,70,5))
-saveWorkbook(wb, file = "results/jaccard_matches_anzctr.xlsx", overwrite = TRUE)
+saveWorkbook(wb, file = "results/jaccard_matches_anzctr_v2.xlsx", overwrite = TRUE)

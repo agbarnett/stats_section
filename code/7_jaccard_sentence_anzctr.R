@@ -74,7 +74,6 @@ almost_exact = filter(results,
   ungroup()
 
 
-
 # merge with original data
 to_export = full_join(examples_in_sentences, almost_exact, by='row') %>%
   select(row, topic, sentences, n) %>%

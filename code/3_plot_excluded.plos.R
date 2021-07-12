@@ -6,6 +6,11 @@ library(diagram)
 
 #load metadata
 load('results/total.records.plos.rda')
+
+#load excluded sections
+load('data/stats_section_excluded_plos.rda')
+stats_section_excluded = bind_rows(stats_section_excluded)
+
 #number downloaded through target search queries
 n.api = total.records[[1]] %>% filter(stage=='API') %>% pull(n) %>% sum()
 #number of stats sections included following partial matching
@@ -46,7 +51,7 @@ count_exclude = tibble(reason=c('Materials & Methods','Introduction','Results &/
 make_diagram_plos = function(){
   par(mai=c(0,0,0,0))
   labels = c(paste('Downloaded\n n = ', format(n.api, big.mark = ','), sep=''),
-             paste('Excluded\n- ', count_exclude$reason[1], ', n = ', format(count_exclude$n[1],big.mark=','),
+             paste('Excluded by second stage filter\n- ', count_exclude$reason[1], ', n = ', format(count_exclude$n[1],big.mark=','),
                    '\n- ', count_exclude$reason[2], ', n = ', count_exclude$n[2],
                    '\n- ', count_exclude$reason[3], ', n = ', count_exclude$n[3],
                    '\n- ', count_exclude$reason[4], ', n = ', format(count_exclude$n[4],big.mark=','), sep=''),

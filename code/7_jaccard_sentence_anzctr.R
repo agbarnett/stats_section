@@ -1,7 +1,7 @@
 # 7_jaccard_sentence_anzctr.R
 # look for almost identical sentences using the Jaccard score
 # uses the top example sentences from the paper
-# May 2021
+# Last updated July 12 2021
 library(tidyverse)
 library(tidytext)
 library(stringr)
@@ -105,7 +105,7 @@ for (t in 1:nrow(examples_in_sentences)){
 
 # count almost exact matches
 almost_exact = filter(results, 
-                      score >= 0.5) %>% # high similarity score. changed from 0.9
+                      score >= 0.7) %>% # high similarity score. changed from 0.9
   group_by(row) %>%
   tally() %>%
   ungroup()

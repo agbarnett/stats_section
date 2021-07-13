@@ -8,7 +8,7 @@ library(openxlsx)
 library(textreuse) #updated function for jaccard_similarity (compare to stringdist)
 
 ## data
-## a) get the example data
+## a) get the example data  
 #load('data/processed_examples.RData') # from 7_example_sentences.R
 ## b) get all the data
 load(file='results/plos.results.10topics.rda')

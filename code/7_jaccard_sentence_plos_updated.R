@@ -4,7 +4,6 @@
 # May 2021
 library(tidyverse)
 library(tidytext)
-#library(openxlsx)
 library(stringr)
 library(stringdist) # for similarity scores
 library(openxlsx)
@@ -51,8 +50,8 @@ combined = group_by(matches, doi_num, topic_id, topic_num,rank) %>%
 
 # split examples into sentences
 # take top ranking result for each topic
-examples <- matches %>% filter(rank==1) %>% select(topic_num,doi_num,words,text_data_clean) %>%
-  rename(topic=topic_num,example = text_data_clean)
+examples <- combined %>% filter(rank==1) %>% select(topic_num,doi_num,text) %>%
+  rename(topic=topic_num,example = text)
 
 
 examples_in_sentences = NULL
@@ -60,46 +59,51 @@ for (t in 1:nrow(examples)){
   # get the example and split into sentences
   to_compare = examples[t, ]
   example_sentences = str_split(to_compare$example, pattern='\\.\\s+')[[1]]
-  f = data.frame(topic=to_compare$topic, sentences = example_sentences)
+  f = data.frame(doi_num=to_compare$doi_num,topic=to_compare$topic, sentences = example_sentences)
   examples_in_sentences = bind_rows(examples_in_sentences, f)
 }  
 examples_in_sentences = mutate(examples_in_sentences, row = 1:n())
 
 
+# split text_data_clean into sentence as alternative for boilerplate text (takes a while); in list form
+dat.sentences = combined %>% mutate(text_data_clean_s = str_split(text,"\\.\\s+",simplify=F)) %>%
+  mutate(n_words = lapply(text_data_clean_s,function(x) str_count(x,"\\w+")))
+
 
 # loop through sentences that were used in the paper
 results = NULL
+results_byrow = NULL
+
 for (t in 1:nrow(examples_in_sentences)){
   #number of words in target sentence
   n_words_example = str_count(examples_in_sentences$sentence[t], "\\w+")
-  ## just text in the same topic 
-  this_topic = filter(combined, 
-                      topic_num == examples_in_sentences$topic[t]) 
   
-  # split text_data_clean into sentence as alternative for boilerplate text (takes a while); in list form
-  dat.sentences = lapply(1:nrow(this_topic), function(i) str_split(this_topic[i,]$text,"\\.\\s+",simplify=F) %>% unlist() %>% 
-                           tibble(text_data_clean_s=.) %>% 
-                           mutate(text_data_clean_s=str_remove_all(text_data_clean_s,pattern='\\.$')) %>%
-                           filter(text_data_clean_s!="") %>%
-                           add_column(doi = this_topic[i,] %>% pull(doi_num))) %>% bind_rows()
+  ## just text in the same topic , filter to similar word counts
+  this_topic = filter(dat.sentences, 
+                      topic_num == examples_in_sentences$topic[t],doi_num!=examples_in_sentences$doi_num[t]) %>%
+    unnest(cols=c(text_data_clean_s, n_words)) %>% filter(abs(n_words - n_words_example) <= 3)
 
-  #add number of words per sentence
-  dat.sentences = dat.sentences %>% mutate(n_words = str_count(text_data_clean_s, "\\w+")) %>%
-    filter(abs(n_words - n_words_example) <= 3 )
   
-  N = length(dat.sentences)
   A = tokenize_words(examples_in_sentences$sentence[t])
   
   ## Get the scores for all sentences
-  
-  f = dat.sentences %>% rowwise() %>%
+
+  f = this_topic %>% rowwise() %>%
     mutate(score = jaccard_similarity(A,tokenize_words(text_data_clean_s))) %>% 
     ungroup() %>% add_column(row=t)
 
   results = bind_rows(results, f)
+  
+  g = results %>% summarise(min_score=min(score,na.rm=T),
+                            max_score=max(score,na.rm=T),
+                            q1_score=quantile(score,0.25,na.rm=T),
+                            q3_score=quantile(score,0.75,na.rm=T),
+                            med_score=median(score,na.rm=T),.groups='drop') %>% add_column(row=t)
+  
+  results_byrow = bind_rows(results_byrow,g)
   cat('Running for row',t,'\r')
   
-} # end of topics loop
+} # end of sentence loop
 
 # count almost exact matches
 almost_exact = filter(results, 
@@ -108,10 +112,22 @@ almost_exact = filter(results,
   tally() %>%
   ungroup()
 
+similar = filter(results, 
+                      score >= 0.5) %>% # high similarity score
+  group_by(row) %>%
+  tally() %>%
+  ungroup()
+
 # merge with original data
 to_export = full_join(examples_in_sentences, almost_exact, by='row') %>%
   select(row, topic, sentences, n) %>%
-  rename('matches' = 'n')
+  rename('matches_gt0.9' = 'n')
+
+#add similar (0.7 or higher)
+to_export = full_join(to_export,similar, by='row') %>%
+  select(row, topic, sentences, matches_gt0.9, n) %>%
+  rename('matches_gt0.5' = 'n')
+
 
 # export to Excel
 wb <- createWorkbook()
@@ -121,4 +137,4 @@ writeDataTable(wb, sheet = 1, x = to_export,
                colNames = TRUE, rowNames = FALSE,
                tableStyle = "TableStyleLight9")
 setColWidths(wb, sheet = 1, cols = 1:4, widths = c(5,5,70,5))
-saveWorkbook(wb, file = "results/jaccard_matches.xlsx", overwrite = TRUE)
+saveWorkbook(wb, file = "results/jaccard_matches_plos_v2.xlsx", overwrite = TRUE)

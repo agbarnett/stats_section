@@ -41,7 +41,7 @@ matches = mutate(matches,
 matches =mutate(matches,
                 text_data_clean = str_replace_all(text_data_clean,pattern="(\\.)(\\s{1})(college station tx)",replacement="\\2\\3"))
 #inc. or ver.
-  matches =mutate(matches,
+matches =mutate(matches,
                   text_data_clean = str_replace_all(text_data_clean,pattern="(\\s{1})(inc|ver)(\\.)",replacement="\\1\\2"))
 
 
@@ -59,6 +59,7 @@ dat.sentences = combined %>% mutate(text_data_clean_s = str_split(text,"\\.\\s+"
 #loop over topics - start with 1 topic
 combined_export = list()
 cutoff = 100 #top 100 papers per topic
+
 for (choose.topic in 1:10){
   {cat('Reviewing Topic',choose.topic,'\r')}
   

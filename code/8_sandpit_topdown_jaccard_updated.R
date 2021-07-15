@@ -124,3 +124,77 @@ for (choose.topic in 1:10){
   combined_export[[choose.topic]] = to_export
   
 } #end of topic loop
+
+
+save(combined_export,file='results/jaccard_plos_top100.rda')
+
+#summarise the results
+load('results/jaccard_plos_top100.rda')
+
+results = bind_rows(combined_export,.id='topic_num') %>%
+  mutate(topic_num = as.numeric(topic_num))
+
+#rank ==1 matches
+top_ranked_bytopic = results %>% filter(rank==1) %>% arrange(topic_num)
+
+#most common sentence within each topic (rank 1 to 100)
+most_frequent_bytopic = results %>% group_by(topic_num) %>% arrange(-matches) %>% slice(1)
+
+
+#top ranked excluding p-value statements
+results_nop = results %>% filter(!grepl('p-value|p value|\\bp\\b',sentence))
+most_frequent_bytopic_nop = results_nop %>% group_by(topic_num) %>% arrange(-matches) %>% slice(1)
+
+#top 10 sentences per topic
+top10_frequent_bytopic = results %>% group_by(topic_num) %>% arrange(-matches) %>% slice(1:10)
+
+#top 10 excluding p value statments
+top10_frequent_bytopic_nop = results_nop %>% group_by(topic_num) %>% arrange(-matches) %>% slice(1:10)
+
+
+
+#
+# export to Excel
+wb <- createWorkbook()
+#Matches for top ranked paper in each topic
+addWorksheet(wb, sheetName = "Matches rank = 1 by topic", gridLines = FALSE)
+freezePane(wb, sheet = 1, firstRow = TRUE)
+writeDataTable(wb, sheet = 1, x = top_ranked_bytopic,
+               colNames = TRUE, rowNames = FALSE,
+               tableStyle = "TableStyleLight9")
+setColWidths(wb, sheet = 1, cols = 1:5, widths = c(5,5,70,5,5))
+
+#most common sentence within each topic (rank 1 to 100)
+addWorksheet(wb, sheetName = "Matches Most frequent", gridLines = FALSE)
+freezePane(wb, sheet = 2, firstRow = TRUE)
+writeDataTable(wb, sheet = 2, x = most_frequent_bytopic,
+               colNames = TRUE, rowNames = FALSE,
+               tableStyle = "TableStyleLight9")
+setColWidths(wb, sheet = 2, cols = 1:5, widths = c(5,5,70,5,5))
+
+#top ranked excluding p-value statements
+addWorksheet(wb, sheetName = "Matches Most frequent no pvalue", gridLines = FALSE)
+freezePane(wb, sheet = 3, firstRow = TRUE)
+writeDataTable(wb, sheet = 3, x = most_frequent_bytopic_nop,
+               colNames = TRUE, rowNames = FALSE,
+               tableStyle = "TableStyleLight9")
+setColWidths(wb, sheet = 3, cols = 1:5, widths = c(5,5,70,5,5))
+
+#top 10 by topic
+addWorksheet(wb, sheetName = "Matches Top 10", gridLines = FALSE)
+freezePane(wb, sheet = 4, firstRow = TRUE)
+writeDataTable(wb, sheet = 4, x = top10_frequent_bytopic,
+               colNames = TRUE, rowNames = FALSE,
+               tableStyle = "TableStyleLight9")
+setColWidths(wb, sheet = 4, cols = 1:5, widths = c(5,5,70,5,5))
+
+#top 10 by topic, no p-value statements
+addWorksheet(wb, sheetName = "Matches Top 10 no pvalue", gridLines = FALSE)
+freezePane(wb, sheet = 5, firstRow = TRUE)
+writeDataTable(wb, sheet = 5, x = top10_frequent_bytopic_nop,
+               colNames = TRUE, rowNames = FALSE,
+               tableStyle = "TableStyleLight9")
+setColWidths(wb, sheet = 5, cols = 1:5, widths = c(5,5,70,5,5))
+
+
+saveWorkbook(wb, file = "results/jaccard_matches_plos_v3.xlsx", overwrite = TRUE)

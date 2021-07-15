@@ -1,6 +1,5 @@
-# look for almost identical sentences using the Jaccard score
-# uses the top example sentences from the paper
-# May 2021
+#8_top100_jaccard_anzctr.R
+
 library(tidyverse)
 library(tidytext)
 library(stringdist) # for similarity scores
@@ -8,15 +7,14 @@ library(openxlsx)
 library(textreuse) #updated function for jaccard_similarity (compare to stringdist)
 
 ## data
-## a) get the example data  
-#load('data/processed_examples.RData') # from 7_example_sentences.R
+## a) get the example data
+#load('data/processed_examples_anzctr.RData') # from 7_example_sentences.R
 ## b) get all the data
-load(file='results/plos.results.10topics.rda')
-
+load(file='results/anzctr.results.10topics.rda')
 # data management 
 matches = ungroup(matches) %>%
-  mutate(topic_num = as.numeric(str_remove(topic_id, pattern='Topic ')), # topic number
-         doi_num = str_remove(doi, pattern='10.1371/journal\\.pone\\.')) # just get the number from the DOI
+  mutate(topic_num = as.numeric(str_remove(topic_id, pattern='Topic '))) # topic number
+
 
 #tidy up a bit more to account for overuse of full stops (affects breakdown by sentence)
 #single number followed by full stop (e.g. [space]1.[space]); reomve number
@@ -42,23 +40,17 @@ matches =mutate(matches,
                 text_data_clean = str_replace_all(text_data_clean,pattern="(\\.)(\\s{1})(college station tx)",replacement="\\2\\3"))
 #inc. or ver.
 matches =mutate(matches,
-                  text_data_clean = str_replace_all(text_data_clean,pattern="(\\s{1})(inc|ver)(\\.)",replacement="\\1\\2"))
-
-
-# combine paragraphs from the same paper (with the same DOI)
-combined = group_by(matches, doi_num, topic_id, topic_num,rank) %>%
-  summarise(text = toString(text_data_clean)) %>%
-  ungroup()
+                text_data_clean = str_replace_all(text_data_clean,pattern="(\\s{1})(inc|ver)(\\.)",replacement="\\1\\2"))
 
 # end data management
 
 # split text_data_clean into sentence as alternative for boilerplate text (takes a while); in list form
-dat.sentences = combined %>% mutate(text_data_clean_s = str_split(text,"\\.\\s+",simplify=F)) %>%
+dat.sentences = matches %>% mutate(text_data_clean_s = str_split(text_data_clean,"\\.\\s+",simplify=F)) %>%
   mutate(n_words = lapply(text_data_clean_s,function(x) str_count(x,"\\w+")))
 
 #loop over topics - start with 1 topic
 combined_export = list()
-cutoff = 100 #top 100 papers per topic
+cutoff = 100 #top X papers per topic. set to 100 for final run
 
 for (choose.topic in 1:10){
   {cat('Reviewing Topic',choose.topic,'\r')}
@@ -73,19 +65,20 @@ for (choose.topic in 1:10){
     unnest(cols=c(text_data_clean_s, n_words))
   
   N = nrow(this_topic)
-
+  
   while(min_rank<=cutoff){
     results = NULL
     #start with rank 1 and keep going until nrow(dat.sentences)=0
     examples_in_sentences = this_topic %>% filter(rank %in% min(rank)) %>%
-      select(-text) %>%
+      select(number,topic_id,topic_num,rank,text_data_clean_s,n_words) %>%
       rename(sentence=text_data_clean_s) %>% mutate(row=1:n())
+
     
     for (t in 1:length(examples_in_sentences)){  
       n_words_example = examples_in_sentences$n_words[t]
       A = tokenize_words(examples_in_sentences$sentence[t])
       
-      this_paper_similar = filter(this_topic,doi_num!=examples_in_sentences$doi_num[t]) %>%
+      this_paper_similar = filter(this_topic,number!=examples_in_sentences$number[t]) %>%
         filter(abs(n_words - n_words_example) <= 3)
       if(nrow(this_paper_similar)>0){
         
@@ -100,18 +93,18 @@ for (choose.topic in 1:10){
     #get almost exact matches
     almost_exact = filter(results, 
                           score >= 0.75) 
-
-    if(nrow(almost_exact)>0){
-    this_topic = this_topic %>% anti_join(.,almost_exact,by=c('text_data_clean_s','doi_num')) %>%
-      filter(!doi_num %in% examples_in_sentences[['doi_num']])
     
-    n_matches = full_join(examples_in_sentences,almost_exact %>% group_by(row) %>% tally() %>% ungroup(),by='row') %>%
-      select(row, sentence,rank, n) %>%
-      rename('matches' = 'n')
-    to_export = bind_rows(to_export,n_matches)
+    if(nrow(almost_exact)>0){
+      this_topic = this_topic %>% anti_join(.,almost_exact,by=c('text_data_clean_s','number')) %>%
+        filter(!number %in% examples_in_sentences[['number']])
+      
+      n_matches = full_join(examples_in_sentences,almost_exact %>% group_by(row) %>% tally() %>% ungroup(),by='row') %>%
+        select(row, sentence,rank, n) %>%
+        rename('matches' = 'n')
+      to_export = bind_rows(to_export,n_matches)
     }
     if(nrow(almost_exact)==0){
-      this_topic = this_topic %>% filter(!doi_num %in% examples_in_sentences[['doi_num']]) 
+      this_topic = this_topic %>% filter(!number %in% examples_in_sentences[['number']]) 
     }
     # progress (takes longer for longer sections)
     k = nrow(this_topic)
@@ -125,11 +118,7 @@ for (choose.topic in 1:10){
   
 } #end of topic loop
 
-
-save(combined_export,file='results/jaccard_plos_top100.rda')
-
-#summarise the results
-load('results/jaccard_plos_top100.rda')
+save(combined_export,file='results/jaccard_anzctr_top100.rda')
 
 results = bind_rows(combined_export,.id='topic_num') %>%
   mutate(topic_num = as.numeric(topic_num))
@@ -151,50 +140,3 @@ top10_frequent_bytopic = results %>% group_by(topic_num) %>% arrange(-matches) %
 #top 10 excluding p value statments
 top10_frequent_bytopic_nop = results_nop %>% group_by(topic_num) %>% arrange(-matches) %>% slice(1:10)
 
-
-
-#
-# export to Excel
-wb <- createWorkbook()
-#Matches for top ranked paper in each topic
-addWorksheet(wb, sheetName = "Matches rank = 1 by topic", gridLines = FALSE)
-freezePane(wb, sheet = 1, firstRow = TRUE)
-writeDataTable(wb, sheet = 1, x = top_ranked_bytopic,
-               colNames = TRUE, rowNames = FALSE,
-               tableStyle = "TableStyleLight9")
-setColWidths(wb, sheet = 1, cols = 1:5, widths = c(5,5,70,5,5))
-
-#most common sentence within each topic (rank 1 to 100)
-addWorksheet(wb, sheetName = "Matches Most frequent", gridLines = FALSE)
-freezePane(wb, sheet = 2, firstRow = TRUE)
-writeDataTable(wb, sheet = 2, x = most_frequent_bytopic,
-               colNames = TRUE, rowNames = FALSE,
-               tableStyle = "TableStyleLight9")
-setColWidths(wb, sheet = 2, cols = 1:5, widths = c(5,5,70,5,5))
-
-#top ranked excluding p-value statements
-addWorksheet(wb, sheetName = "Matches Most frequent no pvalue", gridLines = FALSE)
-freezePane(wb, sheet = 3, firstRow = TRUE)
-writeDataTable(wb, sheet = 3, x = most_frequent_bytopic_nop,
-               colNames = TRUE, rowNames = FALSE,
-               tableStyle = "TableStyleLight9")
-setColWidths(wb, sheet = 3, cols = 1:5, widths = c(5,5,70,5,5))
-
-#top 10 by topic
-addWorksheet(wb, sheetName = "Matches Top 10", gridLines = FALSE)
-freezePane(wb, sheet = 4, firstRow = TRUE)
-writeDataTable(wb, sheet = 4, x = top10_frequent_bytopic,
-               colNames = TRUE, rowNames = FALSE,
-               tableStyle = "TableStyleLight9")
-setColWidths(wb, sheet = 4, cols = 1:5, widths = c(5,5,70,5,5))
-
-#top 10 by topic, no p-value statements
-addWorksheet(wb, sheetName = "Matches Top 10 no pvalue", gridLines = FALSE)
-freezePane(wb, sheet = 5, firstRow = TRUE)
-writeDataTable(wb, sheet = 5, x = top10_frequent_bytopic_nop,
-               colNames = TRUE, rowNames = FALSE,
-               tableStyle = "TableStyleLight9")
-setColWidths(wb, sheet = 5, cols = 1:5, widths = c(5,5,70,5,5))
-
-
-saveWorkbook(wb, file = "results/jaccard_matches_plos_v3.xlsx", overwrite = TRUE)

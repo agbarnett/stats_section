@@ -359,7 +359,7 @@ methods sections. We chose the Jaccard index as an easy to interpret
 measure, which summarises the similarity between two sentences by the
 number of words common to each sentence (intersection), divided by the
 number of words that appeared in either sentence (union). Instances of
-boilerplate text were defined by a Jaccard index of 0.9 or higher and a
+boilerplate text were defined by a Jaccard index of 0.75 or higher and a
 difference in word count of plus or minus three words.
 
 \clearpage
@@ -521,34 +521,80 @@ Diego, CA) was used for all analyses'' was matched in 1,941 papers based on our 
 Similarly, ``SPSS software version
 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis'' returned matches for 441 papers in topic 5.
 
-\begin{landscape}
+%\begin{landscape}
+%\begin{table}
+%
+%\caption{\label{tab:plos-example-boilerplate} Examples of boilerplate text from PLOS ONE papers with the highest coherence score per topic (sentence level). The number of matching to each sentence was based on a Jaccard score of 0.75 or higher and a difference in word count of $\pm$ 3 words}
+%\centering
+%\begin{tabular}[t]{p{0.1\textwidth}p{0.9\textwidth}p{0.1\textwidth}}
+%\hline
+%Topic & Statistical methods text & Matching papers\\
+%\hline
+%Topic 1 & Students t-test was used for statistical analysis. & 17\\
+%\cline{2-3}
+% & A p value of $<$ 0.05 was considered statistically significant. & 664\\
+%\hline
+%Topic 3 & GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses. & 1941\\
+%\hline
+%Topic 4 & Significant differences were determined using analysis of variance (ANOVA) followed by tukey post-hoc tests for multiple comparisons. & 2216\\
+%\hline
+%Topic 5 & SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis. & 441\\
+%\hline
+%Topic 6 & All results are expressed as means $\pm$ standard deviation ($\pm$ SD). & 102\\
+%\hline
+%Topic 9 & Statistical significance was determined by Students t-tests. & 49\\
+%\cline{2-3}
+%&  $^*$p $<$ 0.05, $^{**}$p $<$ 0.01, $^{***}$p $<$ 0.001. & 6\\
+%\hline
+%\end{tabular}
+%\end{table}
+%\end{landscape}
+
+\pagebreak
+
+
 \begin{table}
 
-\caption{\label{tab:plos-example-boilerplate}Example boilerplate text from PLOS ONE papers (sentence level). The number of matching to each sentence was based on a Jaccard score of 0.9 or higher and a difference in word count of $\pm$ 3 words}
+\caption{\label{tab:plos-example-boilerplate} Example boilerplate text from PLOS ONE papers with the highest number of matches per topic (sentence level). The number of matching to each sentence was based on a Jaccard score of 0.75 or higher and a difference in word count of $\pm$ 3 words; $^{*}$ Most frequent match after excluding statements of statistical significance}
 \centering
-\begin{tabular}[t]{p{0.1\textwidth}p{0.9\textwidth}p{0.1\textwidth}}
+\begin{tabular}[t]{p{0.05\textwidth}p{0.8\textwidth}p{0.1\textwidth}}
 \hline
 Topic & Statistical methods text & Matching papers\\
 \hline
-Topic 1 & Students t-test was used for statistical analysis. & 29\\
-\cline{2-3}
- & A p value of $<$ 0.05 was considered statistically significant. & 1883\\
+1 & A p-value of less-than 0.05 was considered statistically significant & 664\\
+ &  Statistical analysis was performed using student t-test$^{*}$ & 53\\
 \hline
-Topic 3 & GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses. & 1941\\
+2 & A p-value less-than 0.05 was considered to be statistically significant & 1,138\\
+ & All statistical analyses were performed using sas version 9.4 sas institute cary nc usa$^{*}$ & 140\\
 \hline
-Topic 4 & Significant differences were determined using analysis of variance (ANOVA) followed by tukey post-hoc tests for multiple comparisons. & 2216\\
+3 & A p-value less-than 0.05 was considered significant & 914\\
+ & Data are expressed as mean $\pm$ SEM$^{*}$ & 350\\
 \hline
-Topic 5 & SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis. & 441\\
+4 & P less-than 0.05 was considered statistically significant & 580\\
+ &  Data are presented as the mean $\pm$ SEM$^{*}$ & 359\\
 \hline
-Topic 6 & All results are expressed as means $\pm$ standard deviation ($\pm$ SD). & 102\\
+5 & A p-value less-than 0.05 was considered a significant difference & 739\\
+ & All data are presented as mean $\pm$ standard deviation$^{*}$ & 149\\
 \hline
-Topic 9 & Statistical significance was determined by Students t-tests. & 49\\
-\cline{2-3}
-&  $^*$p $<$ 0.05, $^{**}$p $<$ 0.01, $^{***}$p $<$ 0.001. & 6\\
+6 & A p-value of less-than 0.05 was considered significant & 519\\
+&  Data are presented as mean $\pm$ SEM$^{*}$ & 223\\
+\hline
+7 & A p-value less-than 0.05 was considered statistically significant & 305\\
+ &  Otherwise the fixed-effects model was used$^{*}$ & 45\\
+\hline
+8 & Data were analysed using R version 2.15.2 & 10\\
+\hline
+9 & Significance was set at p less-than 0.05 & 195\\
+& All data are presented as mean $\pm$ SEM$^{*}$ & 115\\
+\hline
+10 & A p-value less-than 0.05 was considered significant & 397\\
+& All the experiments were repeated at least three times$^{*}$ & 119\\
+
 \hline
 \end{tabular}
 \end{table}
-\end{landscape}
+
+
 
 
 Definitions of statistical significance featured strongly in topic 1 (n

@@ -351,16 +351,18 @@ Results were visualised by word clouds to summarise
 frequently occurring terms associated with topic membership. Follow up analysis considered 
 similarities in text between statistical methods sections assign to the same topic.
 
-The Jaccard similarity index was used to compare the statistical methods
-section with the highest topic coherence score with all other sections
-assigned to the same topic. Indices were calculated at the sentence
-level, to account for instances of boilerplate text within larger
-methods sections. We chose the Jaccard index as an easy to interpret
-measure, which summarises the similarity between two sentences by the
-number of words common to each sentence (intersection), divided by the
-number of words that appeared in either sentence (union). Instances of
-boilerplate text were defined by a Jaccard index of 0.75 or higher and a
-difference in word count of plus or minus three words.
+Evidence of boilerplate text was assessed at the section and sentences levels using the Jaccard similarity index. 
+We chose the Jaccard index as an easy to interpret measure, which summarises the similarity between two pieces of text by the
+number of words common to each text (intersection), divided by the
+number of words that appeared in either text (union). For both section-level and sentence-level analyses, text was tokenised at the word level. 
+Instances of boilerplate text were defined by a Jaccard index of 0.75 or higher and a difference in word count of plus or minus three words.
+
+At the document level, we applied minhash and locality-sensitive hashing using the R package `textreuse' \citep{textreuseR}. The combination of these approaches 
+allowed us to reduce the total number of pairwise comparisons within a topic by ignoring unlikely matches. For all topics, locality-sensitive hashing was applied using the same random seed, 
+with 1,000 randomly selected minhashes broken into 100 equal-sized bands. 
+
+A similar approach was applied at the sentence level. In this case, we aimed to identify common sentences within statistical methods sections that were most representative of each topic. Analysis therefore focussed
+on identifying the reuse of sentences from the top 100 sections assigned to each topic, based on estimated coherence scores. For each example sentence, text was compared with all sections assigned to the same topic. 
 
 \clearpage
 
@@ -507,50 +509,60 @@ length of this paragraph.
 \caption{\label{fig:plos-clouds}Word clouds for ten topics for statistical methods sections published in PLOS ONE}\label{fig:plos-clouds}
 \end{figure}
 
-The word clouds for ten topics are in Figure \ref{fig:plos-clouds}.
-Frequently occurring words reflected the use of statistical software
+Frequently occurring words by topic reflected the use of statistical software
 (topics 3 and 5), descriptive statistics (topic 6), group based
 hypothesis testing (topics 1 and 4) and definitions of statistical
-significance (topics 1 and 9). Topics related to
+significance (topics 1 and 9) (\ref{fig:plos-clouds}). Topics related to
 regression (topic 2) and meta-analysis (topic 7) were also identified.
 
-Topics related to statistical software differentiated between Prism
+Statistical software topics differentiated between Prism
 GraphPad (topic 3: n = 9974) and SPSS (topic 5: n = 9648).
-Within topic 3, the sentence ``GraphPad Prism (Graphpad Software, San
-Diego, CA) was used for all analyses'' was matched in 1,941 papers based on our definition of boilerplate text (Table \ref{tab:plos-example-boilerplate}).
-Similarly, ``SPSS software version
-17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis'' returned matches for 441 papers in topic 5.
+Within topic 3, targeted searches for ``GraphPad Prism'' identified 7,141 sentences from 6,844 papers. Of these,
+1,045 papers contained matching sentences based on our definition of boilerplate text, with instances varying based on version and citation details (Table \ref{tab:plos-example-boilerplate-sentence}).
+Similar examples of boilerplate text were identified in topic 5, with ``SPSS'' returning 1,104 matching papers.
 
-%\begin{landscape}
-%\begin{table}
-%
-%\caption{\label{tab:plos-example-boilerplate} Examples of boilerplate text from PLOS ONE papers with the highest coherence score per topic (sentence level). The number of matching to each sentence was based on a Jaccard score of 0.75 or higher and a difference in word count of $\pm$ 3 words}
-%\centering
-%\begin{tabular}[t]{p{0.1\textwidth}p{0.9\textwidth}p{0.1\textwidth}}
-%\hline
-%Topic & Statistical methods text & Matching papers\\
-%\hline
-%Topic 1 & Students t-test was used for statistical analysis. & 17\\
-%\cline{2-3}
-% & A p value of $<$ 0.05 was considered statistically significant. & 664\\
-%\hline
-%Topic 3 & GraphPad Prism (Graphpad Software, San Diego, CA) was used for all analyses. & 1941\\
-%\hline
-%Topic 4 & Significant differences were determined using analysis of variance (ANOVA) followed by tukey post-hoc tests for multiple comparisons. & 2216\\
-%\hline
-%Topic 5 & SPSS software version 17.0 (SPSS, Chicago, IL, USA) was used for statistical analysis. & 441\\
-%\hline
-%Topic 6 & All results are expressed as means $\pm$ standard deviation ($\pm$ SD). & 102\\
-%\hline
-%Topic 9 & Statistical significance was determined by Students t-tests. & 49\\
-%\cline{2-3}
-%&  $^*$p $<$ 0.05, $^{**}$p $<$ 0.01, $^{***}$p $<$ 0.001. & 6\\
-%\hline
-%\end{tabular}
-%\end{table}
-%\end{landscape}
+\begin{landscape}
+\begin{table}
+
+\caption{\label{tab:plos-example-boilerplate-sentence} Examples of boilerplate text from PLOS ONE papers based on targeted keyword searches (sentence level). The number of matching papers was based on a Jaccard score of 0.75 or higher}
+\centering
+\begin{tabular}[t]{p{0.075\textwidth}p{0.15\textwidth}p{0.1\textwidth}p{0.85\textwidth}}
+\hline
+Topic & Search term &  Matching papers &  Example statistical methods text\\
+\hline
+\multicolumn{4}{l}{Hypothesis testing}\\
+\hline
+1 & ``t-test'' & 531 & Statistical analysis was performed using Student's t-test.\\
+4 & ``ANOVA'' & 270 & Statistical differences were analysed by one-way ANOVA followed by multiple comparisons performed with post-hoc Bonferroni test (SPSS version 16).\\
+9 & ``p $<$'' & 1,962 & $^{*}$p$<$0.05, $^{**}$p$<$0.01, $^{***}$p$<$0.001.\\
+\hline
+\multicolumn{4}{l}{Statistical software}\\
+\hline
+3 & ``GraphPad'' &1,786  & All statistical analyses were performed using GraphPad Prism.\\
+5 & ``SPSS'' & 1,104 & All statistical analyses were performed using SPSS 17.0 (SPSS Inc Chicago IL USA).\\
+\hline
+\multicolumn{4}{l}{Descriptive statistics}\\
+\hline
+6 & ``Mean $\pm$'' & 1,820 & Data are expressed as mean $\pm$ SEM.\\
+\hline
+\multicolumn{4}{l}{Experiments}\\
+\hline
+10 & ``Experiment'' & 1,037 & All experiments were repeated at least three times.\\
+\hline
+\end{tabular}
+\end{table}
+\end{landscape}
 
 \pagebreak
+
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.8\linewidth]{figures/plosjaccardsectionlevel} 
+%
+%\caption{\label{fig:plos-clouds}Total matches by topic for statistical methods sections published in PLOS ONE (section level)}\label{fig:plos-jaccard-section}
+%\end{figure}
+
+
 
 
 \begin{table}
@@ -616,6 +628,8 @@ on our boilerplate criteria, 1 in 5 studies were matched to the sentence
 Frequently occurring words in topic 6 (n = 4764) reflected
 mentions of descriptive statistics for summarising continuous variables,
 namely means with standard deviations or standard errors.
+
+Statements of statistical significant was the most frequenty occuring text across nine out of ten topics (\ref{tab:plos-example-boilerplate}). In all cases, statistical significance was defined at p$<$0.05.
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}

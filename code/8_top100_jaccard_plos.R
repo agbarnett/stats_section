@@ -202,4 +202,4 @@ writeDataTable(wb, sheet = 5, x = top10_frequent_bytopic_nop,
 setColWidths(wb, sheet = 5, cols = 1:5, widths = c(5,5,70,5,5))
 
 
-saveWorkbook(wb, file = "results/jaccard_matches_anzctr_v3.xlsx", overwrite = TRUE)
+saveWorkbook(wb, file = "results/jaccard_matches_plos_v3.xlsx", overwrite = TRUE)

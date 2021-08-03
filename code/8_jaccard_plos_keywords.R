@@ -2,15 +2,9 @@
 #  targeted searches of keywords
 # May 2021
 library(tidyverse)
-library(tidytext)
-library(stringdist) # for similarity scores
-library(openxlsx)
 library(textreuse) #updated function for jaccard_similarity (compare to stringdist)
 
 ## data
-## a) get the example data  
-#load('data/processed_examples.RData') # from 7_example_sentences.R
-## b) get all the data
 load(file='results/plos.results.10topics.rda')
 
 # data management 
@@ -49,38 +43,57 @@ matches =mutate(matches,
 matches =mutate(matches,
                 text_data_clean = str_replace_all(text_data_clean,pattern="(\\s{1})(inc|ver)(\\.)",replacement="\\1\\2"))
 
+#et al. or vs. or fig. [:lower:]{1}[:digit:]{1}
+matches = mutate(matches,
+                 text_data_clean = str_replace_all(text_data_clean,pattern="(\\s{1})(et al)(\\.)",replacement="\\1\\2"))
+matches = mutate(matches,
+                 text_data_clean = str_replace_all(text_data_clean,pattern="(\\s{1})(vs)(\\.)",replacement="\\1\\2"))
+matches = mutate(matches,
+                 text_data_clean = str_replace_all(text_data_clean,pattern="(\\s{1})(fig|figs)(\\.)",replacement="\\1\\2"))
+matches = mutate(matches,
+                 text_data_clean = str_replace_all(text_data_clean,pattern="(\\s{1})(no)(\\.)",replacement="\\1\\2"))
+
+matches = mutate(matches,
+                 text_data_clean = str_replace_all(text_data_clean,pattern='([:digit:][:lower:])(\\.)',replacement='\\1'))
+matches = mutate(matches,
+                 text_data_clean = str_replace_all(text_data_clean,pattern='([:lower:][:digit:])(\\.)',replacement='\\1'))
+
+#remove excess white space
+matches = mutate(matches,text_data_clean=textclean::replace_white(text_data_clean))
+
 # combine paragraphs from the same paper (with the same DOI)
 combined = group_by(matches, doi_num, topic_id, topic_num,rank) %>%
   summarise(text = toString(text_data_clean),.groups='drop')
 
-# end data management
+combined = combined %>% arrange(topic_num,rank)
 
+# end data management
 # Document-level analysis, all topics
-n.minhash = 1000
-n.bands = 100
+n.minhash = 400
+n.bands = 50
 
 random.seed = TeachingDemos::char2seed('jaccard',set=F)
-
 minhash <- minhash_generator(n = n.minhash, seed = random.seed)
 
 #review chosen number of minhashes and bands
 lsh_threshold(h=n.minhash,b=n.bands) #expected jaccard index
-lsh_probability(h=n.minhash,b=n.bands,s=0.75) #probability of a match based on chosen score cutoff
+lsh_probability(h=n.minhash,b=n.bands,s=0.8) #probability of a match based on chosen score cutoff
 
 calc_document_jaccard <- function(indata=combined,choose.topic,minhash,n.bands){
   dat.topic = indata %>% filter(topic_num==choose.topic) %>% distinct(doi_num,.keep_all=T) %>%
     mutate(id=row_number())
-
+  
   text.corpus = TextReuseCorpus(text=dat.topic$text,meta=list(id=dat.topic$id),
-                                tokenizer = tokenize_words,minhash_func = minhash)
+                                tokenizer = tokenize_words,minhash_func = minhash,skip_short = F)
   buckets <- lsh(text.corpus, bands = n.bands)
   candidates <- lsh_candidates(buckets)
   
   jacsim = lsh_compare(candidates, 
                        text.corpus, 
                        jaccard_similarity) %>% 
-    arrange(desc(score))  
+    arrange(desc(score)) 
   
+  jacsim = jacsim %>% mutate_at(c('a','b'),~as.numeric(str_remove_all(.,pattern='doc-')))
   
   return(list(similarities=jacsim,dat=dat.topic))
 }
@@ -88,110 +101,115 @@ calc_document_jaccard <- function(indata=combined,choose.topic,minhash,n.bands){
 #loop over topics
 jaccard_doc = lapply(1:10, function(x) calc_document_jaccard(indata=combined,choose.topic=x,minhash = minhash,n.bands = n.bands))
 
-#for a given topic, find total exact matches, total with score >=0.75
-#then find most frequently matched section as example of boilerplate text
+#for a given topic, find total exact matches, total with score >=0.8
+boilerplate_doc = lapply(1:10,function(x) jaccard_doc[[x]]$similarities %>% filter(score>=0.8))
+exact_doc = lapply(1:10,function(x) jaccard_doc[[x]]$similarities %>% filter(score==1))
 
-summarise_jaccard_matches = function(indata,cutoff=0.75){
-  indata.j = indata$similarities
-  indata.t = indata$dat
-  
-  tab = indata.j %>% summarise(exact_matches = sum(score==1),similar=sum(score>=cutoff),.groups='drop')
-  
-  topmatches = indata.j %>% 
-    filter(score>=cutoff) %>%
-    mutate(pair=row_number()) %>% gather(variable,value,-pair,-score) %>% count(value,sort=T) %>%
-    mutate(value=as.numeric(str_remove_all(value,pattern='doc-')))
-  
-  topmatches_example = indata.t %>% filter(id==topmatches[['value']][1]) %>% pull(text)
-  topmatches_doi = indata.t %>% filter(id==topmatches[['value']][1]) %>% pull(doi_num)
-  tab = tab %>% add_column(doi_num=topmatches_doi,text=topmatches_example)
-  return(tab)
+matches_doc = exact_matches_doc = list()
+for (x in 1:10){
+  matches_doc[[x]] <- jaccard_doc[[x]]$dat %>% filter(id %in% boilerplate_doc[[x]]$a|id %in% boilerplate_doc[[x]]$b)
+  exact_matches_doc[[x]] <- jaccard_doc[[x]]$dat %>% filter(id %in% exact_doc[[x]]$a|id %in% exact_doc[[x]]$b)  
 }
 
-#results by topic
-summary.tab = lapply(jaccard_doc,function(x) summarise_jaccard_matches(indata=x,cutoff = 0.75))
-summary.tab = bind_rows(summary.tab,.id='topic_num')
+matches_doc.all = bind_rows(matches_doc)
+exact_matches_doc.all = bind_rows(exact_matches_doc)
 
 #save selected topics
-save(jaccard_doc,summary.tab,file='results/jaccard_section_plos.rda')
-
-#plot numbers and save
-g.theme = theme(legend.position = 'top',legend.direction = 'horizontal',legend.text = element_text(size=10),
-                           axis.text = element_text(size=12),axis.text.x = element_text(size=12),axis.text.y = element_text(size=12))
-
-to_plot = summary.tab %>% select(topic_num,exact_matches,similar) %>% 
-  mutate(similar=similar-exact_matches) %>%
-  gather(variable,value,-topic_num) %>%
-  mutate(topic_num = factor(topic_num,levels=1:10),
-         variable = factor(variable,levels=c('exact_matches','similar'),labels = c('Exact match','Jaccard score = 0.75 or higher')))
-
-
-g1 = ggplot(to_plot,aes(x=topic_num,y=value,fill=variable))+geom_bar(stat='identity',width=0.9,colour='black')+
-  scale_y_continuous('Matching statistical methods sections',breaks=seq(0,500,50))+
-  scale_x_discrete('Topic')+scale_fill_grey(guide = guide_legend(reverse = TRUE) )+ g.theme +
-  theme(legend.title = element_blank())
-
-jpeg('manuscript/asa_template/figures/plosjaccardsectionlevel.jpg',width=480,height=600,quality=100)
-g1
-dev.off()
+save(jaccard_doc,matches_doc.all,exact_matches_doc.all,file='results/jaccard_section_plos.rda')
 
 # Sentence-level analysis, all topics
 ## most common sentences
 ## sentence matches by words within topic clouds
-calc_sentence_jaccard <- function(indata,minhash,n.bands){
+calc_sentence_jaccard <- function(indata,minhash,n.bands,cutoff=0.8){
   text.corpus = TextReuseCorpus(text=indata$text,meta=list(id=indata$id),
-                                tokenizer = tokenize_ngrams,n=3,minhash_func = minhash)
+                                tokenizer = tokenize_words,minhash_func = minhash,skip_short=F)
   buckets <- lsh(text.corpus, bands = n.bands)
   candidates <- lsh_candidates(buckets)
-  
+  ### to_compare <- lsh_query(buckets,"[doc-id]") ## for top down appraoch. could copmute text.corpus once then at each iteration, remove already matched sentences; e.g. buckets %>% filter(!doc %in% 'doc-1')
   jacsim = lsh_compare(candidates, 
                        text.corpus, 
                        jaccard_similarity) %>% 
-    arrange(desc(score))  
-  
+    filter(score>=cutoff)  
+  jacsim = jacsim %>% mutate_at(c('a','b'),~as.numeric(str_remove_all(.,pattern='doc-')))
   
   return(jacsim)
 }
 
 jaccard_targeted_search = function(indata=dat.sentences,choose.topic,search.term,minhash=minhash,n.bands=n.bands){
-  topic_s = indata %>% filter(topic_num==choose.topic) %>% unnest(text_data_clean_s) %>% select(-text,-n_words) %>% ungroup() %>%
+  #topic_s = indata %>% filter(topic_num==choose.topic) %>% unnest(text_data_clean_s) %>% select(-text,-n_words) %>% ungroup() %>%
+  #  mutate(id=row_number())
+  #topic_s.target = topic_s %>% filter(grepl(paste(search.term),text_data_clean_s)) %>% rename(text=text_data_clean_s)
+  topic_s.target = indata %>% filter(topic_num==choose.topic) %>% unnest(text_data_clean_s) %>%
+    ungroup() %>% 
+    filter(grepl(paste(search.term),text_data_clean_s)) %>%
+    select(doi_num,text_data_clean_s) %>% distinct(doi_num,text=text_data_clean_s) %>%
+    group_by(text) %>%
+    summarise(doi_num=list(doi_num)) %>% 
+    ungroup() %>%
+    filter(text!="") %>%
     mutate(id=row_number())
-  topic_s.target = topic_s %>% filter(grepl(paste(search.term),text_data_clean_s)) %>% rename(text=text_data_clean_s)
+  
   jaccard_s = calc_sentence_jaccard(indata=topic_s.target,minhash = minhash,n.bands = n.bands)
-  jaccard_s = mutate(jaccard_s,pair=row_number())
-  
-  n.matches = jaccard_s %>% summarise(exact_matches = sum(score==1),similar=sum(score>=0.75),.groups='drop')
-  
-  topmatches = jaccard_s %>% 
-    filter(score>=0.75) %>%
-    gather(variable,value,-pair,-score) %>% count(value,sort=T) %>%
-    mutate(value=as.numeric(str_remove_all(value,pattern='doc-')))
-  
-  return(list(topic_s.target=topic_s.target,n.matches=n.matches,topmatches=topmatches))
+  jaccard_s = jaccard_s %>% mutate_at(c('a','b'),~as.numeric(str_remove_all(.,pattern='doc-')))
+  dat = topic_s.target %>% filter(id %in% jaccard_s$a|id %in% jaccard_s$b) %>% unnest(doi_num)
+  return(list(similarities=jaccard_s,dat=dat,keyword=search.term))
 }
 
-jaccard_highest_coherence = function(indata=dat.sentences,choose.topic,max.rank = 1000,minhash=minhash,n.bands=n.bands){
-  topic_s = indata %>% filter(topic_num==choose.topic,rank<=max.rank) %>% unnest(text_data_clean_s) %>% select(-text,-n_words) %>% ungroup() %>%
+jaccard_highest_coherence = function(indata=dat.sentences,choose.topic,max.rank = 10000,minhash=minhash,n.bands=n.bands){
+  topic_s.target = indata %>% filter(topic_num==choose.topic,rank<=max.rank) %>% 
+    unnest(c(text_data_clean_s,n_words)) %>%
+    ungroup() %>% 
+    select(doi_num,text_data_clean_s,n_words) %>% distinct(doi_num,text=text_data_clean_s,n_words=n_words) %>%
+    filter(n_words>3) %>%
+    group_by(text) %>%
+    summarise(doi_num=list(doi_num)) %>% 
+    ungroup() %>%
+    filter(text!="") %>%
     mutate(id=row_number())
-  topic_s.target = topic_s %>% rename(text=text_data_clean_s)
+
+  
+  # topic_s.target = topic_s %>% rename(text=text_data_clean_s) %>% filter(text!="")
   jaccard_s = calc_sentence_jaccard(indata=topic_s.target,minhash = minhash,n.bands = n.bands)
-  jaccard_s = mutate(jaccard_s,pair=row_number())
+  jaccard_s = jaccard_s %>% mutate_at(c('a','b'),~as.numeric(str_remove_all(.,pattern='doc-')))
+  dat = topic_s.target %>% filter(id %in% jaccard_s$a|id %in% jaccard_s$b) %>% unnest(doi_num)
+  return(list(similarities=jaccard_s,dat=dat,max.rank=max.rank))
+}
+
+jaccard_all_batched = function(indata=dat.sentences,choose.topic,grp.size=5000,minhash=minhash,n.bands=n.bands){
+  topic_s.target = indata %>% filter(topic_num==choose.topic) %>% 
+    unnest(c(text_data_clean_s,n_words)) %>%
+    ungroup() %>% 
+    select(doi_num,text_data_clean_s,n_words) %>% distinct(doi_num,text=text_data_clean_s,n_words=n_words) 
   
-  n.matches = jaccard_s %>% summarise(exact_matches = sum(score==1),similar=sum(score>=0.75),.groups='drop')
+  #filter and summarise by distinct sentences
+  topic_s.target = topic_s.target %>%
+    group_by(text,n_words<=3) %>%
+    summarise(doi_num=list(doi_num)) %>% 
+    ungroup() %>%
+    filter(text!="") %>%
+    mutate(id=row_number())
   
-  topmatches = jaccard_s %>% 
-    filter(score>=0.75) %>%
-    gather(variable,value,-pair,-score) %>% count(value,sort=T) %>%
-    mutate(value=as.numeric(str_remove_all(value,pattern='doc-')))
+  #split into groups of length grp.size
+  topic_s.target = topic_s.target %>% mutate(grp=as.numeric(cut_interval(id,length=grp.size)))
+  n.grps = max(topic_s.target$grp)
   
-  return(list(topic_s.target=topic_s.target,n.matches=n.matches,topmatches=topmatches,max.rank=max.rank))
+  # topic_s.target = topic_s %>% rename(text=text_data_clean_s) %>% filter(text!="")
+  jaccard_s = lapply(1:n.grps, function(g) 
+    calc_sentence_jaccard(indata=filter(topic_s.target,grp==g),minhash = minhash,n.bands = n.bands)) %>%
+    bind_rows()
+  jaccard_s = jaccard_s %>% mutate_at(c('a','b'),~as.numeric(str_remove_all(.,pattern='doc-')))
+  dat = topic_s.target %>% filter(id %in% jaccard_s$a|id %in% jaccard_s$b) %>% unnest(doi_num)
+  return(list(similarities=jaccard_s,dat=dat,max.rank=max.rank))
 }
 
 
 # split text_data_clean into sentence as alternative for boilerplate text (takes a while); in list form
-dat.sentences = combined %>% mutate(text_data_clean_s = str_split(text,"\\.\\s+",simplify=F)) %>%
+dat.sentences = combined %>% group_by(topic_num,rank,doi_num) %>% 
+  summarise(text_data_clean_s = str_split(text,"\\.\\s+"),.groups='drop') %>%
   mutate(n_words = lapply(text_data_clean_s,function(x) str_count(x,"\\w+")))
 
+# remove .at start of sentence
+dat.sentences = mutate(dat.sentences,text_data_clean_s = lapply(text_data_clean_s,function(x) str_remove_all(x,pattern = '^\\.|\\s+\\.$')))
 
 #keyword searches based on topic cloud results
 keywords = tibble(topic_num=1:10,term=c('t-test', #topic 1
@@ -209,37 +227,71 @@ jaccard_keyword = lapply(1:10,function(x)
   jaccard_targeted_search(indata = dat.sentences,choose.topic=keywords[x,]$topic_num,search.term = keywords[x,]$term,
                           minhash = minhash,n.bands = n.bands))
 
-#upt o here
-save(jaccard_keyword,file='results/jaccard_keyword_plos.rda')
+boilerplate_keyword = lapply(1:10,function(x) jaccard_keyword[[x]]$similarities %>% filter(score>=0.8))
+exact_keyword = lapply(1:10,function(x) jaccard_keyword[[x]]$similarities %>% filter(score==1))
 
+matches_keyword = exact_matches_keyword = list()
+for (x in 1:10){
+  matches_keyword[[x]] <- jaccard_keyword[[x]]$dat %>% filter(id %in% boilerplate_keyword[[x]]$a|id %in% boilerplate_keyword[[x]]$b)
+  exact_matches_keyword[[x]] <- jaccard_keyword[[x]]$dat %>% filter(id %in% exact_keyword[[x]]$a|id %in% exact_keyword[[x]]$b)  
+}
+
+matches_keyword.all = bind_rows(matches_keyword)
+exact_matches_keyword.all = bind_rows(exact_matches_keyword)
+
+save(jaccard_keyword,matches_keyword.all,exact_matches_keyword.all,file='results/jaccard_keyword_plos.rda')
+
+#memory issues with total sample size
+cutoffs = combined %>% group_by(topic_num) %>% summarise(rank.cutoff=0.1*max(rank))
 jaccard_topranked = lapply(1:10, function(x)
-  jaccard_highest_coherence(indata=dat.sentences,choose.topic=x,max.rank = 1000,minhash=minhash,n.bands=n.bands))
-save(jaccard_topranked,file='results/jaccard_topranked_plos.rda')
+  jaccard_highest_coherence(indata=dat.sentences,choose.topic=x,max.rank=ceiling(cutoffs[x,]$rank.cutoff),minhash=minhash,n.bands=n.bands))
 
+boilerplate_topranked = lapply(1:10,function(x) jaccard_topranked[[x]]$similarities %>% filter(score>=0.8))
+exact_topranked = lapply(1:10,function(x) jaccard_topranked[[x]]$similarities %>% filter(score==1))
 
+matches_topranked = exact_matches_topranked = list()
+for (x in 1:10){
+  matches_topranked[[x]] <- jaccard_topranked[[x]]$dat %>% filter(id %in% boilerplate_topranked[[x]]$a|id %in% boilerplate_topranked[[x]]$b)
+  exact_matches_topranked[[x]] <- jaccard_topranked[[x]]$dat %>% filter(id %in% exact_topranked[[x]]$a|id %in% exact_topranked[[x]]$b)  
+}
 
-# jaccard_keyword[[1]] = jaccard_targeted_search(indata = dat.sentences,choose.topic=1,search.term = 't-test',minhash = minhash,n.bands = n.bands)
-# jaccard_2_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=2,search.term = 'variable',minhash = minhash,n.bands = n.bands)
-# jaccard_3_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=3,search.term = 'graphpad',minhash = minhash,n.bands = n.bands)
-# jaccard_4_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=4,search.term = 'anova',minhash = minhash,n.bands = n.bands)
-# jaccard_5_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=5,search.term = 'SPSS',minhash = minhash,n.bands = n.bands)
-# jaccard_6_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=6,search.term = 'mean plus-or-minus',minhash = minhash,n.bands = n.bands)
-# jaccard_7_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=7,search.term = 'heterogeneity',minhash = minhash,n.bands = n.bands)
-# jaccard_8_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=8,search.term = 'model',minhash = minhash,n.bands = n.bands)
-# jaccard_9_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=9,search.term = 'p less-than',minhash = minhash,n.bands = n.bands)
-# jaccard_10_s = jaccard_targeted_search(indata = dat.sentences,choose.topic=10,search.term = 'experiment',minhash = minhash,n.bands = n.bands)
-# 
+matches_topranked.all = bind_rows(matches_topranked,.id='topic_num')
+exact_matches_topranked.all = bind_rows(exact_matches_topranked,.id='topic_num')
 
-#all sentences to identify most common. Top 100 dois within each cluster
+save(jaccard_topranked,matches_topranked.all,exact_matches_topranked.all,file='results/jaccard_topranked10percent_plos.rda')
 
-# #take sentences with top coherence score (take id from buckets)
-# top_coherence = topic3_s %>% filter(rank==1) %>% pull(id)
-# top_matches = lsh_query(buckets,paste0('doc-',top_coherence)) %>%
-#   add_column(score=as.double(NA))
-# candidates <- lsh_candidates(buckets)
-# 
-# jacsimilarity_top_s = lsh_compare(candidates %>% sample_frac(0.25), 
-#                                   topic3.corpus_s, 
-#                                   jaccard_similarity, 
-#                                   progress = FALSE) %>% 
-#   arrange(desc(score))
+ 
+load('results/jaccard_topranked10percent_plos.rda')
+#take exact matches for each topic to expand to all doi_num
+top.sentences = matches_topranked.all %>% group_by(topic_num) %>% count(text,sort=T) %>% slice(1)
+#for each top.sentence, run lsh_query against the rest of the text corpus
+#e.g. topic1
+top.sentences_all = list()
+indata = dat.sentences
+for (choose.topic in 1:10){
+topic_s.target = indata %>% filter(topic_num==choose.topic) %>% unnest(text_data_clean_s) %>%
+  ungroup() %>% 
+  select(doi_num,text_data_clean_s) %>% distinct(doi_num,text=text_data_clean_s) %>%
+  group_by(text) %>%
+  summarise(doi_num=list(doi_num)) %>% 
+  ungroup() %>%
+  filter(text!="") %>%
+  mutate(id=row_number())
+
+text.corpus = TextReuseCorpus(text=topic_s.target$text,meta=list(id=topic_s.target$id),
+                              tokenizer = tokenize_words,minhash_func = minhash,skip_short=F)
+buckets <- lsh(text.corpus, bands = n.bands)
+#lsh_query
+top.id = topic_s.target %>% filter(text==top.sentences[choose.topic,]$text) %>% pull(id)
+out = lsh_query(buckets,paste0('doc-',top.id)) %>% mutate(score=as.double(NA))
+
+jacsim = lsh_compare(out, 
+                     text.corpus, 
+                     jaccard_similarity) %>% 
+  arrange(desc(score)) 
+
+jacsim = jacsim %>% mutate_at(c('a','b'),~as.numeric(str_remove_all(.,pattern='doc-'))) %>% filter(score>=0.8)
+dat = topic_s.target %>% filter(id %in% jacsim$a|id %in% jacsim$b) %>% unnest(doi_num)
+top.sentences_all[[choose.topic]] = list(jacsim=jacsim,dat=dat)
+}
+save(top.sentences_all,top.sentences,jaccard_topranked,matches_topranked.all,exact_matches_topranked.all,file='results/jaccard_topranked10percent_plos.rda')

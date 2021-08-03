@@ -90,8 +90,7 @@ researchers often using the wrong methods, misinterpreting the results, or
 failing to adequately check their assumptions \citep{2008, Leek2017}.
 Some researchers take a ``mechanistic'' approach to statistics, copying
 the few methods they know regardless of their appropriateness, and then
-going through the motions of the analysis \citep{Stark2018}. Accepting methodological illiteracy in favour of 
-research quantity and novelty is at odds
+going through the motions of the analysis \citep{Stark2018}. Accepting this form of methodological illiteracy is at odds
 with principles of scientific inquiry, yet continues to pervade published scientific research \citep{VanCalster2021}. 
 This paradox has been exemplified during the COVID-19 pandemic, which has led to unprecendented levels of published research of largely 
 poor quality due to biases in conduct and reporting \citep{Glasziou2020,Wynants2020}.
@@ -153,7 +152,7 @@ sections: study
 protocols registered on the Australian and New Zealand Clinical Trials
 Registry (ANZCTR) and research articles published in \emph{PLOS ONE}. Data sources were chosen as examples of common
 research outputs that include descriptions of statistical methods that
-were planned or used for analysing study outcomes.
+were planned or used for analysing research outcomes.
 
 \subsubsection{Australia and New Zealand Clinical Trials Registry (ANZCTR)}
 \label{sec:methodsANZCTR}
@@ -227,7 +226,7 @@ EQUATOR, to ensure that chosen statistical methods are appropriate for
 the study design, and adequate details are provided to enable
 independent replication of results.
 
-All \emph{PLOS ONE} articles are freely accessible via the PLOS
+Data on all \emph{PLOS ONE} articles can be accessed via the PLOS
 Application Programming Interface (API). This enabled us to conduct
 searches of full-text articles and analyse data on articles' text
 content and general attributes such as publication date and field(s) of
@@ -355,15 +354,13 @@ Evidence of boilerplate text was assessed at the section and sentences levels us
 We chose the Jaccard index as an easy to interpret measure, which summarises the similarity between two pieces of text by the
 number of words common to each text (intersection), divided by the
 number of words that appeared in either text (union). For both section-level and sentence-level analyses, text was tokenised at the word level. 
-Instances of boilerplate text were defined by a Jaccard index of 0.75 or higher and a difference in word count of plus or minus three words.
+Instances of boilerplate text were defined by a Jaccard index of 0.8 or higher.
 
-At the document level, we applied minhash and locality-sensitive hashing using the R package `textreuse' \citep{textreuseR}. The combination of these approaches 
-allowed us to reduce the total number of pairwise comparisons within a topic by ignoring unlikely matches. For all topics, locality-sensitive hashing was applied using the same random seed, 
-with 1,000 randomly selected minhashes broken into 100 equal-sized bands. 
+To reduce the number of pairwise comparisions, locality-sensitive hashing was implementing using the R package `textreuse' \citep{textreuseR}. For all topics, locality-sensitive hashing was applied using the same random seed, 
+with 1,000 randomly selected minhashes broken into 200 equal-sized bands. 
 
 A similar approach was applied at the sentence level. In this case, we aimed to identify common sentences or phrases within statistical methods sections that were representative of each topic. 
-First, keyword searches using dominant words from each topic cloud were completed to identify common variations on sentences involving a keyword. Second, we analysed the reuse of sentences from the top 100 sections assigned to each topic, 
-based on estimated coherence scores. For each example sentence, text was compared with all sections assigned to the same topic. 
+Analyses considered keyword searches using dominant terms from word clouds and the reuse of sentences within the top 1,000 sections assigned to each topic, based on estimated coherence scores. 
 
 \clearpage
 
@@ -374,14 +371,13 @@ based on estimated coherence scores. For each example sentence, text was compare
 We downloaded 28,008 studies. The numbers of excluded studies are shown
 in Figure \ref{fig:consort-diagrams}. Of the 12,700 included studies,
 9,523 (75\%) had a statistical methods section. The median length of
-sections was 129 words with an inter-quartile range of 71 to 219 words.
+sections was 129 words with an inter-quartile range of 71 to 219 words. 
+Sections for TODO studies were only one word, including ``ANOVA'',
+``t-test'', ``SPSS'' and even ``SSPS''.
 
 \begin{figure}[htbp]
-
-{\centering \includegraphics[width=0.49\linewidth]{figures/excluded_anzctr_missing}  \includegraphics[width=0.49\linewidth]{figures/excluded_plosone}
-
-}
-
+\centering 
+\includegraphics[width=0.49\linewidth]{figures/excluded_anzctr_missing}  \includegraphics[width=0.49\linewidth]{figures/excluded_plosone}
 \caption{\label{fig:consort-diagrams}Search results for ANZCTR (left) and PLOS ONE (right).}
 \end{figure}
 
@@ -411,80 +407,104 @@ Target sample size (per doubling) & 0.90 & (0.88, 0.92)\\
 \end{table}
 
 \begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{figures/anzctrwordclouds} 
-
-}
-
+\centering 
+\includegraphics[width=0.7\linewidth]{figures/anzctrwordclouds}
 \caption{Word clouds for ten topics for statistical methods sections published in ANZCTR}\label{fig:anzctr-wordclouds}
 \end{figure}
 
-Figure \ref{fig:anzctr-wordclouds} shows word clouds for the ten topics identified by the NMF algorithm. 
-Words related to the largest topic (topic 2, n = 1,834) reflected descriptions of sample size calculations, for example, ``sample'',``power'' and ``80'' (i.e. $80\%$ power) . Other topics indicated pilot studies (topic 5, n = 834),
-safety/tolerability studies (topic 6, n = 524), descriptive analysis (topic 7, n = 333),
-intervention studies (topic 8, n = 1020) and repeated measures ANOVA (topic 10 = 852). A review of word counts by topic 
-identified statistical methods sections that were only one word, including ``ANOVA'',
-``t-test'', ``SPSS'' and even ``SSPS''.
+Figure \ref{fig:anzctr-wordclouds} shows word clouds for the ten topics identified by the NMF algorithm. Topics reflected sample size calculations (topics 2 and 5), 
+study designs (topics 4, 5, 6 and 8),
+quantitative methods (topics 3, 7, 9 and 10) and qualitative methods (topic 1). 
+Common statistical methods for data analysis were t-testing, descriptive statistics, linear models and repeated measures ANOVA.
 
-Common statistical methods for data analysis were t-tests (topic 3, n = 1,277), descriptive statistics (topic 7, n = 333), linear models (topic 9, n = 1,195) and repeated measure ANOVA (topic 10, n = 852).
-Instances of boilerplate text were concentrated in Topic 3, which emphasised the use of parametric versus non-parametric hypothesis tests (Table \ref{tab:anzctr-example-boilerplate}). Identified matches across topics 7, 9 and 10 were
-relatively low, however, sensitiivty in the Jaccard index to shorter sentence lengths may have been a contributing factor. For example, the section with the highest coherence score in topic 7 simply stated `descriptive statistics', with 19 matches. Further review of 
-sections assigned to this topic identified a further 7 records with `descriptive analysis' as the entire methods section (Jaccard score = 0.79).
+\begin{table}[htbp]
+\centering
+\caption{Results of boilerplate analysis applied to the ANZCTR dataset. The number of studies with Jaccard scores greater than or equal to 0.8 are presented. The number of exact matches is provided in brackets.}
+\label{tab:anzctr-boilerplate-matches}
+\begin{tabular}{lccc}
+\hline
+ &  & \multicolumn{2}{c}{Boilerplate text} \\
+\cline{3-4}
+Topic & Total studies & Section-level & {Sentence-level}\\
+\hline
+1 (Qualitative methods)& 854 & 53 (24) & 288 (206)\\
+2 (Sample size calculations) & 1,834 & 68 (26) & 252 (172)\\
+3 (Student's t-test) & 1,277 & 105 (45) & 552 (379)\\
+4 (Efficacy and safety studies) & 909 & 85 (11) & 261 (203)\\
+5 (Pilot studies) & 834 &  53 (34) & 148 (114)\\
+6 (Safety and tolerability studies) & 524 & 51 (29) & 241 (186)\\
+7 (Descriptive analysis) & 333 & 44 (39) & 69 (60)\\
+8 (Intervention studies) & 1,020 & 33 (8) & 300 (203)\\
+9 (Linear models) & 1,195 & 86 (33) & 436 (333)\\
+10 (ANOVA) & 852 &  64 (29) & 270 (208)\\
+\hline
+\end{tabular}
+\end{table}
 
-In other cases, text had been slightly modified to account for changes
-in primary and secondary outcomes. Examples of these text changes were
-found in topics 2 and 4; identified instances
-related to sample size calculations for patient recruitment to different
-studies.
+Approximately 7$\%$ of all study sections were classified as boilerplate text (n = 642). One in ten sections associated with descriptive analysis were exact matches (Table \ref{tab:anzctr-boilerplate-matches}). Evidence of boilerplate text was stronger at the sentence level, with 29$\%$ of sections having at least one sentence flagged (n = 2,817).
+
+Boilerplate text for selected topics emphasised definitions of statistical significance, combined with planned statistical methods. In topic 3 [TODO] Other topics simply stated the main analysis method, including ``descriptive statistics/descriptive analysis'' (topic 7, n = TODO), ``linear (mixed) models'' (topic 9, n = TODO) and ``repeated measures ANOVA'' (topic 10, n = TODO). Examples of common boilerplate sentences for describing statistical methods are in Table \ref{tab:anzctr-boilerplate-examples}. Full results for all topics are provided as Supplementary material.
+
+In other cases, text had been slightly modified to account for changes in primary and secondary outcomes for a given study design. This behaviour was reflected in the high numbers of studies with boilerplate text at the section and sentence levels (Table \ref{tab:anzctr-boilerplate-matches}). Evidence of boilerplate text was strongest for topic 6, where matches aligned with the structure:
+
+\begin{center}
+here is some \underline{text} that i changed
+\end{center}
+
+Similar examples were identified for sample size calculations:
+
+\begin{center}
+here is some \underline{text} that i changed
+\end{center}
+
 
 Since studies in this dataset described planned analyses, we
 hypothesised that some studies did not specify statistical methods because
-they had yet to consult with a statistician. Targeted searches for ``statistician'' across all topics returned 1,277 matching studies,
+they had yet to consult with a statistician. Targeted searches for ``statistician'' across all topics returned TODO matching studies,
 with examples including ``A statistician employed by hospital was used''
 and ``Pilot study at this point will use a statistician professionally
 to determine sample size calculations as required''.
 
-\begin{landscape}
-\begin{table}
-
-\caption{\label{tab:anzctr-example-boilerplate-sentence} Examples of boilerplate text from ANZCTR studies based on targeted keyword searches (sentence level). The number of matching papers was based on a Jaccard score of 0.75 or higher}
-\centering
-\begin{tabular}[t]{p{0.075\textwidth}p{0.15\textwidth}p{0.1\textwidth}p{0.85\textwidth}}
-\hline
-Topic & Search term &  Matching papers &  Example sentence from statistical methods section\\
-\hline
-\multicolumn{4}{l}{Statistical methods}\\
-\hline
-3 & ``t-test'' & 131 & Continuous Normally distributed variables will be compared using Student's t-test and reported as means standard deviation while non-normally distributed data will be compared using wilcoxon rank-sum tests and reported as medians inter-quartile-range\\
-9 & ``model'' &  339 & Linear mixed models will be used to analyse the data.\\
-10 & ``ANOVA'' & 86 & Post-hoc paired comparisons corrected for multiple comparisons will be performed if ANOVA reveal significant effects.\\
-\hline
-\multicolumn{4}{l}{Study designs}\\
-4 & Patient & 375 & At a confidence level of 95\% and a precision around the estimate of 5\% a minimum of 73 patients must be included\\
-5 & ``Pilot study'' & & \\
-6 & ``Subject' & & \\
-8 & ``'group'
-
-\multicolumn{4}{l}{Qualitative analysis}\\
-\hline
-1 & & &\\
-\hline
-\multicolumn{4}{l}{Descriptive statistics}\\
-\hline
-6 & ``Mean $\pm$'' & 1,820 & Data are expressed as mean $\pm$ SEM.\\
-\hline
-
-3 & ``GraphPad'' &1,786  & All statistical analyses were performed using GraphPad Prism.\\
-5 & ``SPSS'' & 1,104 & All statistical analyses were performed using SPSS 17.0 (SPSS Inc Chicago IL USA).\\
-\hline
-
-\multicolumn{4}{l}{Experiments}\\
-\hline
-10 & ``Experiment'' & 1,037 & All experiments were repeated at least three times.\\
-\hline
-\end{tabular}
-\end{table}
-\end{landscape}
+%\begin{landscape}
+%\begin{table}
+%
+%\caption{\label{tab:anzctr-example-boilerplate-sentence} Examples of boilerplate text from ANZCTR studies based on targeted keyword searches (sentence level). The number of matching papers was based on a Jaccard score of 0.75 or higher}
+%\centering
+%\begin{tabular}[t]{p{0.075\textwidth}p{0.15\textwidth}p{0.1\textwidth}p{0.85\textwidth}}
+%\hline
+%Topic & Search term &  Matching papers &  Example sentence from statistical methods section\\
+%\hline
+%\multicolumn{4}{l}{Statistical methods}\\
+%\hline
+%3 & ``t-test'' & 131 & Continuous Normally distributed variables will be compared using Student's t-test and reported as means standard deviation while non-normally distributed data will be compared using wilcoxon rank-sum tests and reported as medians inter-quartile-range\\
+%9 & ``model'' &  339 & Linear mixed models will be used to analyse the data.\\
+%10 & ``ANOVA'' & 86 & Post-hoc paired comparisons corrected for multiple comparisons will be performed if ANOVA reveal significant effects.\\
+%\hline
+%\multicolumn{4}{l}{Study designs}\\
+%4 & ``Patient'' & 375 & At a confidence level of 95\% and a precision around the estimate of 5\% a minimum of 73 patients must be included.\\
+%5 & ``Pilot study'' & 16 & This is a pilot study.\\
+%6 & ``Subject' & & \\
+%8 & ``'group' & & \\
+%\hline
+%\multicolumn{4}{l}{Study designs}\\
+%2 & ``'80 percent power'
+%\hline
+%\multicolumn{4}{l}{Qualitative analysis}\\
+%\hline
+%1 & & &\\
+%\hline
+%\multicolumn{4}{l}{Descriptive statistics}\\
+%\hline
+%7 & ``Descriptive'' & 33 & Analyses will be of a descriptive nature.\\
+%\hline
+%
+%\multicolumn{4}{l}{Experiments}\\
+%\hline
+%10 & ``Experiment'' & 1,037 & All experiments were repeated at least three times.\\
+%\hline
+%\end{tabular}
+%\end{table}
+%\end{landscape}
 
 
 
@@ -509,7 +529,7 @@ Topic & Statistical methods text & Matching papers\\
 \hline
 6 & Due to the exploratory nature of this first in human study no power or sample size calculations have been performed & 7\\
 \hline
-7 & Descriptive statistics & 7\\
+7 & Descriptive statistics & 15\\
 \hline
 8 & The level of statistical significance will be set at p $<$ 0.05 & 11\\
 & Relationships between observations at different occasions will be modelled with an unstructured covariance matrix$^{*}$ & 9\\
@@ -600,6 +620,32 @@ GraphPad Prism (topic 3: n = 9,974) and SPSS (topic 5: n = 9,648).
 Within topic 3, targeted searches for ``GraphPad'' identified 7,141 sentences from 6,844 papers. Of these,
 1,306 papers met our definition of boilerplate text, with examples varying based on version and citation details (Table \ref{tab:plos-example-boilerplate-sentence}).
 Similar examples of boilerplate text were identified in topic 5, with ``SPSS'' returning 1,104 matching papers.
+
+\begin{table}[htbp]
+\centering
+\caption{Results of boilerplate analysis applied to the PLOS ONE dataset. The number of studies with Jaccard scores greater than or equal to 0.8 are presented. The number of exact matches is provided in brackets.}
+\label{tab:plosr-boilerplate-matches}
+\begin{tabular}{lccc}
+\hline
+ &  & \multicolumn{2}{c}{Boilerplate text} \\
+\cline{3-4}
+Topic & Total studies & Section-level & {Sentence-level}\\
+\hline
+1 (Student's t-test) & 3,784 & 344 () & )\\
+2 () & 19,649 & 135 () &)\\
+3 (GraphPad Prism) & 9,974 & 405 () &)\\
+4 (ANOVA) & 10,212 & 452 () &)\\
+5 (SPSS) & 9,648 & 287 () &)\\
+6 (Descriptive analysis) & 4,764 & 331 () & \\
+7 (Meta analysis) & 5,278&  65 () & \\
+8 () & 42,261 &  116 () & \\
+9 () & 6,195 & 260 () & \\
+10 () & 4,693 & 336 () & \\
+\hline
+\end{tabular}
+\end{table}
+
+
 
 \begin{landscape}
 \begin{table}

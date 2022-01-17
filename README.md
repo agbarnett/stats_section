@@ -1,22 +1,8 @@
 # Stats section
-Clustering statistical methods sections from PLOS ONE.
+Accompanying code for the study "An observational analysis of the trope 'A p-value of <0.05 was considered statistically significant' and other cut-and-paste statistical methods"
 
-We need to pre-process the data to create standard text, for example:
-* lower case throughout
-* 'p-value' to 'p value'
-* change from US to UK spelling
+Preprint available for download at: https://osf.io/preprints/r8wk9/.
 
-We need to think about equations and Greek letters. Ideally we will recode these to words, e.g., 
-* "\alpha" to "alpha"
-* "f(" to "function"
+Datasets used in topic modelling are in /data.
 
-Export the data to a text file with:
-* Column 1: DOI
-* Column 2: Stats methods section in one line with no paragraph returns
-* Columns 3+: Meta-data, e.g., field of research
-
-Text cleaning to do's remaining
-* Change common symbols/inequalities to text; e.g. <= to 'less-than-or-equal-to' DONE
-* Change Greek symbols to text based on unicodes; see https://github.com/Wisdom/Awesome-Unicode DONE
-* Choose stopwords from list available in 'textclean' package DONE
-* Choose random sample of 100 records to validate cleaned text DONE
+R scripts for data processing and analysis are provided for PLOS ONE and ANZCTR datasets in /code.

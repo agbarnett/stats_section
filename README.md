@@ -1,4 +1,4 @@
-# Stats section
+# stats_section
 Accompanying code for the study "An observational analysis of the trope 'A p-value of <0.05 was considered statistically significant' and other cut-and-paste statistical methods"
 
 Preprint available for download at: https://osf.io/preprints/r8wk9/.

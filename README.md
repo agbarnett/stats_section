@@ -26,4 +26,5 @@ Full details of data processing and analysis are provided in the Material and Me
 * 3_analyse_anzctr_jaccard.R: Boilerplate text analysis of topic modelling results
 
 ## code/topicmodelling
-TODO + upload python scripts
+* Statistical data clustering Demo.ipynb : Main analysis script (Python). Input is cleaned dataset as .txt file
+* stats_section_cleaned_anzctr_small.txt: Example dataset for running topic modelling.

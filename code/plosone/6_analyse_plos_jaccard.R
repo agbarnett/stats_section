@@ -67,7 +67,6 @@ boilerplate <- list()
 ## topic 1: student t test
 common_ngrams.all %>% filter(topic_num==1) %>% arrange(-total_studies)
 dat.sentences.all %>% filter(topic_num==1,grepl('t-test',text_data_clean_s)) %>% count(text_data_clean_s,sort=T)
-
 dat.sentences.all %>% filter(topic_num==1,grepl('t-test',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
 
 boilerplate[[1]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1,

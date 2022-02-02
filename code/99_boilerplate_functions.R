@@ -318,8 +318,10 @@ identify_boilerplate_text <- function(indata=dat.sentences.all,choose.topic=1,da
   jacsim = jacsim %>% mutate_at(c('a','b'),~as.numeric(str_remove_all(.,pattern='doc-')))
   boilerplate = jacsim %>% filter(score>=cutoff)
   dat = dat.target %>% filter(id %in% boilerplate$a|id %in% boilerplate$b)
-  #note: n.boilerplate = number of distinct pairs, not unique studies
-  summary.stat<- jacsim %>% summarise(med=median(score),q1=quantile(score,.25),q3=quantile(score,0.75),n.boilerplate = sum(score>=cutoff),n.boilerplate_words = sum(score>=cutoff & word_diff<=3))
-  return(list(n_possible = n_possible, summary.stat=summary.stat,jacsim=jacsim,dat.target=dat.target))
+  #n.boilerplate -> revised to total number of uniques studies, not pairs.
+  n_boilerplate = filter(jacsim,score>=cutoff) %>% gather(variable,value,-c(score,word_diff)) %>% distinct(value) %>% nrow()
+  summary.stat<- jacsim %>% summarise(med=median(score),q1=quantile(score,.25),q3=quantile(score,0.75),n.boilerplate = n_boilerplate)
+  summary.stat <- summary.stat %>% add_column('example.text'=search_str_2,'n.possible'=n_possible,.before = 1)
+  return(list(summary.stat=summary.stat,jacsim=jacsim,dat.target=dat.target))
 }
 

@@ -54,76 +54,41 @@ dat.sentences.all <- dat.sentences %>% unnest(text_data_clean_s)
 common_ngrams_all <- bind_rows(common_ngrams)
 
 
-#examples of boilerplate text by topic, across topics
+#examples of boilerplate text by topic, across topics; updated to reflect examples in manuscript
 boilerplate <- list()
 
 common_ngrams_all %>% filter(topic_num==1)
-boilerplate[[1]] <- list()
-boilerplate[[1]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1,dataset='anzctr',
-                                            search_str_1='data will be analysed',search_str_2 = 'ordinal data will be analysed using the mann-whitney u-test')
-boilerplate[[1]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1,dataset='anzctr',
+boilerplate[[1]] <-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1,dataset='anzctr',
                                                  search_str_1='intention-to-treat',
                                                  search_str_2 = 'all analyses will be conducted on an intention-to-treat basis')
-boilerplate[[1]][[3]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1,dataset='anzctr',
-                                                 search_str_1='data will be analysed',search_str_2 = 'normal distribution of data will be analysed by kolmogorov- smirnow and shapiro-wilk tests')
-
 
 common_ngrams_all %>% filter(topic_num==2)
-boilerplate[[2]] <- list()
-boilerplate[[2]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,dataset='anzctr',
-                                                 search_str_1='80 percent ',search_str_2 =  "a total of 124 participants 62 in each group has 80 percent power at 5 percent significance to detect an absolute difference of 25 percent responders")
-boilerplate[[2]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,dataset='anzctr',
+boilerplate[[2]] <-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,dataset='anzctr',
                                                  search_str_1='sample size',search_str_2 =  "the sample size is adjusted for a 10 percent drop-out rate")
 
 
 common_ngrams_all %>% filter(topic_num==3)
 
-boilerplate[[3]] <- list()
-boilerplate[[3]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=3,dataset='anzctr',
-                                                 search_str_1='t-test(.*)mann-whitney u-test',search_str_2 =  "the groups will be compared in parametric parameters using independent samples t-test and in non-parametric parameters using mann-whitney u-test")
-boilerplate[[3]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=3,dataset='anzctr',
+boilerplate[[3]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=3,dataset='anzctr',
                                                  search_str_1='student t-test',search_str_2 =  "continuous normally distributed variables will be compared using student t-test and reported as means standard deviation while non-normally distributed data will be compared using wilcoxon rank-sum tests and reported as medians inter-quartile-range")
-boilerplate[[3]][[3]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=3,dataset='anzctr',
-                                                 search_str_1='t-test',search_str_2 =  "spss analysis with chi-square anova and t-test for means")
 
 
 common_ngrams_all %>% filter(topic_num==4)
-boilerplate[[4]]<-list()
-boilerplate[[4]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=4,dataset='anzctr',
-                                                 search_str_1='95 percent confidence',
-                                                 search_str_2 = "the proportion of patients lost to follow-up or withdrawn with 95 percent confidence intervals and a list of reasons for withdrawal")
-boilerplate[[4]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=4,dataset='anzctr',
+boilerplate[[4]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=4,dataset='anzctr',
                                                  search_str_1='95 percent',
                                                  search_str_2 = "at a confidence level of 95 percent and a precision around the estimate of 5 percent a minimum of 73 patients will be included")
 
 common_ngrams_all %>% filter(topic_num==5)
 
-boilerplate[[5]]<-list()
-boilerplate[[5]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=5,dataset='anzctr',
+boilerplate[[5]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=5,dataset='anzctr',
                                                  search_str_1='sample size calculation',
                                                  search_str_2 = "no formal sample size calculation was performed")
-boilerplate[[5]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=5,dataset='anzctr',
-                                                 search_str_1='pilot study(.*)sample size',
-                                                 search_str_2 = "a pilot study sample size of 30 participants is proposed")
 
 common_ngrams_all %>% filter(topic_num==6)
 
-boilerplate[[6]]<-list()
-boilerplate[[6]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=6,dataset='anzctr',
-                                                 search_str_1='descriptive statistics',
-                                                 search_str_2 = 'baseline characteristics will be summarised using descriptive statistics')
-boilerplate[[6]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=6,dataset='anzctr',
-                                                 search_str_1='descriptive statistics',
-                                                 search_str_2 = "descriptive statistics mean sd median minimum and maximum will be calculated for summaries of continuous safety data and frequency counts and percentages where appropriate will be calculated for summaries of discretecategorical safety data")
-boilerplate[[6]][[3]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=6,dataset='anzctr',
-                                                 search_str_1='subject',
-                                                 search_str_2 = "the descriptive summary for the continuous variables will include number of subjects n means medians standard deviations and minimum and maximum values")
-
-boilerplate[[6]][[4]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=6,dataset='anzctr',
+boilerplate[[6]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=6,dataset='anzctr',
                                                  search_str_1='median minimum and maximum',
                                                  search_str_2 ="continuous variables will be summarized by mean standard deviation median minimum and maximum")
-
-
 
 common_ngrams_all %>% filter(topic_num==7)
 
@@ -133,14 +98,7 @@ boilerplate[[7]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topi
 
 common_ngrams_all %>% filter(topic_num==8)
 
-boilerplate[[8]]<-list()
-boilerplate[[8]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=8,dataset='anzctr',
-                                            search_str_1='analysis-of-covariance',
-                                            search_str_2 = "analysis-of-covariance ancova will be used to compare the clinical outcome measures at 95 percent confidence interval")
-boilerplate[[8]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=8,dataset='anzctr',
-                                                 search_str_1='analysis-of-covariance',
-                                                 search_str_2 = "a multiple analysis-of-covariance mancova will be used to compare outcome measures at baseline and post-intervention")
-boilerplate[[8]][[3]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=8,dataset='anzctr',
+boilerplate[[8]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=8,dataset='anzctr',
                                                  search_str_1='intention-to-treat',
                                                  search_str_2 = "all analyses will be conducted on an intention-to-treat basis")
 
@@ -164,6 +122,20 @@ boilerplate[[11]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choos
                                                   search_str_1='intention-to-treat',search_str_2 = 'analyses will be conducted on an intention-to-treat basis')
 boilerplate[[11]][[3]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1:10,dataset='anzctr',
                                                   search_str_1='descriptive statistics',search_str_2 = 'baseline characteristics will be summarised using descriptive statistics')
+
+
+#save boilerplate examples as a summary table for manuscript
+#summarise boilerplate plate results
+summary_boilerplate <- list() #added summary table to save in place of boilerplate (v. large file)
+for (b in 1:length(boilerplate)){
+  output = boilerplate[[b]]
+  if(!is.null(output$summary.stat)){summary_boilerplate[[b]] = output$summary.stat}
+  if(is.null(output$summary.stat)){summary_boilerplate[[b]] = lapply(output,function(x) x$summary.stat) %>% bind_rows()}
+}
+names(summary_boilerplate) <- c(1:10,'All topics')
+
+summary_boilerplate = summary_boilerplate %>% bind_rows(.id='Topic')
+
 
 n.minhash = 300
 n.bands = 50
@@ -235,7 +207,7 @@ total_sentences_bytopic <- dat.sentences %>% unnest(text_data_clean_s) %>% group
 
 total_sentences_bytopic = total_sentences_bytopic %>% summarise(med = median(total_sentences),q1=quantile(total_sentences,.25),q3=quantile(total_sentences,.75))
 
-save(jaccard_topranked,matches_topranked,exact_matches_s,summary_matches_s,total_sentences_bytopic,file='results/jaccard_sentence_anzctr.rda')
+save(boilerplate_summary,jaccard_topranked,matches_topranked,exact_matches_s,summary_matches_s,total_sentences_bytopic,file='results/jaccard_sentence_anzctr.rda')
 
 #plot number of matching sentences per topic
 
@@ -255,10 +227,10 @@ g1 <- ggplot(to_plot,aes(x=topic_num,y=n,fill=forcats::fct_rev(var)))+geom_col(p
   guides(fill=guide_legend(title="Matching sentences per section",reverse = TRUE))+
   theme(legend.position='top',legend.direction = 'horizontal',axis.text=element_text(size=12),text = element_text(size=12))
 
-#save as jpeg
-tiff('manuscript/plos_one/revised figures/S4_Fig_R1.tif',width=480,height=480)
-g1
-dev.off()
+# #save as jpeg
+# tiff('manuscript/plos_one/revised figures/S4_Fig.tif',width=480,height=480)
+# g1
+# dev.off()
 
 # review the most common matching sentences within each topic
 # start by looking at ngram to narrow down the search, excluding stop words

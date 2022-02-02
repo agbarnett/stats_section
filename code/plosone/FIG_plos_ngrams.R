@@ -53,8 +53,6 @@ common_ngrams <- lapply(2:4,function(x)
     drop_na() %>% mutate(topic_num=as.numeric(topic_num)) %>% arrange(topic_num,-total_studies))
 names(common_ngrams)<-paste('ngram',2:4,sep='_')
 
-save(common_ngrams,dat.ngram,file='results/plos.ngrams.rda')
-
 
 #review most common ngrams and merge with methods dictionary. use 'update' column
 methods_hyphen <- openxlsx::read.xlsx(xlsxFile='data/methods_dictionary.xlsx',sheet='hyphen_terms')
@@ -68,7 +66,7 @@ common_ngrams.all <- bind_rows(common_ngrams)
 
 #join ngram text with common stat methods to help with coding
 common_methods_ngram <- inner_join(common_ngrams.all,methods_list,by=c('ngram'='update')) %>% distinct(ngram)
-write.xlsx(common_methods_ngram,file='data/common_ngrams_methods.xlsx')
+#write.xlsx(common_methods_ngram,file='data/common_ngrams_methods.xlsx')
 
 
 #using the results of n-gram analysis, identify the number of documents, sentences that include keywords/phrases
@@ -118,11 +116,6 @@ total_hits_ngram <- left_join(total_hits_ngram,combined %>% count(topic_num),by=
   mutate(percent_total = 100*total_studies/n,topic_label = factor(topic_num,levels=1:10,labels=paste('Topic',1:10)),
          theme = factor(theme,levels=unique(theme),labels=str_replace_all(unique(theme),pattern='_',replacement=' ')))
 
-jpeg('manuscript/figures/plosngramthemes.jpg',width=600,height=600,quality=100)
-ggplot(total_hits_ngram,aes(x=topic_label,y=percent_total,group=theme)) + geom_col() + facet_wrap(~theme,ncol=3) +
-  coord_flip()+
-  xlab('')+scale_y_continuous('% of all sections within topic',breaks=seq(0,100,20)) + g.theme
-dev.off()
 
 
 #upset plots to show most common combinations of text
@@ -146,7 +139,7 @@ studies_pertopic <- combined %>% count(topic_num)
 #       title = paste('Topic',choose.topic,':', filter(studies_pertopic,topic_num==choose.topic) %>% pull(n) %>% format(.,big.mark = ','),'papers'),
 #       subtitle = "Top 10 combinations of statistical methods text",
 #       x = "Combination of n-gram themes",
-#       y = "") 
-#   ggsave(paste0('manuscript/figures/plos_upset_themes_topic',choose.topic,'.jpg'),width=11,height=7)
-#   
+#       y = "")
+#   ggsave(paste0('plos_upset_themes_topic',choose.topic,'.png'),width=11,height=7)
+# 
 # }

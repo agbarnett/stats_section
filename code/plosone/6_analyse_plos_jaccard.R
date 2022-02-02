@@ -70,9 +70,9 @@ dat.sentences.all %>% filter(topic_num==1,grepl('t-test',text_data_clean_s)) %>%
 
 dat.sentences.all %>% filter(topic_num==1,grepl('t-test',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
 
-
 boilerplate[[1]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1,
                                               search_str_1='student t-test',search_str_2 = 'statistical analysis was performed using student t-test')
+
 
 ## topic 2: general modelling
 common_ngrams.all %>% filter(topic_num==2) %>% arrange(-total_studies)
@@ -85,17 +85,11 @@ dat.sentences.all %>% filter(topic_num==2,grepl('continuous variables',text_data
 
 
 boilerplate[[2]]<-list()
-
 boilerplate[[2]][[1]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,
-                                                   search_str_1='categorical variables were compared',search_str_2 = 'categorical variables were compared using the chi-square test or fisher exact test')
-boilerplate[[2]][[2]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,
-                                                 search_str_1='logistic regression',search_str_2 = 'logistic regression was used for multivariate analysis')
-boilerplate[[2]][[3]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,
                                                    search_str_1='continuous variables(.*)plus-or-minus',search_str_2 = 'continuous variables were expressed as mean plus-or-minus standard deviation')
-boilerplate[[2]][[4]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,
-                                                   search_str_1='continuous variables were compared',search_str_2 = 'continuous variables were compared using student t-test')
-boilerplate[[2]][[5]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,
+boilerplate[[2]][[2]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=2,
                                                    search_str_1='frequencies and percentages',search_str_2 = 'categorical variables were expressed as frequencies and percentages')
+
 
 ## topic 3: graphpad prism
 common_ngrams.all %>% filter(topic_num==3) %>% arrange(-total_studies)
@@ -105,8 +99,9 @@ dat.sentences.all %>% filter(topic_num==3,grepl('graphpad prism',text_data_clean
 boilerplate[[3]] <- identify_boilerplate_text(indata=dat.sentences.all,choose.topic=3,search_str_1='graphpad prism',
                                                  search_str_2 = 'all statistical analyses were performed using graphpad prism software')
 
+
 ## topic 4: one-way anova
-common_ngrams.all %>% filter(topic_num==4) %>% arrange(-total_studies)
+common_ngrams.all %>% filter(topic_num==4) %>% arrange(-total_studies) %>% filter(grepl('one way',ngram))
 dat.sentences.all %>% filter(topic_num==4,grepl('one-way',text_data_clean_s)) %>% count(text_data_clean_s,sort=T) 
 dat.sentences.all %>% filter(topic_num==4,grepl('one-way',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
 
@@ -126,35 +121,25 @@ boilerplate[[5]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topi
 #topic 6: descriptive stats
 common_ngrams.all %>% filter(topic_num==6) %>% arrange(-total_studies)
 dat.sentences.all %>% filter(topic_num==6,grepl('plus-or-minus',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
-dat.sentences.all %>% filter(topic_num==6,grepl('frequenc(.*)',text_data_clean_s)) %>% distinct(doi_num) 
 
-boilerplate[[6]]<-list()
-boilerplate[[6]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=6,
+boilerplate[[6]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=6,
                           search_str_1='plus-or-minus',search_str_2 = 'data are expressed as mean plus-or-minus sem')
-boilerplate[[6]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=6,
-                                                 search_str_1='plus-or-minus',search_str_2 = 'data are presented as mean plus-or-minus sem')
 
 #topic 7 meta analysis
 common_ngrams.all %>% filter(topic_num==7) %>% arrange(-total_studies)
 dat.sentences.all %>% filter(topic_num==7,grepl('95 percent',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
 
-boilerplate[[7]] <- list()
-boilerplate[[7]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=7,
+boilerplate[[7]] <-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=7,
                           search_str_1='95 percent',search_str_2 = 'summary estimates including 95 percent confidence intervals cis were calculated')
-boilerplate[[7]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=7,
-                                                 search_str_1='95 percent',search_str_2 = 'a 95 percent ci was used for statistical significance test and a 95 percent ci without 1 for or indicating a significant increased or reduced cancer risk')
 
 #topic 8: modelling
 common_ngrams.all %>% filter(topic_num==8) %>% arrange(-total_studies)
-dat.sentences.all %>% filter(topic_num==8,grepl('equal-to',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
-dat.sentences.all %>% filter(topic_num==8,grepl('t-test',text_data_clean_s)) %>% count(text_data_clean_s,sort=T)
-dat.sentences.all %>% filter(topic_num==8,grepl('analyses performed',text_data_clean_s)) %>% count(text_data_clean_s,sort=T)
+dat.sentences.all %>% filter(topic_num==8,grepl('equal-to 0.05',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
+dat.sentences.all %>% filter(topic_num==8,grepl('t-test',text_data_clean_s)) %>% count(text_data_clean_s,sort=T) %>% nrow()
+dat.sentences.all %>% filter(topic_num==8,grepl('analyses performed',text_data_clean_s)) %>% count(text_data_clean_s,sort=T) %>% nrow()
 
-boilerplate[[8]]<-list()
-boilerplate[[8]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=8,
+boilerplate[[8]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=8,
                           search_str_1='equal-to 0.05',search_str_2 = "the significance level was set at p equal-to 0.05")
-boilerplate[[8]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=8,
-                                                 search_str_1='t-test',search_str_2 = "student t-test was used for statistical analysis")
 
 #topic 9: statistical significance
 common_ngrams.all %>% filter(topic_num==9) %>% arrange(-total_studies)
@@ -166,17 +151,13 @@ boilerplate[[9]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topi
 common_ngrams.all %>% filter(topic_num==10) %>% arrange(-total_studies)
 
 dat.sentences.all %>% filter(topic_num==10,grepl('independent experiments',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
-dat.sentences.all %>% filter(topic_num==10,grepl('t-test',text_data_clean_s)) %>% count(text_data_clean_s,sort=T)
+dat.sentences.all %>% filter(topic_num==10,grepl('independent experiments',text_data_clean_s)) %>% count(text_data_clean_s,sort=T)
 
-boilerplate[[10]]<-list()
-boilerplate[[10]][[1]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=10,
+boilerplate[[10]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=10,
                           search_str_1='independent experiments',search_str_2 = 'all data are representative of at least three independent experiments')
-boilerplate[[10]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=10,
-                                                  search_str_1='t-test',search_str_2 = 'statistical analysis was performed using student t-test')
-
 
 ## all topics
-common_ngrams.all %>% group_by(ngram) %>% summarise(n=sum(total_studies)) %>% arrange(-n) %>% View()
+common_ngrams.all %>% group_by(ngram) %>% summarise(n=sum(total_studies)) %>% arrange(-n)
 
 dat.sentences.all %>% filter(grepl('less-than',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
 dat.sentences.all %>% filter(grepl('t-test',text_data_clean_s)) %>% distinct(doi_num) %>% nrow()
@@ -189,9 +170,17 @@ boilerplate[[11]][[2]]<-identify_boilerplate_text(indata=dat.sentences.all,choos
                                              search_str_1='t-test',search_str_2 = 'statistical analysis was performed using student t-test')
 boilerplate[[11]][[3]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1:10,
                                              search_str_1='plus-or-minus',search_str_2 = 'data are presented as mean plus-or-minus sem')
-boilerplate[[11]][[4]]<-identify_boilerplate_text(indata=dat.sentences.all,choose.topic=1:10,
-                                             search_str_1='plus-or-minus',search_str_2 = 'data are expressed as mean plus-or-minus sem')
 
+#summarise boilerplate plate results
+summary_boilerplate <- list() #added summary table to save in place of boilerplate (v. large file)
+for (b in 1:length(boilerplate)){
+  output = boilerplate[[b]]
+  if(!is.null(output$summary.stat)){summary_boilerplate[[b]] = output$summary.stat}
+  if(is.null(output$summary.stat)){summary_boilerplate[[b]] = lapply(output,function(x) x$summary.stat) %>% bind_rows()}
+}
+names(summary_boilerplate) <- c(1:10,'All topics')
+
+summary_boilerplate = summary_boilerplate %>% bind_rows(.id='Topic')
 
 exact_matches_s = dat.sentences %>% select(doi_num,topic_num,text_data_clean_s,n_words) %>% 
   unnest(c(text_data_clean_s,n_words)) %>%
@@ -207,7 +196,7 @@ n_exact_s = exact_matches_s %>% unnest(number) %>% distinct(number,topic_num) %>
 
 summary_matches_s = full_join(n_topic,n_exact_s,by='topic_num')
 
-save(boilerplate,summary_matches_s,file='results/jaccard_sentence_plos.rda')
+save(summary_boilerplate,summary_matches_s,file='results/jaccard_sentence_plos.rda')
 
 
 

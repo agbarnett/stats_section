@@ -136,6 +136,14 @@ names(summary_boilerplate) <- c(1:10,'All topics')
 
 summary_boilerplate = summary_boilerplate %>% bind_rows(.id='Topic')
 
+## find instances of sentences that are an exact cut-and-paste
+exact_matches_s = dat.sentences %>% select(number,topic_num,text_data_clean_s,n_words) %>% 
+  unnest(c(text_data_clean_s,n_words)) %>%
+  filter(text_data_clean_s!="") %>%
+  group_by(topic_num,text_data_clean_s) %>% 
+  summarise(n=length(unique(number)),number=list(unique(number)),.groups='drop') %>% filter(n>1) 
+
+
 
 n.minhash = 300
 n.bands = 50
@@ -151,13 +159,6 @@ exact_matches_doc = combined %>% group_by(topic_num,text) %>%
   summarise(n = length(unique(number)),total_studies = list(number)) %>% filter(n>1)
 
 exact_matches_doc %>% unnest(total_studies) %>% count(topic_num)
-
-## find instances of sentences that are an exact cut-and-paste
-exact_matches_s = dat.sentences %>% select(number,topic_num,text_data_clean_s,n_words) %>% 
-  unnest(c(text_data_clean_s,n_words)) %>%
-  filter(text_data_clean_s!="") %>%
-  group_by(topic_num,text_data_clean_s) %>% 
-  summarise(n=length(unique(number)),number=list(unique(number)),.groups='drop') %>% filter(n>1) 
 
 
 #loop over topics to find close matches at the document level
@@ -183,19 +184,19 @@ save(exact_matches_doc,jaccard_doc,matches_doc,summary_matches_doc,file='results
 
 
 #for all studies at the sentence level, calculate jaccard similarity for distinct pairs of sentences; tokens at word level
-jaccard_topranked = lapply(1:10, function(x) jaccard_sentence_all(indata=dat.sentences,choose.topic=x,minhash=minhash,n.bands=n.bands,dataset='anzctr'))
+jaccard_s = lapply(1:10, function(x) jaccard_sentence_all(indata=dat.sentences,choose.topic=x,minhash=minhash,n.bands=n.bands,dataset='anzctr'))
 
 #identify all studies with a jaccard score of 0.8 or higher (1+ pairwise comparisons)
-boilerplate_topranked = lapply(1:10,function(x) jaccard_topranked[[x]]$similarities %>% filter(score>=0.9))
-matches_topranked <- lapply(1:10, function(x) jaccard_topranked[[x]]$dat %>% filter(id %in% boilerplate_topranked[[x]]$a|id %in% boilerplate_topranked[[x]]$b)) %>% bind_rows(.,.id='topic_num')
+boilerplate_s = lapply(1:10,function(x) jaccard_s[[x]]$similarities %>% filter(score>=0.9))
+matches_s <- lapply(1:10, function(x) jaccard_s[[x]]$dat %>% filter(id %in% boilerplate_s[[x]]$a|id %in% boilerplate_s[[x]]$b)) %>% bind_rows(.,.id='topic_num')
 
 #make a table showing results
 #total_studies: number of studies per topic with at least one matching sentence
 a<-exact_matches_s %>% unnest(number) %>% select(topic_num,number,text_data_clean_s) %>% rename(text=text_data_clean_s)
-b<-matches_topranked %>% unnest(number) %>% select(topic_num,text,number,text)
-dat.matches <- bind_rows(a,b) %>% distinct()
+b<-matches_s %>% unnest(number) %>% select(topic_num,text,number,text)
+dat.matches_s <- bind_rows(a,b) %>% distinct()
 
-summary_matches_s = dat.matches %>% distinct(topic_num,number) %>% count(topic_num,name='total_studies') %>%
+summary_matches_s = dat.matches_s %>% distinct(topic_num,number) %>% count(topic_num,name='total_studies') %>%
   mutate(topic_num=as.numeric(topic_num)) %>% arrange(topic_num)
 
 #exact matches by topic
@@ -207,7 +208,7 @@ total_sentences_bytopic <- dat.sentences %>% unnest(text_data_clean_s) %>% group
 
 total_sentences_bytopic = total_sentences_bytopic %>% summarise(med = median(total_sentences),q1=quantile(total_sentences,.25),q3=quantile(total_sentences,.75))
 
-save(boilerplate_summary,jaccard_topranked,matches_topranked,exact_matches_s,summary_matches_s,total_sentences_bytopic,file='results/jaccard_sentence_anzctr.rda')
+save(summary_boilerplate,summary_matches_s,total_sentences_bytopic,file='results/jaccard_sentence_anzctr.rda')
 
 #plot number of matching sentences per topic
 
